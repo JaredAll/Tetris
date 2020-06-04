@@ -10,7 +10,7 @@ void Engine::initialize()
 
   int window_width = 1000;
   int window_height = 500;
-  SDL_Window *win = SDL_CreateWindow("Labyrinth sketch 1",
+  SDL_Window *win = SDL_CreateWindow("Tetris",
                                      SDL_WINDOWPOS_CENTERED,
                                      SDL_WINDOWPOS_CENTERED,
                                      window_width, window_height,

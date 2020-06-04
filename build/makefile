@@ -4,7 +4,7 @@ SDL_INCLUDE = -I/usr/include/SDL2
 INC_INCLUDE = -I../src/inc
 CXX_FLAGS = -Werror -pedantic-errors -O0 -Wno-c++98-compat-pedantic -Wno-padded -std=c++14 -g $(SDL_INCLUDE) $(INC_INCLUDE)
 LINKER_FLAGS = $(SDL_LIB)
-OBJ_FILES = engine.o
+OBJ_FILES = engine.o game.o
 VPATH = ../src/main/engine:../src/main
 
 all: Tetris cscope
