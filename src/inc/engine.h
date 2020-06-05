@@ -8,7 +8,14 @@ class Engine
 public:
 
   void initialize();
-  
+
+  void loop();
+
+private:
+
+  void maintain_time();
+
+  void render();
 };
 
 #endif
