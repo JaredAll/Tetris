@@ -1,6 +1,7 @@
 #ifndef RENDER_COMPONENT_H
 #define RENDER_COMPONENT_H
 
+#include "cleanup.h"
 #include <SDL.h>
 #include <iostream>
 #include <memory>
@@ -9,11 +10,11 @@ class RenderComponent
 {
 public:
   
-  virtual SDL_Texture* getTexture() const = 0; 
+  virtual std::unique_ptr<SDL_Texture, SDL_Texture_Destroyer> getTexture() const = 0; 
 
-  virtual std::unique_ptr<SDL_Rect> getDestination() const = 0;
+  virtual std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> getDestination() const = 0;
 
-  virtual SDL_Rect* getClip() const = 0;
+  virtual std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> getClip() const = 0;
 
   virtual void set_clip( SDL_Rect *clip ) = 0;
 
