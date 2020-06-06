@@ -1,7 +1,11 @@
 #include "engine.h"
 #include "SDL_timer.h"
+#include "cleanup.h"
 #include <iostream>
 #include <future>
+#include <memory>
+
+using namespace std;
 
 void Engine::initialize()
 {
@@ -12,21 +16,32 @@ void Engine::initialize()
 
   int window_width = 1000;
   int window_height = 500;
-  SDL_Window *win = SDL_CreateWindow("Tetris",
-                                     SDL_WINDOWPOS_CENTERED,
-                                     SDL_WINDOWPOS_CENTERED,
-                                     window_width, window_height,
-                                     SDL_WINDOW_SHOWN);
-  if (win == nullptr)
+  unique_ptr<SDL_Window, SDL_Window_Destroyer> win {
+    SDL_CreateWindow("Tetris",
+                     SDL_WINDOWPOS_CENTERED,
+                     SDL_WINDOWPOS_CENTERED,
+                     window_width, window_height,
+                     SDL_WINDOW_SHOWN)
+  };
+
+  if (!win)
   {
     std::cout << "Create Window failed" << std::endl;
     SDL_Quit();
+  }
+  else
+  {
+    renderer = unique_ptr<GameRenderer>{ new GameRenderer( move( win ) ) };
   }
 }
 
 void Engine::loop()
 {
   std::async( [=](){ maintain_time(); } );
+  while( true )
+  {
+    
+  }
 }
 
 void Engine::maintain_time()

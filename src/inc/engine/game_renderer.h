@@ -14,7 +14,7 @@ class GameRenderer
 {
 public:
   
-  GameRenderer( std::unique_ptr<SDL_Window> win );
+  GameRenderer( std::unique_ptr<SDL_Window, SDL_Window_Destroyer> win );
 
   void render( const std::vector< std::shared_ptr<GameComponent> > gameComponents );
 
@@ -25,6 +25,8 @@ public:
                                       SDL_Color color);
 
 private:
+
+  std::unique_ptr<SDL_Window, SDL_Window_Destroyer> window;
 
   std::unique_ptr<SDL_Renderer, SDL_Renderer_Destroyer> renderer;
 

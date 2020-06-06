@@ -5,18 +5,19 @@
 
 using namespace std;
 
-GameRenderer::GameRenderer( unique_ptr<SDL_Window> win )
+GameRenderer::GameRenderer( unique_ptr<SDL_Window, SDL_Window_Destroyer> win )
 {
   unique_ptr<SDL_Renderer, SDL_Renderer_Destroyer> ren {
-    SDL_CreateRenderer(win.release(), -1,
+    SDL_CreateRenderer(win.get(), -1,
                        SDL_RENDERER_ACCELERATED
                        | SDL_RENDERER_PRESENTVSYNC) };
   if (!ren)
   {
-    logSDLError( cout, "CreateRenderer" );
+    cout << "CreateRenderer failed" << endl;
     SDL_Quit();
   }
   renderer = move( ren );
+  window = move( win );
 }
 
 void GameRenderer::render( const vector< shared_ptr<GameComponent> > gameComponents )
