@@ -11,15 +11,15 @@ class RenderComponent
 {
 public:
   
-  virtual std::unique_ptr<SDL_Texture, SDL_Texture_Destroyer> getTexture() const = 0; 
+  virtual std::shared_ptr<SDL_Texture> getTexture() const = 0; 
 
-  virtual std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> getDestination() const = 0;
+  virtual std::shared_ptr<SDL_Rect> getDestination() const = 0;
 
-  virtual std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> getClip() const = 0;
+  virtual std::shared_ptr<SDL_Rect> getClip() const = 0;
 
-  virtual void set_clip( std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> clip ) = 0;
+  virtual void set_clip( std::shared_ptr<SDL_Rect> clip ) = 0;
 
-  virtual void set_destination( std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> destination ) = 0;
+  virtual void set_destination( std::shared_ptr<SDL_Rect> destination ) = 0;
 
   virtual int get_x() = 0;
 

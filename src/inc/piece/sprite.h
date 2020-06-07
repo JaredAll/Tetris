@@ -1,20 +1,25 @@
 #ifndef JAREDALL_TETRIS_PIECE_SPRITE
 #define JAREDALL_TETRIS_PIECE_SPRITE
 
+#include "SDL_rect.h"
+#include "SDL_render.h"
 #include "cleanup.h"
 #include "render_component.h"
 
 class Sprite: public RenderComponent
 {
-  std::unique_ptr<SDL_Texture, SDL_Texture_Destroyer> getTexture();
+public:
+  Sprite( int x, int y, std::shared_ptr<SDL_Texture> texture );
+
+  std::shared_ptr<SDL_Texture> getTexture() const;
+ 
+  std::shared_ptr<SDL_Rect> getDestination() const;
   
-  std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> getDestination();
+  std::shared_ptr<SDL_Rect> getClip() const;
   
-  std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> getClip();
+  void set_clip( std::shared_ptr<SDL_Rect> clip );
   
-  void set_clip( std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> clip );
-  
-  void set_destination( std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> destination );
+  void set_destination( std::shared_ptr<SDL_Rect> destination );
   
   int get_x();
   
@@ -28,9 +33,9 @@ class Sprite: public RenderComponent
 
 private:
   
-  std::unique_ptr<SDL_Texture, SDL_Texture_Destroyer> texture;
-  std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> destination;
-  std::unique_ptr<SDL_Rect, SDL_Rect_Destroyer> clip;
+  std::shared_ptr<SDL_Texture> texture;
+  std::shared_ptr<SDL_Rect> destination;
+  std::shared_ptr<SDL_Rect> clip;
   int x;
   int y;
 

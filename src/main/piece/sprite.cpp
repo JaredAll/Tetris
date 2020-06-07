@@ -2,29 +2,33 @@
 
 using namespace std;
 
-unique_ptr<SDL_Texture, SDL_Texture_Destroyer> Sprite::getTexture()
+Sprite::Sprite( int param_x, int param_y, std::shared_ptr<SDL_Texture> param_texture )
+  : x( param_x ), y( param_y ), texture( param_texture )
+{}
+
+shared_ptr<SDL_Texture> Sprite::getTexture() const
 {
-  return unique_ptr<SDL_Texture, SDL_Texture_Destroyer>{ move( texture ) };
+  return texture;
 }
 
-unique_ptr<SDL_Rect, SDL_Rect_Destroyer> Sprite::getDestination()
+shared_ptr<SDL_Rect> Sprite::getDestination() const
 {
-  return unique_ptr<SDL_Rect, SDL_Rect_Destroyer>{ move( destination) };
+  return destination;
 }
 
-unique_ptr<SDL_Rect, SDL_Rect_Destroyer> Sprite::getClip()
+shared_ptr<SDL_Rect> Sprite::getClip() const
 {
-  return unique_ptr<SDL_Rect, SDL_Rect_Destroyer>{ move( clip) };
+  return clip;
 }
 
-void Sprite::set_clip( unique_ptr<SDL_Rect, SDL_Rect_Destroyer> clip ) 
+void Sprite::set_clip( shared_ptr<SDL_Rect> param_clip ) 
 {
-  clip = move( clip );
+  clip = param_clip;
 }
 
-void Sprite::set_destination( unique_ptr<SDL_Rect, SDL_Rect_Destroyer> destination )
+void Sprite::set_destination( shared_ptr<SDL_Rect> param_destination )
 {
-  destination = move( destination );
+  destination = param_destination;
 }
 
 int Sprite::get_x()

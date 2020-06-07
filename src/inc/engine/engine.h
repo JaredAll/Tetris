@@ -1,6 +1,7 @@
 #include "cleanup.h"
 #include "render_component.h"
 #include "game_renderer.h"
+#include "game_component_factory.h"
 #include <SDL.h>
 #include <memory>
 
@@ -15,13 +16,17 @@ public:
 
   void loop();
 
+  void render();
+
 private:
 
   void maintain_time();
 
-  void render();
-
   std::unique_ptr<GameRenderer> renderer;
+  
+  std::unique_ptr<GameComponentFactory> component_factory;
+
+  RenderComponent* piece;
 };
 
 #endif

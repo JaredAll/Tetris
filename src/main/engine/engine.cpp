@@ -1,6 +1,7 @@
 #include "engine.h"
 #include "SDL_timer.h"
 #include "cleanup.h"
+#include "render_component.h"
 #include <iostream>
 #include <future>
 #include <memory>
@@ -32,12 +33,19 @@ void Engine::initialize()
   else
   {
     renderer = unique_ptr<GameRenderer>{ new GameRenderer( move( win ) ) };
+    component_factory = make_unique<GameComponentFactory>();
   }
 }
 
 void Engine::loop()
 {
+  unique_ptr<Sprite> first_block = component_factory ->
+    initialize_sprite( 0, 0, "/home/jared/Games/Tetris/resources/j.png", *renderer );
+
+  piece = first_block.get();
+
   std::async( [=](){ maintain_time(); } );
+
   while( true )
   {
     
@@ -61,5 +69,5 @@ void Engine::maintain_time()
 
 void Engine::render()
 {
-  std::cout << "tick" << std::endl;  
+  renderer -> render( *piece );
 }

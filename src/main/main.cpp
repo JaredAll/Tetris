@@ -4,8 +4,8 @@
 
 int main( int argc, char* argv[] )
 {
-  std::unique_ptr<Engine> engine{ new Engine() };
-  std::unique_ptr<Game> game { new Game( std::move( engine ) ) };
+  std::unique_ptr<Engine> engine { std::make_unique<Engine>() };
+  std::unique_ptr<Game> game { std::make_unique<Game>( std::move( engine ) ) };
 
   game -> play();
 }
