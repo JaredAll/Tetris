@@ -26,7 +26,10 @@ private:
   
   std::unique_ptr<GameComponentFactory> component_factory;
 
-  RenderComponent* piece;
+  RenderComponent* current_piece;
+
+  std::vector<std::unique_ptr<Sprite>> pieces;
+  int current_piece_index;
 };
 
 #endif

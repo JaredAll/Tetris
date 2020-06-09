@@ -5,6 +5,7 @@
 #include <iostream>
 #include <future>
 #include <memory>
+#include "piece_config.h"
 
 using namespace std;
 
@@ -39,11 +40,14 @@ void Engine::initialize()
 
 void Engine::loop()
 {
-  unique_ptr<Sprite> first_block = component_factory ->
-    initialize_sprite( 0, 0, "/home/jared/Games/Tetris/resources/j.png", *renderer );
+  for( PieceConfig config : piece_configurations )
+  {
+    pieces.push_back( component_factory ->
+                      initialize_sprite( 0, 0, config.image_path, *renderer ) );
+  }
 
-  piece = first_block.get();
-
+  current_piece = pieces.at( 0 ).get();
+    
   std::async( [=](){ maintain_time(); } );
 
   while( true )
@@ -69,5 +73,8 @@ void Engine::maintain_time()
 
 void Engine::render()
 {
-  renderer -> render( *piece );
+  renderer -> render( *current_piece );
+  current_piece_index += 1;
+  current_piece_index = current_piece_index % pieces.size();
+  current_piece = pieces.at( current_piece_index ).get();
 }
