@@ -35,6 +35,7 @@ void Engine::initialize()
   {
     renderer = unique_ptr<GameRenderer>{ new GameRenderer( move( win ) ) };
     component_factory = make_unique<GameComponentFactory>();
+    should_render = false;
   }
 }
 
@@ -48,11 +49,14 @@ void Engine::loop()
 
   current_piece = pieces.at( 0 ).get();
     
-  std::async( [=](){ maintain_time(); } );
+  thread timer{ [=](){ maintain_time(); } };
 
   while( true )
   {
-    
+    if( should_render )
+    {
+      render();
+    }
   }
 }
 
@@ -65,7 +69,7 @@ void Engine::maintain_time()
     Uint32 current_time = SDL_GetTicks();
     if( current_time - last_frame >= ms_per_frame )
     {
-      render();
+      should_render = true;
       last_frame = current_time;
     }
   }
@@ -77,4 +81,5 @@ void Engine::render()
   current_piece_index += 1;
   current_piece_index = current_piece_index % pieces.size();
   current_piece = pieces.at( current_piece_index ).get();
+  should_render = false;
 }
