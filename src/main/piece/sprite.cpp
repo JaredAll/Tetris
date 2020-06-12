@@ -6,6 +6,10 @@ Sprite::Sprite( int param_x, int param_y, std::shared_ptr<SDL_Texture> param_tex
   : x( param_x ), y( param_y ), texture( param_texture )
 {}
 
+Sprite::~Sprite()
+{
+}
+
 shared_ptr<SDL_Texture> Sprite::getTexture() const
 {
   return texture;

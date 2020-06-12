@@ -1,7 +1,8 @@
 #include "cleanup.h"
+#include "game_component.h"
 #include "render_component.h"
 #include "game_renderer.h"
-#include "game_component_factory.h"
+#include "tetris_component_factory.h"
 #include <SDL.h>
 #include <memory>
 
@@ -24,11 +25,11 @@ private:
 
   std::unique_ptr<GameRenderer> renderer;
   
-  std::unique_ptr<GameComponentFactory> component_factory;
+  std::unique_ptr<TetrisComponentFactory> component_factory;
 
-  RenderComponent* current_piece;
+  GameComponent* current_piece;
 
-  std::vector<std::unique_ptr<Sprite>> pieces;
+  std::vector<std::unique_ptr<GameComponent>> pieces;
   int current_piece_index;
   bool should_render;
 };

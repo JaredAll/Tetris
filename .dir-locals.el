@@ -1,4 +1,4 @@
 ((nil .
-      ((compile-command . "make -C ~/Games/Tetris/build")
+      ((compile-command . "cd ~/Games/Tetris && bear make -C ~/Games/Tetris/build")
        (run-command . "~/Games/Tetris/build/Tetris"))
       ))

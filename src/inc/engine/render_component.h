@@ -30,7 +30,9 @@ public:
   virtual void set_y( int y ) = 0;
 
   virtual void calculate_destination() = 0;
-  
+
+  virtual ~RenderComponent(){};
+
 };
 
 #endif

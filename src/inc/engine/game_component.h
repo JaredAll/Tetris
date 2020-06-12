@@ -9,21 +9,24 @@ class GameComponent
 {
 public:
 
-  virtual void setRenderComponent( RenderComponent& component )
+  virtual void setRenderComponent( std::unique_ptr<RenderComponent> component )
   {
-    renderComponent = component;
+    render_component = move( component );
   }
 
   virtual RenderComponent& get_render_component()
   {
-    return renderComponent;
+    return *render_component;
   }
+
+  virtual ~GameComponent(){}
 
 protected:
 
-  GameComponent( RenderComponent& renderComponent );
+  GameComponent( std::unique_ptr<RenderComponent> param_render_component )
+    : render_component( move( param_render_component ) ){}
 
-  RenderComponent& renderComponent;
+  std::unique_ptr<RenderComponent> render_component;
 };
 
 #endif

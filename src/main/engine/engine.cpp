@@ -5,7 +5,7 @@
 #include <iostream>
 #include <future>
 #include <memory>
-#include "piece_config.h"
+#include "sprite_config.h"
 
 using namespace std;
 
@@ -34,18 +34,14 @@ void Engine::initialize()
   else
   {
     renderer = unique_ptr<GameRenderer>{ new GameRenderer( move( win ) ) };
-    component_factory = make_unique<GameComponentFactory>();
+    component_factory = make_unique<TetrisComponentFactory>();
     should_render = false;
   }
 }
 
 void Engine::loop()
 {
-  for( PieceConfig config : piece_configurations )
-  {
-    pieces.push_back( component_factory ->
-                      initialize_sprite( 0, 0, config.image_path, *renderer ) );
-  }
+  pieces.push_back( move( component_factory -> build_component( PieceType::jay, *renderer ) ) );
 
   current_piece = pieces.at( 0 ).get();
     
@@ -60,7 +56,7 @@ void Engine::loop()
   }
 }
 
-void Engine::maintain_time()
+void Engine::maintain_time()    
 {
   Uint32 ms_per_frame = 1000;
   Uint32 last_frame = SDL_GetTicks();
@@ -77,7 +73,7 @@ void Engine::maintain_time()
 
 void Engine::render()
 {
-  renderer -> render( *current_piece );
+  renderer -> render( current_piece -> get_render_component() );
   current_piece_index += 1;
   current_piece_index = current_piece_index % pieces.size();
   current_piece = pieces.at( current_piece_index ).get();
