@@ -11,24 +11,23 @@ public:
 
   virtual void update() = 0;
 
-  virtual void setRenderComponent( std::unique_ptr<RenderComponent> component )
+  virtual void add_render_component( std::unique_ptr<RenderComponent> component )
   {
-    render_component = move( component );
+    render_components.push_back( move( component ) );
   }
 
-  virtual RenderComponent& get_render_component()
+  virtual std::vector<std::unique_ptr<RenderComponent>>& get_render_components()
   {
-    return *render_component;
+    return render_components;
   }
 
   virtual ~GameComponent(){}
 
 protected:
 
-  GameComponent( std::unique_ptr<RenderComponent> param_render_component )
-    : render_component( move( param_render_component ) ){}
+  GameComponent(){}
 
-  std::unique_ptr<RenderComponent> render_component;
+  std::vector<std::unique_ptr<RenderComponent>> render_components;
 };
 
 #endif

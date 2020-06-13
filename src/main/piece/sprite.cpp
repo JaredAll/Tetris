@@ -13,6 +13,20 @@ Sprite::Sprite( SpriteConfig config, shared_ptr<SDL_Texture> param_texture )
   destination -> w = config.w;
 }
 
+Sprite::Sprite( int param_x,
+                int param_y,
+                int param_h,
+                int param_w,
+                shared_ptr<SDL_Texture> param_texture )
+  : texture( param_texture )
+{
+  destination = make_shared<SDL_Rect>();
+  destination -> x = param_x;
+  destination -> y = param_y;
+  destination -> h = param_h;
+  destination -> w = param_w;
+}
+
 Sprite::~Sprite()
 {
 }

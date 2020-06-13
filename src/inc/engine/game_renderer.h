@@ -16,17 +16,18 @@ public:
   
   GameRenderer( std::unique_ptr<SDL_Window, SDL_Window_Destroyer> win );
 
-  //void render( const std::vector< std::shared_ptr<GameComponent> > gameComponents );
-
   std::shared_ptr<SDL_Texture> create_texture( std::string image_path );
 
   std::shared_ptr<SDL_Texture> render_letter_texture( TTF_Font* font,
                                       char letter_singleton[],
                                       SDL_Color color);
+  
+  void render( GameComponent& renderComponent );
 
-  void render( const RenderComponent& renderComponent );
 
 private:
+
+  void render( const RenderComponent& renderComponent );
 
   std::unique_ptr<SDL_Window, SDL_Window_Destroyer> window;
 

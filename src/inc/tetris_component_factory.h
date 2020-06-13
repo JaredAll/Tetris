@@ -15,6 +15,7 @@
 #include "sprite_config.h"
 #include "piece_type.h"
 #include "sprite_config.h"
+#include "point.h"
 
 class TetrisComponentFactory
 {
@@ -24,7 +25,8 @@ public:
 
   std::unique_ptr<GameComponent> build_component( PieceType piece_type, GameRenderer& renderer );
 
-  std::unique_ptr<Sprite> initialize_sprite( SpriteConfig config,
+  std::unique_ptr<Sprite> initialize_sprite( Point& point,
+                                             SpriteConfig config,
                                              GameRenderer& renderer );
 
 private:

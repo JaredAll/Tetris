@@ -2,6 +2,7 @@
 #include "SDL_render.h"
 #include "easy_sdl.h"
 #include "cleanup.h"
+#include "render_component.h"
 
 using namespace std;
 
@@ -19,17 +20,6 @@ GameRenderer::GameRenderer( unique_ptr<SDL_Window, SDL_Window_Destroyer> win )
   renderer = move( ren );
   window = move( win );
 }
-
-// void GameRenderer::render( const vector< shared_ptr<GameComponent> > gameComponents )
-// {
-//   SDL_RenderClear( renderer.get() );
-//   for( uint i = 0; i < gameComponents.size(); i++ )
-//   {
-//     RenderComponent& renderComponent = gameComponents.at( i ) -> get_render_component();
-//     render( renderComponent );
-//   }
-//   SDL_RenderPresent( renderer.get() );
-// }
 
 shared_ptr<SDL_Texture> GameRenderer::create_texture( string image_path )
 {
@@ -55,14 +45,24 @@ shared_ptr<SDL_Texture> GameRenderer::render_letter_texture( TTF_Font* font,
   return letter_texture;
 }
 
+void GameRenderer::render( GameComponent& game_component )
+{
+  SDL_RenderClear( renderer.get() );
+
+  vector<unique_ptr<RenderComponent>>& renderings = game_component.get_render_components();
+
+  for( size_t i = 0; i < renderings.size(); i++ )
+  {
+    render( *renderings.at( i ) );
+  }
+
+  SDL_RenderPresent( renderer.get() );
+}
+
 void GameRenderer::render( const RenderComponent& renderComponent )
 {
-  SDL_RenderClear( renderer.get() );  
-
   renderTexture( renderComponent.getTexture().get(),
                  renderer.get(),
                  renderComponent.getDestination().get(),
-                 renderComponent.getClip().get() );
-  
-  SDL_RenderPresent( renderer.get() );
+                 renderComponent.getClip().get() );  
 }

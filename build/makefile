@@ -5,7 +5,7 @@ INC_INCLUDE = -I../src/inc -I../src/inc/engine -I../src/inc/piece -I../src/inc/p
 CXX_FLAGS = -Werror -pedantic-errors -O0 -Wno-c++98-compat-pedantic -Wno-padded -std=c++14 -g $(SDL_INCLUDE) $(INC_INCLUDE)
 LINKER_FLAGS = $(LIBS)
 OBJ_FILES = engine.o game.o game_renderer.o easy_sdl.o sprite.o tetris_component_factory.o \
-tetris_piece.o
+tetris_piece.o point.o jay_piece.o
 VPATH = ../src/main/engine:../src/main:../src/main/piece
 
 all: Tetris cscope

@@ -77,7 +77,7 @@ void Engine::render( vector<unique_ptr<GameComponent>>& components )
 {
   for( size_t i = 0; i < components.size(); i++ )
   {
-    renderer -> render( components.at( i ) -> get_render_component() );  
+    renderer -> render( *components.at( i ) );
   }
   
   should_render = false;

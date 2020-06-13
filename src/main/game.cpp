@@ -23,10 +23,10 @@ void Game::play()
 
 void Game::initialize()
 {
-  int grid_unit_length = 25;
+  int grid_unit_length = 50;
   component_factory = std::make_unique<TetrisComponentFactory>( grid_unit_length );
 
-  add_piece( PieceType::jay );
+  add_piece( PieceType::ess );
 }
 
 void Game::update_components()
