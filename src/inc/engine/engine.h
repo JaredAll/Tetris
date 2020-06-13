@@ -13,7 +13,7 @@ class Engine
 {
 public:
 
-  void initialize();
+  void initialize( int height, int width );
 
   void advance( std::vector<std::unique_ptr<GameComponent>>& components );
 
@@ -23,10 +23,13 @@ private:
 
   void render( std::vector<std::unique_ptr<GameComponent>>& components );
 
+  void update( std::vector<std::unique_ptr<GameComponent>>& components );
+
   void maintain_time();
 
   std::unique_ptr<GameRenderer> renderer;
   bool should_render;
+  bool should_update;
 };
 
 #endif

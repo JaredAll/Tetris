@@ -9,20 +9,19 @@
 
 using namespace std;
 
-void Engine::initialize()
+void Engine::initialize( int height, int width )
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0)
   {
     std::cout << "SDL_Init failed" << std::endl;
   }
 
-  int window_width = 1000;
-  int window_height = 500;
   unique_ptr<SDL_Window, SDL_Window_Destroyer> win {
     SDL_CreateWindow("Tetris",
                      SDL_WINDOWPOS_CENTERED,
                      SDL_WINDOWPOS_CENTERED,
-                     window_width, window_height,
+                     width,
+                     height,
                      SDL_WINDOW_SHOWN)
   };
 
@@ -37,11 +36,17 @@ void Engine::initialize()
     thread timer{ [=](){ maintain_time(); } };
     timer.detach();
     should_render = false;
+    should_update = true;
   }
 }
 
 void Engine::advance( vector<unique_ptr<GameComponent>>& components )
 {
+  if( should_update )
+  {
+    update( components );
+  }
+
   if( should_render )
   {
     render( components );
@@ -68,7 +73,7 @@ void Engine::maintain_time()
   }
 }
 
-void Engine::render( vector<unique_ptr<GameComponent>>& components)
+void Engine::render( vector<unique_ptr<GameComponent>>& components )
 {
   for( size_t i = 0; i < components.size(); i++ )
   {
@@ -76,4 +81,15 @@ void Engine::render( vector<unique_ptr<GameComponent>>& components)
   }
   
   should_render = false;
+  should_update = true;
+}
+
+void Engine::update( vector<unique_ptr<GameComponent>>& components )
+{
+  for( size_t i = 0; i < components.size(); i++ )
+  {
+    components.at( i ) -> update();
+  }
+  
+  should_update = false;
 }

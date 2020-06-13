@@ -9,6 +9,8 @@ class GameComponent
 {
 public:
 
+  virtual void update() = 0;
+
   virtual void setRenderComponent( std::unique_ptr<RenderComponent> component )
   {
     render_component = move( component );

@@ -4,7 +4,8 @@
 
 using namespace std;
 
-TetrisComponentFactory::TetrisComponentFactory()
+TetrisComponentFactory::TetrisComponentFactory( int param_grid_unit_length )
+  : grid_unit_length( param_grid_unit_length )
 {}
 
 unique_ptr<GameComponent> TetrisComponentFactory::build_component(
@@ -38,9 +39,7 @@ unique_ptr<GameComponent> TetrisComponentFactory::build_component(
     break;
   }
 
-  unique_ptr<RenderComponent> render_component =
-    move( initialize_sprite( config, renderer ) );
-
+  unique_ptr<RenderComponent> render_component = move( initialize_sprite( config, renderer ) );
   return make_unique<TetrisPiece>( move( render_component ) );
 }
 

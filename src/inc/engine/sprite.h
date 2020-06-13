@@ -27,6 +27,10 @@ public:
   int get_x();
   
   int get_y();
+
+  int get_h();
+  
+  int get_w();
   
   void set_x( int x );
   

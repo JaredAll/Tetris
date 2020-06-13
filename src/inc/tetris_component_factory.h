@@ -20,13 +20,17 @@ class TetrisComponentFactory
 {
 public:
   
-  TetrisComponentFactory();
+  TetrisComponentFactory( int grid_unit_length );
 
   std::unique_ptr<GameComponent> build_component( PieceType piece_type, GameRenderer& renderer );
 
   std::unique_ptr<Sprite> initialize_sprite( SpriteConfig config,
                                              GameRenderer& renderer );
-  
+
+private:
+
+  int grid_unit_length;
+
 };
 
 #endif

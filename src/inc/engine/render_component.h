@@ -25,6 +25,10 @@ public:
 
   virtual int get_y() = 0;
 
+  virtual int get_h() = 0;
+
+  virtual int get_w() = 0;
+
   virtual void set_x( int x ) = 0;
 
   virtual void set_y( int y ) = 0;

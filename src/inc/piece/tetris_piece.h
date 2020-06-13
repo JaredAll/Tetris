@@ -12,6 +12,19 @@ public:
 
   ~TetrisPiece();
 
+  void update();
+
+  void set_grid_unit_length( int grid_unit_length );
+
+  int get_bottom_x();
+
+  void set_falling( bool falling );
+
+private:
+  
+  int grid_unit_length;
+
+  bool falling;
 };
 
 #endif

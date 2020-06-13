@@ -52,6 +52,17 @@ int Sprite::get_y()
   return destination -> y;
 }
 
+int Sprite::get_h()
+{
+  return destination -> h;
+}
+
+int Sprite::get_w()
+{
+  return destination -> w;
+}
+
+
 void Sprite::set_x( int param_x )
 {
   destination -> x = param_x;
