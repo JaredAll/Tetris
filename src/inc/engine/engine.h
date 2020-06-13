@@ -15,22 +15,17 @@ public:
 
   void initialize();
 
-  void loop();
+  void advance( std::vector<std::unique_ptr<GameComponent>>& components );
 
-  void render();
+  GameRenderer& get_renderer();
 
 private:
+
+  void render( std::vector<std::unique_ptr<GameComponent>>& components );
 
   void maintain_time();
 
   std::unique_ptr<GameRenderer> renderer;
-  
-  std::unique_ptr<TetrisComponentFactory> component_factory;
-
-  GameComponent* current_piece;
-
-  std::vector<std::unique_ptr<GameComponent>> pieces;
-  int current_piece_index;
   bool should_render;
 };
 

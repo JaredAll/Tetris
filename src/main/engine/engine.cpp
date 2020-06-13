@@ -34,29 +34,26 @@ void Engine::initialize()
   else
   {
     renderer = unique_ptr<GameRenderer>{ new GameRenderer( move( win ) ) };
-    component_factory = make_unique<TetrisComponentFactory>();
+    thread timer{ [=](){ maintain_time(); } };
+    timer.detach();
     should_render = false;
   }
 }
 
-void Engine::loop()
+void Engine::advance( vector<unique_ptr<GameComponent>>& components )
 {
-  pieces.push_back( move( component_factory -> build_component( PieceType::jay, *renderer ) ) );
-
-  current_piece = pieces.at( 0 ).get();
-    
-  thread timer{ [=](){ maintain_time(); } };
-
-  while( true )
+  if( should_render )
   {
-    if( should_render )
-    {
-      render();
-    }
+    render( components );
   }
 }
 
-void Engine::maintain_time()    
+GameRenderer& Engine::get_renderer()
+{
+  return *renderer;
+}
+
+void Engine::maintain_time()
 {
   Uint32 ms_per_frame = 1000;
   Uint32 last_frame = SDL_GetTicks();
@@ -71,11 +68,12 @@ void Engine::maintain_time()
   }
 }
 
-void Engine::render()
+void Engine::render( vector<unique_ptr<GameComponent>>& components)
 {
-  renderer -> render( current_piece -> get_render_component() );
-  current_piece_index += 1;
-  current_piece_index = current_piece_index % pieces.size();
-  current_piece = pieces.at( current_piece_index ).get();
+  for( size_t i = 0; i < components.size(); i++ )
+  {
+    renderer -> render( components.at( i ) -> get_render_component() );  
+  }
+  
   should_render = false;
 }

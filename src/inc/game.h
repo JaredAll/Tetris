@@ -14,7 +14,12 @@ public:
 
 private:
 
+  void initialize();
+
   std::unique_ptr<Engine> engine;
+  std::vector<std::unique_ptr<GameComponent>> components;
+  int current_piece_index;
+  std::unique_ptr<TetrisComponentFactory> component_factory;
 
 };
 
