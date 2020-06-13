@@ -5,11 +5,12 @@
 #include "SDL_render.h"
 #include "cleanup.h"
 #include "render_component.h"
+#include "sprite_config.h"
 
 class Sprite: public RenderComponent
 {
 public:
-  Sprite( int x, int y, std::shared_ptr<SDL_Texture> texture );
+  Sprite( SpriteConfig config, std::shared_ptr<SDL_Texture> texture );
 
   ~Sprite();
 
@@ -38,8 +39,6 @@ private:
   std::shared_ptr<SDL_Texture> texture;
   std::shared_ptr<SDL_Rect> destination;
   std::shared_ptr<SDL_Rect> clip;
-  int x;
-  int y;
 
 };
 

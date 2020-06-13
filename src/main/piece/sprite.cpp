@@ -1,10 +1,17 @@
 #include "sprite.h"
+#include "SDL_rect.h"
 
 using namespace std;
 
-Sprite::Sprite( int param_x, int param_y, std::shared_ptr<SDL_Texture> param_texture )
-  : x( param_x ), y( param_y ), texture( param_texture )
-{}
+Sprite::Sprite( SpriteConfig config, shared_ptr<SDL_Texture> param_texture )
+  : texture( param_texture )
+{
+  destination = make_shared<SDL_Rect>();
+  destination -> x = config.x;
+  destination -> y = config.y;
+  destination -> h = config.h;
+  destination -> w = config.w;
+}
 
 Sprite::~Sprite()
 {
@@ -37,22 +44,22 @@ void Sprite::set_destination( shared_ptr<SDL_Rect> param_destination )
 
 int Sprite::get_x()
 {
-  return x;
+  return destination -> x;
 }
 
 int Sprite::get_y()
 {
-  return y;
+  return destination -> y;
 }
 
 void Sprite::set_x( int param_x )
 {
-  x = param_x;
+  destination -> x = param_x;
 }
 
 void Sprite::set_y( int param_y )
 {
-  y = param_y;
+  destination -> y = param_y;
 }
 
 void Sprite::calculate_destination()

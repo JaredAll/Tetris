@@ -7,6 +7,10 @@
 struct SpriteConfig
 {
   std::string image_path;
+  int x;
+  int y;
+  int h;
+  int w;
 };
 
 #endif

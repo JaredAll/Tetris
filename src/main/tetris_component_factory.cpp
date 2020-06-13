@@ -39,19 +39,17 @@ unique_ptr<GameComponent> TetrisComponentFactory::build_component(
   }
 
   unique_ptr<RenderComponent> render_component =
-    move( initialize_sprite( 0, 0, config.image_path, renderer ) );
+    move( initialize_sprite( config, renderer ) );
 
   return make_unique<TetrisPiece>( move( render_component ) );
 }
 
-unique_ptr<Sprite>TetrisComponentFactory::initialize_sprite( 
-  uint x,
-  uint y,
-  string resource,
+unique_ptr<Sprite>TetrisComponentFactory::initialize_sprite( SpriteConfig config,
   GameRenderer& renderer )
 {
   shared_ptr<SDL_Texture> sprite_texture =
-    renderer.create_texture( resource );
+    renderer.create_texture( config.image_path );
 
-  return make_unique<Sprite>( x, y, sprite_texture );
+  return make_unique<Sprite>( config,
+                              sprite_texture );
 }
