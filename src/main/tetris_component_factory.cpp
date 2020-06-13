@@ -2,6 +2,13 @@
 #include "configurations.h"
 #include "tetris_piece.h"
 #include "jay_piece.h"
+#include "zee_piece.h"
+#include "ess_piece.h"
+#include "ell_piece.h"
+#include "bar_piece.h"
+#include "block_piece.h"
+#include "tee_piece.h"
+#include <memory>
 
 using namespace std;
 
@@ -15,46 +22,52 @@ unique_ptr<GameComponent> TetrisComponentFactory::build_component(
 {
   
   SpriteConfig config;
+  unique_ptr<TetrisPiece> piece;
   switch( piece_type )
   {
   case PieceType::jay:
     config = j_config;
+    piece = make_unique<JayPiece>();
     break;
   case PieceType::tee:
     config = t_config;
+    piece = make_unique<TeePiece>();
     break;
   case PieceType::block:
     config = block_config;
+    piece = make_unique<BlockPiece>();
     break;
   case PieceType::bar:
     config = bar_config;
+    piece = make_unique<BarPiece>();
     break;
   case PieceType::ell:
     config = l_config;
+    piece = make_unique<EllPiece>();
     break;
   case PieceType::ess:
     config = s_config;
+    piece = make_unique<EssPiece>();
     break;
   case PieceType::zee:
     config = z_config;
+    piece = make_unique<ZeePiece>();
     break;
   }
 
-  unique_ptr<JayPiece> jay_piece { make_unique<JayPiece>() };
-
-  vector<unique_ptr<Point>>& points = jay_piece -> get_block_locations();
+  vector<unique_ptr<Point>>& points = piece -> get_block_locations();
   for( size_t i = 0; i < points.size(); i++ )
   {
-    jay_piece -> add_render_component(
+    piece -> add_render_component(
       move (
         initialize_sprite( *points.at( i ), config, renderer )
         )
       );
   }
 
-  jay_piece -> set_grid_unit_length( grid_unit_length );
+  piece -> set_grid_unit_length( grid_unit_length );
 
-  return jay_piece;
+  return piece;
 }
 
 unique_ptr<Sprite> TetrisComponentFactory::initialize_sprite( Point& point,

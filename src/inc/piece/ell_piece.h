@@ -1,10 +1,10 @@
-#ifndef JARED_ALL_TETRIS_JAY_H
-#define JARED_ALL_TETRIS_JAY_H
+#ifndef JARED_ALL_TETRIS_ELL_H
+#define JARED_ALL_TETRIS_ELL_H
 
 #include "tetris_piece.h"
 #include "point.h"
 
-class JayPiece : public TetrisPiece
+class EllPiece : public TetrisPiece
 {
 protected:
 

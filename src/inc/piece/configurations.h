@@ -42,7 +42,7 @@ SpriteConfig l_config = SpriteConfig {
 
 SpriteConfig s_config = SpriteConfig {
   "/home/jared/Games/Tetris/resources/s.png",
-  0,
+  200,
   0,
   50,
   50
