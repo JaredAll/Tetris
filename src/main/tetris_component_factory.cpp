@@ -60,7 +60,7 @@ unique_ptr<GameComponent> TetrisComponentFactory::build_component(
   {
     piece -> add_render_component(
       move (
-        initialize_sprite( *points.at( i ), config, renderer )
+        initialize_block( *points.at( i ), config, renderer )
         )
       );
   }
@@ -68,6 +68,13 @@ unique_ptr<GameComponent> TetrisComponentFactory::build_component(
   piece -> set_grid_unit_length( grid_unit_length );
 
   return piece;
+}
+
+unique_ptr<Block> TetrisComponentFactory::initialize_block( Point& point,
+                                                            SpriteConfig config,
+                                                            GameRenderer& renderer )
+{
+  return make_unique<Block>( move( initialize_sprite( point, config, renderer ) ) );
 }
 
 unique_ptr<Sprite> TetrisComponentFactory::initialize_sprite( Point& point,

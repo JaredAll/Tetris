@@ -16,6 +16,7 @@
 #include "piece_type.h"
 #include "sprite_config.h"
 #include "point.h"
+#include "block.h"
 
 class TetrisComponentFactory
 {
@@ -25,11 +26,15 @@ public:
 
   std::unique_ptr<GameComponent> build_component( PieceType piece_type, GameRenderer& renderer );
 
+private:
+
+  std::unique_ptr<Block> initialize_block( Point& point,
+                                           SpriteConfig config,
+                                           GameRenderer& renderer );
+
   std::unique_ptr<Sprite> initialize_sprite( Point& point,
                                              SpriteConfig config,
                                              GameRenderer& renderer );
-
-private:
 
   int grid_unit_length;
 

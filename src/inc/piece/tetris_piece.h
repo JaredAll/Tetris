@@ -3,6 +3,7 @@
 
 #include "game_component.h"
 #include "point.h"
+#include "render_component.h"
 #include <memory>
 
 class TetrisPiece : public GameComponent
@@ -15,6 +16,10 @@ public:
   virtual ~TetrisPiece() override;
 
   void update() override;
+
+  std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
+
+  void add_render_component( std::unique_ptr<RenderComponent> render_component );
 
   void set_grid_unit_length( int grid_unit_length );
 
@@ -37,6 +42,7 @@ private:
   int pivot_x;
   int pivot_y;
   std::vector<std::unique_ptr<Point>> block_locations;
+  std::vector<std::unique_ptr<RenderComponent>> render_components;
   
 };
 

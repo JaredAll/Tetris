@@ -1,5 +1,5 @@
-#ifndef JARED_ALL_TETRIS_BLOCK_H
-#define JARED_ALL_TETRIS_BLOCK_H
+#ifndef JARED_ALL_TETRIS_BLOCK_PIECE_H
+#define JARED_ALL_TETRIS_BLOCK_PIECE_H
 
 #include "tetris_piece.h"
 #include "point.h"

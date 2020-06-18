@@ -1,6 +1,7 @@
 #include "tetris_piece.h"
 #include "game_component.h"
 #include <algorithm>
+#include <memory>
 
 TetrisPiece::TetrisPiece()
   : GameComponent()
@@ -22,6 +23,16 @@ void TetrisPiece::update()
       render_components.at( i ) -> set_y( old_y + grid_unit_length );
     }
   }
+}
+
+void TetrisPiece::add_render_component( std::unique_ptr<RenderComponent> render_component )
+{
+  render_components.push_back( move( render_component ) );
+}
+
+std::vector<std::unique_ptr<RenderComponent>>& TetrisPiece::get_render_components()
+{
+  return render_components;
 }
 
 void TetrisPiece::set_grid_unit_length( int param_grid_unit_length )
