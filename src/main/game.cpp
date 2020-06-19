@@ -1,6 +1,8 @@
 #include "game.h"
 #include "piece_type.h"
 #include "tetris_piece.h"
+#include "tetris_board.h"
+#include <memory>
 
 Game::Game( int height, int width )
 {
@@ -24,6 +26,7 @@ void Game::play()
 void Game::initialize()
 {
   int grid_unit_length = 50;
+  std::unique_ptr<TetrisBoard> board = std::make_unique<TetrisBoard>();
   component_factory = std::make_unique<TetrisComponentFactory>( grid_unit_length );
 
   add_piece( PieceType::tee );
