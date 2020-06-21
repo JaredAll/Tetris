@@ -5,6 +5,8 @@
 #include "engine.h"
 #include "tetris_board.h"
 
+class Engine;
+
 class Game
 {
 public:
@@ -19,7 +21,7 @@ private:
 
   void update_piece( GameComponent& component );
 
-  void add_piece( PieceType type );
+  void add_piece();
 
   std::unique_ptr<Engine> engine;
   std::vector<std::unique_ptr<GameComponent>> components;
@@ -29,6 +31,7 @@ private:
   int window_height;
   int window_width;
   std::vector<PieceType> types;
+  bool should_update;
 };
 
 #endif

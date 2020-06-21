@@ -14,6 +14,11 @@ vector<unique_ptr<RenderComponent>>& TetrisBoard::get_render_components()
   return components;
 }
 
+int TetrisBoard::get_frames_per_update()
+{
+  return 0;
+}
+
 int TetrisBoard::get_rows()
 {
   return rows;
@@ -42,8 +47,11 @@ void TetrisBoard::add_piece( TetrisPiece& piece )
 
   for( auto& point : piece.get_block_locations() )
   {
-    occupied_spaces.at( point -> get_y() + piece_current_row - 1 )
-      .at( point -> get_x() + piece_current_column ) = true;
+    int occupied_x = point -> get_x() + piece_current_column;
+    int occupied_y = point -> get_y() + piece_current_row;
+
+    occupied_spaces.at( occupied_y )
+      .at( occupied_x ) = true;
   }
 }
 
@@ -70,17 +78,20 @@ TetrisBoard::TetrisBoard()
 bool TetrisBoard::impact( TetrisPiece& piece )
 {
   bool collided = false;
-  for( auto& point : piece.get_block_locations() )
+  int point_index = 0;
+  auto& points = piece.get_block_locations();
+  while( !collided && point_index < points.size() )
   {
-    int point_next_row = point -> get_y() + piece.get_current_row() + 1;
-    int point_column = point -> get_x() + piece.get_current_column();
+    int point_next_row = points.at( point_index ) -> get_y() + piece.get_current_row() + 1;
+    int point_column = points.at( point_index ) -> get_x() + piece.get_current_column();
 
     if( point_next_row < rows )
     {
       collided = occupied_spaces.at( point_next_row )
-      .at( point_column );
+        .at( point_column );
     }
+    ++point_index;
   }
-
+  
   return collided;
 }

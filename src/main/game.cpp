@@ -10,7 +10,8 @@ using std::bad_cast;
 
 Game::Game( int height )
 {
-  current_piece_index = 0;
+  current_piece_index = 3;
+  should_update = true;
 
   types = {
     PieceType::bar,
@@ -38,22 +39,24 @@ Game::Game( int height )
 void Game::play()
 {
   engine -> initialize( window_height, window_width );
-  add_piece( types.at( current_piece_index ) );
-  current_piece_index = ( current_piece_index + 1 ) % types.size();
+  add_piece();
 
   while( true )
   {
     engine -> advance( components );
-    update_components();
+    if( engine -> peek_has_updated() )
+    {
+      update_components();  
+    }
   }
 }
 
 void Game::update_components()
 {
-  for( size_t i = 0; i < components.size(); i++ )
+  for( auto& component : components )
   {
-    update_piece( *components.at( i ) );
-  }  
+    update_piece( *component );
+  } 
 }
 
 void Game::update_piece( GameComponent& component )
@@ -65,8 +68,7 @@ void Game::update_piece( GameComponent& component )
     {
       piece.set_falling( false );
       board -> add_piece( piece );
-      add_piece( types.at( current_piece_index ) );
-      current_piece_index = ( current_piece_index + 1 ) % types.size();
+      add_piece();
     }
   }
   catch( bad_cast )
@@ -74,11 +76,12 @@ void Game::update_piece( GameComponent& component )
   }
 }
 
-void Game::add_piece( PieceType type )
+void Game::add_piece()
 {
   components.push_back(
     move(
-      component_factory -> build_component( type,
+      component_factory -> build_component( types.at( current_piece_index ),
                                             engine -> get_renderer() ) )
-    );  
+    );
+  current_piece_index = ( current_piece_index + 1 ) % types.size();
 }

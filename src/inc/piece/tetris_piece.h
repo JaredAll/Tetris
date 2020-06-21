@@ -19,6 +19,8 @@ public:
 
   std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
 
+  int get_frames_per_update() override;
+
   void add_render_component( std::unique_ptr<RenderComponent> render_component );
 
   void set_grid_unit_length( int grid_unit_length );

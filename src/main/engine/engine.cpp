@@ -7,7 +7,9 @@
 #include <memory>
 #include "sprite_config.h"
 
-using namespace std;
+using std::unique_ptr;
+using std::thread;
+using std::vector;
 
 void Engine::initialize( int height, int width )
 {
@@ -37,6 +39,7 @@ void Engine::initialize( int height, int width )
     timer.detach();
     should_render = true;
     should_update = true;
+    frame_count = 0;
   }
 }
 
@@ -47,10 +50,7 @@ void Engine::advance( vector<unique_ptr<GameComponent>>& components )
     render( components );
   }
 
-  if( should_update )
-  {
-    update( components );
-  }
+  update( components );
 }
 
 GameRenderer& Engine::get_renderer()
@@ -58,9 +58,20 @@ GameRenderer& Engine::get_renderer()
   return *renderer;
 }
 
+bool Engine::peek_has_updated()
+{
+  bool peek_update = false;
+  if( has_updated )
+  {
+    has_updated = false;
+    peek_update = true;
+  }
+  return peek_update;
+}
+
 void Engine::maintain_time()
 {
-  Uint32 ms_per_frame = 1000;
+  Uint32 ms_per_frame = 16;
   Uint32 last_frame = SDL_GetTicks();
   while( true )
   {
@@ -77,6 +88,7 @@ void Engine::render( vector<unique_ptr<GameComponent>>& components )
 {
   renderer -> render( components );
   
+  frame_count++;
   should_render = false;
   should_update = true;
 }
@@ -85,7 +97,11 @@ void Engine::update( vector<unique_ptr<GameComponent>>& components )
 {
   for( auto& component : components )
   {
-    component -> update();
+    if( frame_count % component -> get_frames_per_update() == 0 && should_update )
+    {
+      component -> update();
+      has_updated = true;
+    }
   }
   
   should_update = false;

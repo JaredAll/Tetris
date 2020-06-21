@@ -17,6 +17,8 @@ public:
 
   void advance( std::vector<std::unique_ptr<GameComponent>>& components );
 
+  bool peek_has_updated();
+
   GameRenderer& get_renderer();
 
 private:
@@ -30,6 +32,8 @@ private:
   std::unique_ptr<GameRenderer> renderer;
   bool should_render;
   bool should_update;
+  bool has_updated;
+  int frame_count;
 };
 
 #endif

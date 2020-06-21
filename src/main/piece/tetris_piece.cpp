@@ -7,7 +7,7 @@ TetrisPiece::TetrisPiece()
   : GameComponent()
 {
   current_row = 0;
-  current_column = 6;
+  current_column = 5;
   falling = true;
 }
 
@@ -36,6 +36,11 @@ void TetrisPiece::add_render_component( std::unique_ptr<RenderComponent> render_
 std::vector<std::unique_ptr<RenderComponent>>& TetrisPiece::get_render_components()
 {
   return render_components;
+}
+
+int TetrisPiece::get_frames_per_update()
+{
+  return 60;
 }
 
 void TetrisPiece::set_grid_unit_length( int param_grid_unit_length )
@@ -76,7 +81,10 @@ int TetrisPiece::get_current_column()
 
 std::vector<std::unique_ptr<Point>>& TetrisPiece::get_block_locations()
 {
-  determine_block_locations();
+  if( block_locations.empty() )
+  {
+    determine_block_locations();    
+  }
   return block_locations;
 }
 

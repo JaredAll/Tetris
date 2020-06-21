@@ -11,6 +11,8 @@ public:
 
   std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
 
+  int get_frames_per_update() override;
+
   int get_rows();
 
   int get_columns();
