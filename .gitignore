@@ -1,6 +1,8 @@
 **.*~
 **.*#
 **.#*
+**.o*
+/build/Tetris
 /inc/**.*~
 **.out
 **.files

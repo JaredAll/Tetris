@@ -10,7 +10,7 @@ using std::bad_cast;
 
 Game::Game( int height )
 {
-  current_piece_index = 6;
+  current_piece_index = 0;
 
   types = {
     PieceType::bar,
