@@ -4,32 +4,48 @@
 #include "tetris_board.h"
 #include <memory>
 
-Game::Game( int height, int width )
+using std::make_unique;
+using std::unique_ptr;
+using std::bad_cast;
+
+Game::Game( int height )
 {
-  engine = std::make_unique<Engine>();
+  current_piece_index = 6;
+
+  types = {
+    PieceType::bar,
+    PieceType::block,
+    PieceType::ell,
+    PieceType::ess,
+    PieceType::jay,
+    PieceType::tee,
+    PieceType::zee 
+  };
+
+  engine = make_unique<Engine>();
+
+  board = make_unique<TetrisBoard>();
+
   window_height = height;
-  window_width = width;
+  window_width = height / ( board -> get_rows() / board -> get_columns() );
+
+  component_factory = make_unique<TetrisComponentFactory>(
+    window_height,
+    board -> get_rows(),
+    board -> get_columns() );
 }
 
 void Game::play()
 {
   engine -> initialize( window_height, window_width );
-  initialize();
+  add_piece( types.at( current_piece_index ) );
+  current_piece_index = ( current_piece_index + 1 ) % types.size();
 
   while( true )
   {
     engine -> advance( components );
     update_components();
   }
-}
-
-void Game::initialize()
-{
-  int grid_unit_length = 50;
-  std::unique_ptr<TetrisBoard> board = std::make_unique<TetrisBoard>();
-  component_factory = std::make_unique<TetrisComponentFactory>( grid_unit_length );
-
-  add_piece( PieceType::tee );
 }
 
 void Game::update_components()
@@ -45,12 +61,15 @@ void Game::update_piece( GameComponent& component )
   try
   {
     TetrisPiece& piece = dynamic_cast<TetrisPiece&>( component );
-    if( piece.get_bottom_x() >= window_height )
+    if( board -> has_landed( piece ) && piece.is_falling() )
     {
       piece.set_falling( false );
+      board -> add_piece( piece );
+      add_piece( types.at( current_piece_index ) );
+      current_piece_index = ( current_piece_index + 1 ) % types.size();
     }
   }
-  catch( std::bad_cast )
+  catch( bad_cast )
   {
   }
 }

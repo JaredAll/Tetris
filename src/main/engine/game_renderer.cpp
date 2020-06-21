@@ -31,8 +31,8 @@ shared_ptr<SDL_Texture> GameRenderer::create_texture( string image_path )
 }
 
 shared_ptr<SDL_Texture> GameRenderer::render_letter_texture( TTF_Font* font,
-                                                                  char letter_singleton[],
-                                                                  SDL_Color color )
+                                                             char letter_singleton[],
+                                                             SDL_Color color )
 {
   shared_ptr<SDL_Surface> letter_surface { TTF_RenderText_Solid( font, letter_singleton, color ),
                                            SDL_Surface_Destroyer() };
@@ -43,6 +43,21 @@ shared_ptr<SDL_Texture> GameRenderer::render_letter_texture( TTF_Font* font,
   };
   
   return letter_texture;
+}
+
+void GameRenderer::render( vector<unique_ptr<GameComponent>>& components )
+{
+  SDL_RenderClear( renderer.get() );
+
+  for( auto& component : components )
+  {
+    for( auto& render_component : component -> get_render_components() )
+    {
+      render( *render_component );
+    }
+  }
+
+  SDL_RenderPresent( renderer.get() );
 }
 
 void GameRenderer::render( GameComponent& game_component )

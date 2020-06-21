@@ -23,9 +23,15 @@ public:
 
   void set_grid_unit_length( int grid_unit_length );
 
-  int get_bottom_x();
+  int get_bottom_row();
+
+  bool is_falling();
 
   void set_falling( bool falling );
+
+  int get_current_row();
+
+  int get_current_column();
 
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 
@@ -39,8 +45,8 @@ private:
   
   int grid_unit_length;
   bool falling;
-  int pivot_x;
-  int pivot_y;
+  int current_row;
+  int current_column;
   std::vector<std::unique_ptr<Point>> block_locations;
   std::vector<std::unique_ptr<RenderComponent>> render_components;
   

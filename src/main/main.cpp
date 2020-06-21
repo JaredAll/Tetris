@@ -5,8 +5,7 @@
 int main( int argc, char* argv[] )
 {
   int height = 500;
-  int width = 1000;
-  std::unique_ptr<Game> game { std::make_unique<Game>( height, width ) };
+  std::unique_ptr<Game> game { std::make_unique<Game>( height ) };
 
   game -> play();
 }

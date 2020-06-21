@@ -11,8 +11,6 @@ class Sprite: public RenderComponent
 {
 public:
   
-  Sprite( SpriteConfig config, std::shared_ptr<SDL_Texture> texture );
-
   Sprite( int x, int y, int h, int w, std::shared_ptr<SDL_Texture> texture );
 
   ~Sprite();

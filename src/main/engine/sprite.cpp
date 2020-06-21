@@ -3,16 +3,6 @@
 
 using namespace std;
 
-Sprite::Sprite( SpriteConfig config, shared_ptr<SDL_Texture> param_texture )
-  : texture( param_texture )
-{
-  destination = make_shared<SDL_Rect>();
-  destination -> x = config.x;
-  destination -> y = config.y;
-  destination -> h = config.h;
-  destination -> w = config.w;
-}
-
 Sprite::Sprite( int param_x,
                 int param_y,
                 int param_h,

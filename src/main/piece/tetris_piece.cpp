@@ -6,6 +6,8 @@
 TetrisPiece::TetrisPiece()
   : GameComponent()
 {
+  current_row = 0;
+  current_column = 6;
   falling = true;
 }
 
@@ -22,6 +24,7 @@ void TetrisPiece::update()
       int old_y = render_components.at( i ) -> get_y();
       render_components.at( i ) -> set_y( old_y + grid_unit_length );
     }
+    current_row += 1;
   }
 }
 
@@ -40,21 +43,35 @@ void TetrisPiece::set_grid_unit_length( int param_grid_unit_length )
   grid_unit_length = param_grid_unit_length;
 }
 
-int TetrisPiece::get_bottom_x()
+int TetrisPiece::get_bottom_row()
 {
   std::vector<int> bottoms;
-  for( size_t i = 0; i < render_components.size(); i++ )
+  for( size_t i = 0; i < block_locations.size(); i++ )
   {
-    RenderComponent& component = *render_components.at( i );
-    bottoms.push_back( component.get_y() + component.get_h() );
+    bottoms.push_back( block_locations.at( i ) -> get_y() + current_row );
   }
 
   return *std::max_element( bottoms.begin(), bottoms.end() );
 }
 
+bool TetrisPiece::is_falling()
+{
+  return falling;
+}
+
 void TetrisPiece::set_falling( bool is_falling )
 {
   falling = is_falling;
+}
+
+int TetrisPiece::get_current_row()
+{
+  return current_row;
+}
+
+int TetrisPiece::get_current_column()
+{
+  return current_column;
 }
 
 std::vector<std::unique_ptr<Point>>& TetrisPiece::get_block_locations()

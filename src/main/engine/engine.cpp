@@ -23,7 +23,7 @@ void Engine::initialize( int height, int width )
                      width,
                      height,
                      SDL_WINDOW_SHOWN)
-  };
+      };
 
   if (!win)
   {
@@ -35,21 +35,21 @@ void Engine::initialize( int height, int width )
     renderer = unique_ptr<GameRenderer>{ new GameRenderer( move( win ) ) };
     thread timer{ [=](){ maintain_time(); } };
     timer.detach();
-    should_render = false;
+    should_render = true;
     should_update = true;
   }
 }
 
 void Engine::advance( vector<unique_ptr<GameComponent>>& components )
 {
-  if( should_update )
-  {
-    update( components );
-  }
-
   if( should_render )
   {
     render( components );
+  }
+
+  if( should_update )
+  {
+    update( components );
   }
 }
 
@@ -75,10 +75,7 @@ void Engine::maintain_time()
 
 void Engine::render( vector<unique_ptr<GameComponent>>& components )
 {
-  for( size_t i = 0; i < components.size(); i++ )
-  {
-    renderer -> render( *components.at( i ) );
-  }
+  renderer -> render( components );
   
   should_render = false;
   should_update = true;
@@ -86,9 +83,9 @@ void Engine::render( vector<unique_ptr<GameComponent>>& components )
 
 void Engine::update( vector<unique_ptr<GameComponent>>& components )
 {
-  for( size_t i = 0; i < components.size(); i++ )
+  for( auto& component : components )
   {
-    components.at( i ) -> update();
+    component -> update();
   }
   
   should_update = false;

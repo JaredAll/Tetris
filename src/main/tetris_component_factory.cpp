@@ -10,11 +10,17 @@
 #include "tee_piece.h"
 #include <memory>
 
-using namespace std;
+using std::unique_ptr;
+using std::make_unique;
+using std::vector;
+using std::shared_ptr;
 
-TetrisComponentFactory::TetrisComponentFactory( int param_grid_unit_length )
-  : grid_unit_length( param_grid_unit_length )
-{}
+TetrisComponentFactory::TetrisComponentFactory( int param_height, int rows, int columns )
+{
+  grid_unit_length = param_height / rows;
+  new_piece_x = grid_unit_length * ( columns / 2 );
+  new_piece_y = 0;
+}
 
 unique_ptr<GameComponent> TetrisComponentFactory::build_component(
   PieceType piece_type,
@@ -55,12 +61,11 @@ unique_ptr<GameComponent> TetrisComponentFactory::build_component(
     break;
   }
 
-  vector<unique_ptr<Point>>& points = piece -> get_block_locations();
-  for( size_t i = 0; i < points.size(); i++ )
+  for( auto& point : piece -> get_block_locations() )
   {
     piece -> add_render_component(
       move (
-        initialize_block( *points.at( i ), config, renderer )
+        initialize_block( *point, config, renderer )
         )
       );
   }
@@ -84,10 +89,10 @@ unique_ptr<Sprite> TetrisComponentFactory::initialize_sprite( Point& point,
   shared_ptr<SDL_Texture> sprite_texture =
     renderer.create_texture( config.image_path );
 
-  int sprite_x = config.x + grid_unit_length * point.get_x();
-  int sprite_y = config.y + grid_unit_length * point.get_y();
-  int sprite_h = config.h;
-  int sprite_w = config.w;
+  int sprite_x = new_piece_x + grid_unit_length * point.get_x();
+  int sprite_y = new_piece_y + grid_unit_length * point.get_y();
+  int sprite_h = grid_unit_length;
+  int sprite_w = grid_unit_length;
 
   return make_unique<Sprite>( sprite_x,
                               sprite_y,

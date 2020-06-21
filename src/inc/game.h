@@ -3,18 +3,17 @@
 
 #include <memory>
 #include "engine.h"
+#include "tetris_board.h"
 
 class Game
 {
 public:
 
-  Game( int height, int width );
+  Game( int height );
 
   void play();
 
 private:
-
-  void initialize();
 
   void update_components();
 
@@ -24,11 +23,12 @@ private:
 
   std::unique_ptr<Engine> engine;
   std::vector<std::unique_ptr<GameComponent>> components;
-  int current_piece_index;
   std::unique_ptr<TetrisComponentFactory> component_factory;
+  std::unique_ptr<TetrisBoard> board;
+  int current_piece_index;
   int window_height;
   int window_width;
-
+  std::vector<PieceType> types;
 };
 
 #endif

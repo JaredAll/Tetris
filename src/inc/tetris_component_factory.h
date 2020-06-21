@@ -17,12 +17,13 @@
 #include "sprite_config.h"
 #include "point.h"
 #include "block.h"
+#include "tetris_board.h"
 
 class TetrisComponentFactory
 {
 public:
   
-  TetrisComponentFactory( int grid_unit_length );
+  TetrisComponentFactory( int height, int rows, int columns );
 
   std::unique_ptr<GameComponent> build_component( PieceType piece_type, GameRenderer& renderer );
 
@@ -37,6 +38,8 @@ private:
                                              GameRenderer& renderer );
 
   int grid_unit_length;
+  int new_piece_x;
+  int new_piece_y;
 
 };
 

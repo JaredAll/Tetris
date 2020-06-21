@@ -21,7 +21,9 @@ public:
   std::shared_ptr<SDL_Texture> render_letter_texture( TTF_Font* font,
                                       char letter_singleton[],
                                       SDL_Color color);
-  
+
+  void render( std::vector<std::unique_ptr<GameComponent>>& components );
+
   void render( GameComponent& renderComponent );
 
 
