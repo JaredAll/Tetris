@@ -3,6 +3,8 @@
 #include "tetris_piece.h"
 #include "tetris_board.h"
 #include <memory>
+#include <stdlib.h>
+#include <time.h>
 
 using std::make_unique;
 using std::unique_ptr;
@@ -10,7 +12,6 @@ using std::bad_cast;
 
 Game::Game( int height )
 {
-  current_piece_index = 3;
   should_update = true;
 
   types = {
@@ -23,8 +24,10 @@ Game::Game( int height )
     PieceType::zee 
   };
 
-  engine = make_unique<Engine>();
+  srand( time( nullptr ) );
+  current_piece_index = rand() % types.size();
 
+  engine = make_unique<Engine>();
   board = make_unique<TetrisBoard>();
 
   window_height = height;
@@ -83,5 +86,5 @@ void Game::add_piece()
       component_factory -> build_component( types.at( current_piece_index ),
                                             engine -> get_renderer() ) )
     );
-  current_piece_index = ( current_piece_index + 1 ) % types.size();
+  current_piece_index = rand() % types.size();
 }

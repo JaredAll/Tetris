@@ -40,7 +40,7 @@ std::vector<std::unique_ptr<RenderComponent>>& TetrisPiece::get_render_component
 
 int TetrisPiece::get_frames_per_update()
 {
-  return 60;
+  return 30;
 }
 
 void TetrisPiece::set_grid_unit_length( int param_grid_unit_length )
