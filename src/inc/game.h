@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "engine.h"
+#include "input_handler.h"
 #include "tetris_board.h"
 
 class Engine;
@@ -23,6 +24,7 @@ private:
 
   void add_piece();
 
+  std::unique_ptr<InputHandler> input_handler;
   std::unique_ptr<Engine> engine;
   std::vector<std::unique_ptr<GameComponent>> components;
   std::unique_ptr<TetrisComponentFactory> component_factory;

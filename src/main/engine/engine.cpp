@@ -11,6 +11,10 @@ using std::unique_ptr;
 using std::thread;
 using std::vector;
 
+Engine::Engine( vector<unique_ptr<GameComponent>>& param_components )
+  : components( param_components )
+{}
+
 void Engine::initialize( int height, int width )
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -43,14 +47,21 @@ void Engine::initialize( int height, int width )
   }
 }
 
-void Engine::advance( vector<unique_ptr<GameComponent>>& components )
+void Engine::advance( InputEvent& event )
 {
   if( should_render )
   {
-    render( components );
+    render_components();
   }
 
-  update( components );
+  handle_input( event );
+
+  update_components( event );
+}
+
+void Engine::handle_input( InputEvent& input_event )
+{
+  //TODO: handle exiting the game here (with cleanup?)
 }
 
 GameRenderer& Engine::get_renderer()
@@ -84,7 +95,7 @@ void Engine::maintain_time()
   }
 }
 
-void Engine::render( vector<unique_ptr<GameComponent>>& components )
+void Engine::render()
 {
   renderer -> render( components );
   
@@ -93,7 +104,7 @@ void Engine::render( vector<unique_ptr<GameComponent>>& components )
   should_update = true;
 }
 
-void Engine::update( vector<unique_ptr<GameComponent>>& components )
+void Engine::update( InputEvent& event )
 {
   for( auto& component : components )
   {

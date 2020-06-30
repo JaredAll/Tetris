@@ -1,4 +1,6 @@
 #include "game.h"
+#include "input_event.h"
+#include "input_handler.h"
 #include "piece_type.h"
 #include "tetris_piece.h"
 #include "tetris_board.h"
@@ -27,7 +29,10 @@ Game::Game( int height )
   srand( time( nullptr ) );
   current_piece_index = rand() % types.size();
 
-  engine = make_unique<Engine>();
+  engine = make_unique<Engine>( components );
+
+  input_handler = make_unique<InputHandler>();
+
   board = make_unique<TetrisBoard>();
 
   window_height = height;
@@ -46,7 +51,8 @@ void Game::play()
 
   while( true )
   {
-    engine -> advance( components );
+    InputEvent& input_event = input_handler -> handle_input();
+    engine -> advance( input_event );
     if( engine -> peek_has_updated() )
     {
       update_components();  

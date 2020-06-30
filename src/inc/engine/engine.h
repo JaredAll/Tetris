@@ -1,5 +1,6 @@
 #include "cleanup.h"
 #include "game_component.h"
+#include "input_event.h"
 #include "render_component.h"
 #include "game_renderer.h"
 #include "tetris_component_factory.h"
@@ -13,9 +14,11 @@ class Engine
 {
 public:
 
+  Engine( std::vector<std::unique_ptr<GameComponent>>& components );
+
   void initialize( int height, int width );
 
-  void advance( std::vector<std::unique_ptr<GameComponent>>& components );
+  void advance( InputEvent& input_event );
 
   bool peek_has_updated();
 
@@ -23,12 +26,15 @@ public:
 
 private:
 
-  void render( std::vector<std::unique_ptr<GameComponent>>& components );
+  void render_components();
 
-  void update( std::vector<std::unique_ptr<GameComponent>>& components );
+  void update_components( InputEvent& input_event );
+
+  void handle_input( InputEvent& input_event );
 
   void maintain_time();
-
+  
+  std::vector<std::unique_ptr<GameComponent>>& components;
   std::unique_ptr<GameRenderer> renderer;
   bool should_render;
   bool should_update;
