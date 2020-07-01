@@ -1,5 +1,6 @@
 #include "input_handler.h"
 #include "SDL_events.h"
+#include "input_type.h"
 
 using std::unique_ptr;
 using std::make_unique;
@@ -7,9 +8,7 @@ using std::make_unique;
 InputHandler::InputHandler()
 {
   keyboard_state = SDL_GetKeyboardState( NULL );
-  int x = 0;
-  int y = 0;
-  bool r_key = false;
+  input_type = InputType::none;
 }
 
 void InputHandler::determine_input()
@@ -20,32 +19,32 @@ void InputHandler::determine_input()
     {
       if( right_arrow( e ) )
       {
-        x = 1;
+        input_type = InputType::right;
       }
       
       if( left_arrow( e ))
       {
-        x = -1;
+        input_type = InputType::left;
       }
 
       if( escape( e ))
       {
-        exit( 0 );
+        input_type = InputType::exit;
       }
     }
 
     if( e.type == SDL_KEYUP )
     {
-      x = 0;
+      input_type = InputType::none;
     }
 
     if( e.type == SDL_QUIT )
     {
-      exit( 0 );
+      input_type = InputType::exit;
     }
   }
   
-  current_event = move( make_unique<InputEvent>( x, y ) );  
+  current_event = make_unique<InputEvent>( input_type );  
 }
 
 InputEvent& InputHandler::handle_input()

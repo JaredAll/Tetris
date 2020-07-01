@@ -17,7 +17,13 @@ public:
 
   void update() override;
 
+  void update( InputEvent& event ) override;
+
+  bool accepting_input() override;
+
   std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
+
+  int get_frames_per_input() override;
 
   int get_frames_per_update() override;
 
@@ -44,7 +50,9 @@ protected:
   void add_block_location( std::unique_ptr<Point> point );
 
 private:
-  
+
+  int determine_delta_x( InputEvent& event );
+
   int grid_unit_length;
   bool falling;
   int current_row;

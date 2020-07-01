@@ -1,6 +1,7 @@
 #include "cleanup.h"
 #include "game_component.h"
 #include "input_event.h"
+#include "input_handler.h"
 #include "render_component.h"
 #include "game_renderer.h"
 #include "tetris_component_factory.h"
@@ -18,7 +19,7 @@ public:
 
   void initialize( int height, int width );
 
-  void advance( InputEvent& input_event );
+  void advance();
 
   bool peek_has_updated();
 
@@ -30,10 +31,11 @@ private:
 
   void update_components( InputEvent& input_event );
 
-  void handle_input( InputEvent& input_event );
+  InputEvent& process_input();
 
   void maintain_time();
-  
+
+  std::unique_ptr<InputHandler> input_handler;
   std::vector<std::unique_ptr<GameComponent>>& components;
   std::unique_ptr<GameRenderer> renderer;
   bool should_render;

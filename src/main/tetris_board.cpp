@@ -4,21 +4,6 @@
 using std::vector;
 using std::unique_ptr;
 
-void TetrisBoard::update()
-{
-  
-}
-
-vector<unique_ptr<RenderComponent>>& TetrisBoard::get_render_components()
-{
-  return components;
-}
-
-int TetrisBoard::get_frames_per_update()
-{
-  return 0;
-}
-
 int TetrisBoard::get_rows()
 {
   return rows;
@@ -60,7 +45,6 @@ TetrisBoard::~TetrisBoard()
 }
 
 TetrisBoard::TetrisBoard()
-  : GameComponent{}
 {
   rows = 20;
   columns = 10;

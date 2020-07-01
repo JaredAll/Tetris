@@ -1,5 +1,6 @@
 #include "tetris_piece.h"
 #include "game_component.h"
+#include "input_event.h"
 #include <algorithm>
 #include <memory>
 
@@ -28,6 +29,35 @@ void TetrisPiece::update()
   }
 }
 
+void TetrisPiece::update( InputEvent& input_event )
+{
+  int delta_x = determine_delta_x( input_event );
+  for( size_t i = 0; i < render_components.size(); i++ )
+  {
+    int old_y = render_components.at( i ) -> get_y();
+    render_components.at( i ) -> set_y( old_y + grid_unit_length );
+
+    int old_x = render_components.at( i ) -> get_x();
+    render_components.at( i ) -> set_x( old_x + delta_x );
+  }
+
+  if( delta_x > 0 )
+  {
+    current_column += 1;
+  }
+  else if( delta_x < 0 )
+  {
+    current_column -= 1;
+  }
+  
+  current_row += 1;  
+}
+
+bool TetrisPiece::accepting_input()
+{
+  return falling;
+}
+
 void TetrisPiece::add_render_component( std::unique_ptr<RenderComponent> render_component )
 {
   render_components.push_back( move( render_component ) );
@@ -41,6 +71,11 @@ std::vector<std::unique_ptr<RenderComponent>>& TetrisPiece::get_render_component
 int TetrisPiece::get_frames_per_update()
 {
   return 30;
+}
+
+int TetrisPiece::get_frames_per_input()
+{
+  return 15;
 }
 
 void TetrisPiece::set_grid_unit_length( int param_grid_unit_length )
@@ -91,4 +126,18 @@ std::vector<std::unique_ptr<Point>>& TetrisPiece::get_block_locations()
 void TetrisPiece::add_block_location( std::unique_ptr<Point> point )
 {
   block_locations.push_back( move( point ) );
+}
+
+int TetrisPiece::determine_delta_x( InputEvent& input_event )
+{
+  int delta_x = 0;
+  if( input_event.get_input() == InputType::right )
+  {
+    delta_x = grid_unit_length;
+  }
+  else if( input_event.get_input() == InputType::left )
+  {
+    delta_x = -1 * grid_unit_length;
+  }
+  return delta_x;
 }

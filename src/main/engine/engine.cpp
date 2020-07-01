@@ -1,6 +1,7 @@
 #include "engine.h"
 #include "SDL_timer.h"
 #include "cleanup.h"
+#include "input_type.h"
 #include "render_component.h"
 #include <iostream>
 #include <future>
@@ -8,6 +9,7 @@
 #include "sprite_config.h"
 
 using std::unique_ptr;
+using std::make_unique;
 using std::thread;
 using std::vector;
 
@@ -38,7 +40,8 @@ void Engine::initialize( int height, int width )
   }
   else
   {
-    renderer = unique_ptr<GameRenderer>{ new GameRenderer( move( win ) ) };
+    input_handler = make_unique<InputHandler>();
+    renderer = make_unique<GameRenderer>( move( win ) );
     thread timer{ [=](){ maintain_time(); } };
     timer.detach();
     should_render = true;
@@ -47,21 +50,26 @@ void Engine::initialize( int height, int width )
   }
 }
 
-void Engine::advance( InputEvent& event )
+void Engine::advance()
 {
   if( should_render )
   {
     render_components();
   }
 
-  handle_input( event );
+  InputEvent& event = process_input();
 
   update_components( event );
 }
 
-void Engine::handle_input( InputEvent& input_event )
+InputEvent& Engine::process_input()
 {
-  //TODO: handle exiting the game here (with cleanup?)
+  InputEvent& event = input_handler -> handle_input();
+  if( event.get_input() == InputType::exit )
+  {
+    exit( 0 );
+  }
+  return event;
 }
 
 GameRenderer& Engine::get_renderer()
@@ -95,7 +103,7 @@ void Engine::maintain_time()
   }
 }
 
-void Engine::render()
+void Engine::render_components()
 {
   renderer -> render( components );
   
@@ -104,16 +112,22 @@ void Engine::render()
   should_update = true;
 }
 
-void Engine::update( InputEvent& event )
+void Engine::update_components( InputEvent& input_event )
 {
   for( auto& component : components )
   {
     if( frame_count % component -> get_frames_per_update() == 0 && should_update )
     {
-      component -> update();
-      has_updated = true;
+      if( component -> accepting_input() && input_event.get_input() != InputType::none )
+      {
+        component -> update( input_event );
+      }
+      else
+      {
+        component -> update();
+      }
     }
+    has_updated = true;
   }
-  
   should_update = false;
 }
