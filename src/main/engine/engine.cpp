@@ -116,16 +116,15 @@ void Engine::update_components( InputEvent& input_event )
 {
   for( auto& component : components )
   {
-    if( frame_count % component -> get_frames_per_update() == 0 && should_update )
+    if( component -> accepting_input() &&
+        frame_count % component -> get_frames_per_input() == 0 && 
+        should_update )
     {
-      if( component -> accepting_input() && input_event.get_input() != InputType::none )
-      {
-        component -> update( input_event );
-      }
-      else
-      {
-        component -> update();
-      }
+      component -> update( input_event );
+    }
+    else if( should_update )
+    {
+      component -> update();
     }
     has_updated = true;
   }
