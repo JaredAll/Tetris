@@ -1,6 +1,7 @@
 #include "engine.h"
 #include "SDL_timer.h"
 #include "cleanup.h"
+#include "input_type.h"
 #include "render_component.h"
 #include <iostream>
 #include <future>
@@ -8,8 +9,13 @@
 #include "sprite_config.h"
 
 using std::unique_ptr;
+using std::make_unique;
 using std::thread;
 using std::vector;
+
+Engine::Engine( vector<unique_ptr<GameComponent>>& param_components )
+  : components( param_components )
+{}
 
 void Engine::initialize( int height, int width )
 {
@@ -34,7 +40,8 @@ void Engine::initialize( int height, int width )
   }
   else
   {
-    renderer = unique_ptr<GameRenderer>{ new GameRenderer( move( win ) ) };
+    input_handler = make_unique<InputHandler>();
+    renderer = make_unique<GameRenderer>( move( win ) );
     thread timer{ [=](){ maintain_time(); } };
     timer.detach();
     should_render = true;
@@ -43,14 +50,26 @@ void Engine::initialize( int height, int width )
   }
 }
 
-void Engine::advance( vector<unique_ptr<GameComponent>>& components )
+void Engine::advance()
 {
   if( should_render )
   {
-    render( components );
+    render_components();
   }
 
-  update( components );
+  InputEvent& event = process_input();
+
+  update_components( event );
+}
+
+InputEvent& Engine::process_input()
+{
+  InputEvent& event = input_handler -> handle_input();
+  if( event.exit() )
+  {
+    exit( 0 );
+  }
+  return event;
 }
 
 GameRenderer& Engine::get_renderer()
@@ -84,7 +103,7 @@ void Engine::maintain_time()
   }
 }
 
-void Engine::render( vector<unique_ptr<GameComponent>>& components )
+void Engine::render_components()
 {
   renderer -> render( components );
   
@@ -93,16 +112,19 @@ void Engine::render( vector<unique_ptr<GameComponent>>& components )
   should_update = true;
 }
 
-void Engine::update( vector<unique_ptr<GameComponent>>& components )
+void Engine::update_components( InputEvent& input_event )
 {
   for( auto& component : components )
   {
-    if( frame_count % component -> get_frames_per_update() == 0 && should_update )
+    if( should_update )
     {
       component -> update();
-      has_updated = true;
     }
+    if( component -> accepting_input() )
+    {
+      component -> update( input_event );
+    }
+    has_updated = true;
   }
-  
   should_update = false;
 }

@@ -4,14 +4,9 @@
 #include "game_component.h"
 #include "tetris_piece.h"
 
-class TetrisBoard : public GameComponent
+class TetrisBoard
 {
 public:
-  void update() override;
-
-  std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
-
-  int get_frames_per_update() override;
 
   int get_rows();
 

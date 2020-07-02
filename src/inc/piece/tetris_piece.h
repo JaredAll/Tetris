@@ -6,6 +6,8 @@
 #include "render_component.h"
 #include <memory>
 
+class TetrisPieceState;
+
 class TetrisPiece : public GameComponent
 {
 
@@ -17,13 +19,21 @@ public:
 
   void update() override;
 
+  void update( InputEvent& event ) override;
+
+  bool accepting_input() override;
+
   std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
+
+  int get_frames_per_input() override;
 
   int get_frames_per_update() override;
 
   void add_render_component( std::unique_ptr<RenderComponent> render_component );
 
   void set_grid_unit_length( int grid_unit_length );
+
+  int get_grid_unit_length();
 
   int get_bottom_row();
 
@@ -33,7 +43,11 @@ public:
 
   int get_current_row();
 
+  void set_current_row( int row );
+
   int get_current_column();
+
+  void set_current_column( int column );
 
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 
@@ -44,13 +58,14 @@ protected:
   void add_block_location( std::unique_ptr<Point> point );
 
 private:
-  
+
   int grid_unit_length;
   bool falling;
   int current_row;
   int current_column;
   std::vector<std::unique_ptr<Point>> block_locations;
   std::vector<std::unique_ptr<RenderComponent>> render_components;
+  std::unique_ptr<TetrisPieceState> state;
   
 };
 

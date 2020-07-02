@@ -27,7 +27,8 @@ Game::Game( int height )
   srand( time( nullptr ) );
   current_piece_index = rand() % types.size();
 
-  engine = make_unique<Engine>();
+  engine = make_unique<Engine>( components );
+
   board = make_unique<TetrisBoard>();
 
   window_height = height;
@@ -46,7 +47,7 @@ void Game::play()
 
   while( true )
   {
-    engine -> advance( components );
+    engine -> advance();
     if( engine -> peek_has_updated() )
     {
       update_components();  

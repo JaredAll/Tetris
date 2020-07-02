@@ -1,7 +1,11 @@
 #include "tetris_piece.h"
 #include "game_component.h"
+#include "input_event.h"
+#include "waiting_state.h"
 #include <algorithm>
 #include <memory>
+
+using std::make_unique;
 
 TetrisPiece::TetrisPiece()
   : GameComponent()
@@ -9,6 +13,7 @@ TetrisPiece::TetrisPiece()
   current_row = 0;
   current_column = 5;
   falling = true;
+  state = make_unique<WaitingState>( *this, 0 );
 }
 
 TetrisPiece::~TetrisPiece()
@@ -17,15 +22,17 @@ TetrisPiece::~TetrisPiece()
 
 void TetrisPiece::update()
 {
-  if( falling )
-  {
-    for( size_t i = 0; i < render_components.size(); i++ )
-    {
-      int old_y = render_components.at( i ) -> get_y();
-      render_components.at( i ) -> set_y( old_y + grid_unit_length );
-    }
-    current_row += 1;
-  }
+  state = state -> update();
+}
+
+void TetrisPiece::update( InputEvent& input_event )
+{
+  state = state -> update( input_event );
+}
+
+bool TetrisPiece::accepting_input()
+{
+  return falling;
 }
 
 void TetrisPiece::add_render_component( std::unique_ptr<RenderComponent> render_component )
@@ -43,9 +50,19 @@ int TetrisPiece::get_frames_per_update()
   return 30;
 }
 
+int TetrisPiece::get_frames_per_input()
+{
+  return 15;
+}
+
 void TetrisPiece::set_grid_unit_length( int param_grid_unit_length )
 {
   grid_unit_length = param_grid_unit_length;
+}
+
+int TetrisPiece::get_grid_unit_length()
+{
+  return grid_unit_length;
 }
 
 int TetrisPiece::get_bottom_row()
@@ -74,9 +91,19 @@ int TetrisPiece::get_current_row()
   return current_row;
 }
 
+void TetrisPiece::set_current_row( int param_row )
+{
+  current_row = param_row;
+}
+
 int TetrisPiece::get_current_column()
 {
   return current_column;
+}
+
+void TetrisPiece::set_current_column( int column )
+{
+  current_column = column;
 }
 
 std::vector<std::unique_ptr<Point>>& TetrisPiece::get_block_locations()
