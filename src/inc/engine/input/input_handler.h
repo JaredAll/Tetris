@@ -26,7 +26,8 @@ private:
   std::unique_ptr<InputEvent> current_event;
   SDL_Event e;
   const Uint8* keyboard_state;
-  InputType input_type;
+  InputType previous_input_type;
+  InputType current_input_type;
 };
 
 #endif

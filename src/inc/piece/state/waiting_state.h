@@ -11,6 +11,8 @@ public:
 
   std::unique_ptr<TetrisPieceState> update() override;
 
+  std::unique_ptr<TetrisPieceState> determine_next_state() override;
+
 private:
   
   int update_count;

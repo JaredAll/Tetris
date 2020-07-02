@@ -65,7 +65,7 @@ void Engine::advance()
 InputEvent& Engine::process_input()
 {
   InputEvent& event = input_handler -> handle_input();
-  if( event.get_input() == InputType::exit )
+  if( event.exit() )
   {
     exit( 0 );
   }
@@ -116,15 +116,13 @@ void Engine::update_components( InputEvent& input_event )
 {
   for( auto& component : components )
   {
-    if( component -> accepting_input() &&
-        frame_count % component -> get_frames_per_input() == 0 && 
-        should_update )
-    {
-      component -> update( input_event );
-    }
-    else if( should_update )
+    if( should_update )
     {
       component -> update();
+    }
+    if( component -> accepting_input() )
+    {
+      component -> update( input_event );
     }
     has_updated = true;
   }

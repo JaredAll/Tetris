@@ -51,8 +51,6 @@ public:
 
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 
-  int determine_delta_x( InputEvent& event );
-
 protected:
 
   virtual void determine_block_locations() = 0;

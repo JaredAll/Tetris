@@ -19,13 +19,19 @@ public:
 
   virtual std::unique_ptr<TetrisPieceState> update() = 0;
 
+  virtual std::unique_ptr<TetrisPieceState> determine_next_state() = 0;
+
+  std::unique_ptr<TetrisPieceState> update( InputEvent& event );
+
   TetrisPiece& get_piece()
   {
     return piece;
   }
 
 private:
-  
+
+  int determine_direction( InputEvent& event );
+
   TetrisPiece& piece;
   
 };

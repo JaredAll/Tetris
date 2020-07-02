@@ -1,4 +1,5 @@
 #include "waiting_state.h"
+#include <iostream>
 #include <memory>
 #include "falling_state.h"
 
@@ -13,6 +14,12 @@ WaitingState::WaitingState( TetrisPiece& piece, int update_count_param )
 
 unique_ptr<TetrisPieceState> WaitingState::update()
 {
+  update_count += 1;
+  return determine_next_state();
+}
+
+unique_ptr<TetrisPieceState> WaitingState::determine_next_state()
+{
   unique_ptr<TetrisPieceState> next_state;
   if( update_count > update_threshold )
   {
@@ -20,7 +27,7 @@ unique_ptr<TetrisPieceState> WaitingState::update()
   }
   else
   {
-    next_state = make_unique<WaitingState>( get_piece(), ++update_count );
+    next_state = make_unique<WaitingState>( get_piece(), update_count );
   }
 
   return next_state;

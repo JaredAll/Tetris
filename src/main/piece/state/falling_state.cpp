@@ -8,6 +8,7 @@ using std::make_unique;
 FallingState::FallingState( TetrisPiece& piece )
   : TetrisPieceState( piece )
 {
+  fallen = false;
 }
 
 unique_ptr<TetrisPieceState> FallingState::update()
@@ -22,6 +23,17 @@ unique_ptr<TetrisPieceState> FallingState::update()
     }
     piece.set_current_row( piece.get_current_row() + 1 );
   }
+  fallen = true;
 
-  return make_unique<WaitingState>( piece, 0 );
+  return determine_next_state();
+}
+
+unique_ptr<TetrisPieceState> FallingState::determine_next_state()
+{
+  unique_ptr<TetrisPieceState> next_state = make_unique<FallingState>( get_piece() );
+  if( fallen )
+  {
+    next_state = make_unique<WaitingState>( get_piece(), 0 );
+  }
+  return next_state;
 }

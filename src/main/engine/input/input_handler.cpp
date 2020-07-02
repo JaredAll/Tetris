@@ -8,43 +8,46 @@ using std::make_unique;
 InputHandler::InputHandler()
 {
   keyboard_state = SDL_GetKeyboardState( NULL );
-  input_type = InputType::none;
+  current_input_type = InputType::none;
+  previous_input_type = InputType::none;
 }
 
 void InputHandler::determine_input()
 {
+  previous_input_type = current_input_type;
+  
   while( SDL_PollEvent( &e ))
   {
     if( e.type == SDL_KEYDOWN )
     {
       if( right_arrow( e ) )
       {
-        input_type = InputType::right;
+        current_input_type = InputType::right;
       }
       
       if( left_arrow( e ))
       {
-        input_type = InputType::left;
+        current_input_type = InputType::left;
       }
 
       if( escape( e ))
       {
-        input_type = InputType::exit;
+        current_input_type = InputType::exit;
       }
     }
 
     if( e.type == SDL_KEYUP )
     {
-      input_type = InputType::none;
+      current_input_type = InputType::none;
     }
 
     if( e.type == SDL_QUIT )
     {
-      input_type = InputType::exit;
+      current_input_type = InputType::exit;
     }
   }
   
-  current_event = make_unique<InputEvent>( input_type );  
+  current_event = make_unique<InputEvent>( current_input_type, previous_input_type );  
 }
 
 InputEvent& InputHandler::handle_input()

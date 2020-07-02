@@ -7,13 +7,18 @@ class InputEvent
 {
 public:
 
-  InputEvent( InputType input );
+  InputEvent( InputType current, InputType previous );
 
-  InputType get_input() const;
-  
+  bool left_up() const;
+
+  bool right_up() const;
+
+  bool exit() const;
+
 private:  
 
-  InputType input;
+  InputType current_frame_input;
+  InputType previous_frame_input;
 
 };
 
