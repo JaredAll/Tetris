@@ -36,8 +36,7 @@ Game::Game( int height )
 
   component_factory = make_unique<TetrisComponentFactory>(
     window_height,
-    board -> get_rows(),
-    board -> get_columns() );
+    *board );
 }
 
 void Game::play()

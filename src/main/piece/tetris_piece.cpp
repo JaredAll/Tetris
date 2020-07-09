@@ -68,12 +68,23 @@ int TetrisPiece::get_grid_unit_length()
 int TetrisPiece::get_bottom_row()
 {
   std::vector<int> bottoms;
-  for( size_t i = 0; i < block_locations.size(); i++ )
+  for( auto& block : block_locations )
   {
-    bottoms.push_back( block_locations.at( i ) -> get_y() + current_row );
+    bottoms.push_back( block -> get_y() + current_row );
   }
 
   return *std::max_element( bottoms.begin(), bottoms.end() );
+}
+
+int TetrisPiece::get_rightmost_column()
+{
+  std::vector<int> columns;
+  for( auto& block : block_locations )
+  {
+    columns.push_back( block -> get_x() + current_column + 1 );
+  }
+  
+  return *std::max_element( columns.begin(), columns.end() );
 }
 
 bool TetrisPiece::is_falling()
@@ -104,6 +115,26 @@ int TetrisPiece::get_current_column()
 void TetrisPiece::set_current_column( int column )
 {
   current_column = column;
+}
+
+int TetrisPiece::get_max_row()
+{
+  return max_row;
+}
+
+void TetrisPiece::set_max_row( int row )
+{
+  max_row = row;
+}
+
+int TetrisPiece::get_max_column()
+{
+  return max_column;
+}
+
+void TetrisPiece::set_max_column( int column )
+{
+  max_column = column;
 }
 
 std::vector<std::unique_ptr<Point>>& TetrisPiece::get_block_locations()

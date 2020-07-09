@@ -23,7 +23,7 @@ class TetrisComponentFactory
 {
 public:
   
-  TetrisComponentFactory( int height, int rows, int columns );
+  TetrisComponentFactory( int height, TetrisBoard& board );
 
   std::unique_ptr<GameComponent> build_component( PieceType piece_type, GameRenderer& renderer );
 
@@ -40,7 +40,7 @@ private:
   int grid_unit_length;
   int new_piece_x;
   int new_piece_y;
-
+  TetrisBoard& board;
 };
 
 #endif

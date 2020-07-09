@@ -37,6 +37,8 @@ public:
 
   int get_bottom_row();
 
+  int get_rightmost_column();
+
   bool is_falling();
 
   void set_falling( bool falling );
@@ -48,6 +50,14 @@ public:
   int get_current_column();
 
   void set_current_column( int column );
+
+  int get_max_row();
+
+  void set_max_row( int max_row );
+
+  int get_max_column();
+
+  void set_max_column( int max_column );
 
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 
@@ -63,6 +73,8 @@ private:
   bool falling;
   int current_row;
   int current_column;
+  int max_row;
+  int max_column;
   std::vector<std::unique_ptr<Point>> block_locations;
   std::vector<std::unique_ptr<RenderComponent>> render_components;
   std::unique_ptr<TetrisPieceState> state;
