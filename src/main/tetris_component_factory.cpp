@@ -15,10 +15,11 @@ using std::make_unique;
 using std::vector;
 using std::shared_ptr;
 
-TetrisComponentFactory::TetrisComponentFactory( int param_height, int rows, int columns )
+TetrisComponentFactory::TetrisComponentFactory( int param_height, TetrisBoard& param_board )
+  : board( param_board )
 {
-  grid_unit_length = param_height / rows;
-  new_piece_x = grid_unit_length * ( columns / 2 );
+  grid_unit_length = param_height / board.get_rows();
+  new_piece_x = grid_unit_length * ( board.get_columns() / 2 );
   new_piece_y = 0;
 }
 
@@ -71,6 +72,8 @@ unique_ptr<GameComponent> TetrisComponentFactory::build_component(
   }
 
   piece -> set_grid_unit_length( grid_unit_length );
+  piece -> set_max_row( board.get_rows() );
+  piece -> set_max_column( board.get_columns() );
 
   return piece;
 }
