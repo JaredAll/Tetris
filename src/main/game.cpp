@@ -73,6 +73,16 @@ void Game::update_piece( GameComponent& component )
       board -> add_piece( piece );
       add_piece();
     }
+
+    if( !board -> has_landed( piece ) && !piece.is_falling() )
+    {
+      while( !board -> has_landed( piece ) )
+      {        
+        piece.fall();
+      }
+      board -> add_piece( piece );
+      add_piece();
+    }
   }
   catch( bad_cast )
   {

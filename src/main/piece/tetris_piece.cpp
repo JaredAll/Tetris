@@ -146,6 +146,16 @@ std::vector<std::unique_ptr<Point>>& TetrisPiece::get_block_locations()
   return block_locations;
 }
 
+void TetrisPiece::fall()
+{
+  for( auto& render_component : render_components )
+  {
+    int old_y = render_component -> get_y();
+    render_component -> set_y( old_y + grid_unit_length );
+  }
+  current_row += 1;
+}
+
 void TetrisPiece::add_block_location( std::unique_ptr<Point> point )
 {
   block_locations.push_back( move( point ) );

@@ -1,6 +1,7 @@
 #ifndef INPUT_HANDLER_H
 #define INPUT_HANDLER_H
 
+#include "SDL_events.h"
 #include "input_event.h"
 #include <SDL.h>
 #include <memory>
@@ -22,6 +23,10 @@ private:
   bool right_arrow( SDL_Event e );
 
   bool left_arrow( SDL_Event e );
+
+  bool down_arrow( SDL_Event e );
+
+  bool enter( SDL_Event e );
 
   std::unique_ptr<InputEvent> current_event;
   SDL_Event e;

@@ -5,7 +5,9 @@ enum class InputType
 {
   left,
   right,
-  exit,
+  down,
+  enter,  
+  exit,  
   none
 };
 
