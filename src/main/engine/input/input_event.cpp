@@ -16,6 +16,18 @@ bool InputEvent::right_up() const
     current_frame_input == InputType::none;
 }
 
+bool InputEvent::down_up() const
+{
+  return previous_frame_input == InputType::down &&
+    current_frame_input == InputType::none;
+}
+
+bool InputEvent::enter_up() const
+{
+  return previous_frame_input == InputType::enter &&
+    current_frame_input == InputType::none;
+}
+
 bool InputEvent::exit() const
 {
   return current_frame_input == InputType::exit;

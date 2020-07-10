@@ -1,5 +1,6 @@
 #include "input_handler.h"
 #include "SDL_events.h"
+#include "SDL_keycode.h"
 #include "input_type.h"
 
 using std::unique_ptr;
@@ -25,9 +26,19 @@ void InputHandler::determine_input()
         current_input_type = InputType::right;
       }
       
-      if( left_arrow( e ))
+      if( left_arrow( e ) )
       {
         current_input_type = InputType::left;
+      }
+
+      if( down_arrow( e ) )
+      {
+        current_input_type = InputType::down;
+      }
+
+      if( enter( e ) )
+      {
+        current_input_type = InputType::enter;
       }
 
       if( escape( e ))
@@ -69,4 +80,14 @@ bool InputHandler::right_arrow( SDL_Event e )
 bool InputHandler::left_arrow( SDL_Event e )
 {
   return e.key.keysym.sym == SDLK_LEFT;
+}
+
+bool InputHandler::down_arrow( SDL_Event e )
+{
+  return e.key.keysym.sym == SDLK_DOWN;
+}
+
+bool InputHandler::enter( SDL_Event e )
+{
+  return e.key.keysym.sym == SDLK_RETURN;
 }

@@ -16,6 +16,14 @@ unique_ptr<TetrisPieceState> TetrisPieceState::update( InputEvent& event )
     shift( direction_unit );    
     next_state = make_unique<FallingState>( piece );
   }
+  else if( event.down_up() )
+  {
+    next_state = make_unique<FallingState>( piece );
+  }
+  else if( event.enter_up() )
+  {
+    piece.set_falling( false );
+  }
   
   return next_state;
 }

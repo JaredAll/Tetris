@@ -61,6 +61,8 @@ public:
 
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 
+  void fall();
+
 protected:
 
   virtual void determine_block_locations() = 0;

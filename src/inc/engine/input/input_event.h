@@ -13,6 +13,10 @@ public:
 
   bool right_up() const;
 
+  bool down_up() const;
+
+  bool enter_up() const;
+
   bool exit() const;
 
 private:  
