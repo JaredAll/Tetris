@@ -25,10 +25,6 @@ public:
 
   std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
 
-  int get_frames_per_input() override;
-
-  int get_frames_per_update() override;
-
   void add_render_component( std::unique_ptr<RenderComponent> render_component );
 
   void set_grid_unit_length( int grid_unit_length );
@@ -59,13 +55,17 @@ public:
 
   void set_max_column( int max_column );
 
+  void rotate();
+
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 
   void fall();
 
 protected:
 
-  virtual void determine_block_locations() = 0;
+  virtual std::vector<std::unique_ptr<Point>> original_block_locations() = 0;
+
+  virtual std::vector<std::unique_ptr<Point>> rotate_block_locations() = 0;
 
   void add_block_location( std::unique_ptr<Point> point );
 
@@ -73,6 +73,7 @@ private:
 
   int grid_unit_length;
   bool falling;
+  bool rotated;
   int current_row;
   int current_column;
   int max_row;

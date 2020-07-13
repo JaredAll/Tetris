@@ -6,6 +6,8 @@
 #include <memory>
 
 using std::make_unique;
+using std::vector;
+using std::unique_ptr;
 
 TetrisPiece::TetrisPiece()
   : GameComponent()
@@ -13,6 +15,7 @@ TetrisPiece::TetrisPiece()
   current_row = 0;
   current_column = 5;
   falling = true;
+  rotated = false;
   state = make_unique<WaitingState>( *this, 0 );
 }
 
@@ -43,16 +46,6 @@ void TetrisPiece::add_render_component( std::unique_ptr<RenderComponent> render_
 std::vector<std::unique_ptr<RenderComponent>>& TetrisPiece::get_render_components()
 {
   return render_components;
-}
-
-int TetrisPiece::get_frames_per_update()
-{
-  return 30;
-}
-
-int TetrisPiece::get_frames_per_input()
-{
-  return 15;
 }
 
 void TetrisPiece::set_grid_unit_length( int param_grid_unit_length )
@@ -137,11 +130,31 @@ void TetrisPiece::set_max_column( int column )
   max_column = column;
 }
 
+void TetrisPiece::rotate()
+{
+  rotated = !rotated;
+  block_locations = original_block_locations();
+  if( rotated )
+  {
+    block_locations = rotate_block_locations();
+  }
+
+  for( int i = 0; i < block_locations.size(); i++ )
+  {
+    render_components.at( i ) -> set_x(
+      ( current_column + block_locations.at( i ) -> get_x() ) * grid_unit_length );
+
+    render_components.at( i ) -> set_y(
+      ( current_row + block_locations.at( i ) -> get_y() ) * grid_unit_length );
+  }
+}
+
 std::vector<std::unique_ptr<Point>>& TetrisPiece::get_block_locations()
 {
-  if( block_locations.empty() )
+  block_locations = original_block_locations();
+  if( rotated )
   {
-    determine_block_locations();    
+    block_locations = rotate_block_locations();
   }
   return block_locations;
 }

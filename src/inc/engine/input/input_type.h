@@ -6,7 +6,8 @@ enum class InputType
   left,
   right,
   down,
-  enter,  
+  enter,
+  romeo,  
   exit,  
   none
 };

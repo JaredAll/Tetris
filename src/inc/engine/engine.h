@@ -21,6 +21,8 @@ public:
 
   void advance();
 
+  void quit();
+
   bool peek_has_updated();
 
   GameRenderer& get_renderer();

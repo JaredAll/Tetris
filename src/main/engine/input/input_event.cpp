@@ -28,6 +28,12 @@ bool InputEvent::enter_up() const
     current_frame_input == InputType::none;
 }
 
+bool InputEvent::romeo_up() const
+{
+  return previous_frame_input == InputType::romeo &&
+    current_frame_input == InputType::none;
+}
+
 bool InputEvent::exit() const
 {
   return current_frame_input == InputType::exit;

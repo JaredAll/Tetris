@@ -17,6 +17,8 @@ public:
 
   bool enter_up() const;
 
+  bool romeo_up() const;
+
   bool exit() const;
 
 private:  

@@ -41,6 +41,11 @@ void InputHandler::determine_input()
         current_input_type = InputType::enter;
       }
 
+      if( romeo( e ))
+      {
+        current_input_type = InputType::romeo;
+      }
+
       if( escape( e ))
       {
         current_input_type = InputType::exit;
@@ -90,4 +95,9 @@ bool InputHandler::down_arrow( SDL_Event e )
 bool InputHandler::enter( SDL_Event e )
 {
   return e.key.keysym.sym == SDLK_RETURN;
+}
+
+bool InputHandler::romeo( SDL_Event e )
+{
+  return e.key.keysym.sym == SDLK_r;
 }

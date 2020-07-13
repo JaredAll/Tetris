@@ -14,6 +14,8 @@ public:
 
   bool has_landed( TetrisPiece& piece );
 
+  bool full();
+
   void add_piece( TetrisPiece& piece );
 
   ~TetrisBoard();

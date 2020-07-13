@@ -24,6 +24,11 @@ unique_ptr<TetrisPieceState> TetrisPieceState::update( InputEvent& event )
   {
     piece.set_falling( false );
   }
+  else if( event.romeo_up() )
+  {
+    piece.rotate();
+    // next_state = make_unique<RotatingState>( piece, 0 );
+  }
   
   return next_state;
 }

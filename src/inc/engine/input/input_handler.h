@@ -28,6 +28,8 @@ private:
 
   bool enter( SDL_Event e );
 
+  bool romeo( SDL_Event e );
+
   std::unique_ptr<InputEvent> current_event;
   SDL_Event e;
   const Uint8* keyboard_state;

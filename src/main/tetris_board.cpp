@@ -25,6 +25,18 @@ bool TetrisBoard::has_landed( TetrisPiece& piece )
   return landed;
 }
 
+bool TetrisBoard::full()
+{
+  bool full { false };
+  int col { 0 };
+  while( !full && col < columns )
+  {
+    full = occupied_spaces.at( 0 ).at( col );
+    ++col;
+  }
+  return full;
+}
+
 void TetrisBoard::add_piece( TetrisPiece& piece )
 {
   int piece_current_row = piece.get_current_row();

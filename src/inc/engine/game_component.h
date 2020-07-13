@@ -18,10 +18,6 @@ public:
 
   virtual std::vector<std::unique_ptr<RenderComponent>>& get_render_components() = 0;
 
-  virtual int get_frames_per_input() = 0;
-
-  virtual int get_frames_per_update() = 0;
-
   virtual ~GameComponent(){}
 
 protected:

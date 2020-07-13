@@ -59,7 +59,12 @@ void Game::update_components()
   for( auto& component : components )
   {
     update_piece( *component );
-  } 
+  }
+  
+  if( board -> full() )
+  {
+    engine -> quit();
+  }
 }
 
 void Game::update_piece( GameComponent& component )
@@ -77,7 +82,7 @@ void Game::update_piece( GameComponent& component )
     if( !board -> has_landed( piece ) && !piece.is_falling() )
     {
       while( !board -> has_landed( piece ) )
-      {        
+      {
         piece.fall();
       }
       board -> add_piece( piece );

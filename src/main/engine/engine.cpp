@@ -62,12 +62,17 @@ void Engine::advance()
   update_components( event );
 }
 
+void Engine::quit()
+{
+  exit( 0 );
+}
+
 InputEvent& Engine::process_input()
 {
   InputEvent& event = input_handler -> handle_input();
   if( event.exit() )
   {
-    exit( 0 );
+    quit();
   }
   return event;
 }
