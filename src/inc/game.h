@@ -12,7 +12,7 @@ class Game
 {
 public:
 
-  Game( int height );
+  Game( int height, std::unique_ptr<TetrisBoard> board );
 
   void play();
 
@@ -24,11 +24,13 @@ private:
 
   void add_piece();
 
+  void transfer_piece_to_board( TetrisPiece& piece );
+
   std::unique_ptr<InputHandler> input_handler;
   std::unique_ptr<Engine> engine;
   std::vector<std::unique_ptr<GameComponent>> components;
   std::unique_ptr<TetrisComponentFactory> component_factory;
-  std::unique_ptr<TetrisBoard> board;
+  TetrisBoard& board;
   int current_piece_index;
   int window_height;
   int window_width;

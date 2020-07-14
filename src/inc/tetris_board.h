@@ -3,10 +3,19 @@
 
 #include "game_component.h"
 #include "tetris_piece.h"
+#include <memory>
 
-class TetrisBoard
+class TetrisBoard : public GameComponent
 {
 public:
+
+  void update() override;
+
+  void update( InputEvent& event ) override;
+
+  bool accepting_input() override;
+
+  std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
 
   int get_rows();
 

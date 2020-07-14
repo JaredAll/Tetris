@@ -9,8 +9,11 @@
 using std::make_unique;
 using std::unique_ptr;
 using std::bad_cast;
+using std::vector;
+using std::move;
 
-Game::Game( int height )
+Game::Game( int height, unique_ptr<TetrisBoard> param_board )
+  : board( *param_board )
 {
   should_update = true;
 
@@ -29,14 +32,14 @@ Game::Game( int height )
 
   engine = make_unique<Engine>( components );
 
-  board = make_unique<TetrisBoard>();
+  components.push_back( move( param_board ) );
 
   window_height = height;
-  window_width = height / ( board -> get_rows() / board -> get_columns() );
+  window_width = height / ( board.get_rows() / board.get_columns() );
 
   component_factory = make_unique<TetrisComponentFactory>(
     window_height,
-    *board );
+    board );
 }
 
 void Game::play()
@@ -61,7 +64,7 @@ void Game::update_components()
     update_piece( *component );
   }
   
-  if( board -> full() )
+  if( board.full() )
   {
     engine -> quit();
   }
@@ -72,20 +75,20 @@ void Game::update_piece( GameComponent& component )
   try
   {
     TetrisPiece& piece = dynamic_cast<TetrisPiece&>( component );
-    if( board -> has_landed( piece ) && piece.is_falling() )
+    if( board.has_landed( piece ) && piece.is_falling() )
     {
       piece.set_falling( false );
-      board -> add_piece( piece );
+      transfer_piece_to_board( piece );
       add_piece();
     }
 
-    if( !board -> has_landed( piece ) && !piece.is_falling() )
+    if( !board.has_landed( piece ) && !piece.is_falling() )
     {
-      while( !board -> has_landed( piece ) )
+      while( !board.has_landed( piece ) )
       {
         piece.fall();
       }
-      board -> add_piece( piece );
+      transfer_piece_to_board( piece );
       add_piece();
     }
   }
@@ -102,4 +105,20 @@ void Game::add_piece()
                                             engine -> get_renderer() ) )
     );
   current_piece_index = rand() % types.size();
+}
+
+void Game::transfer_piece_to_board( TetrisPiece& piece )
+{
+  board.add_piece( piece );
+  
+  vector<unique_ptr<GameComponent>> new_components;
+  for( auto& component : components )
+  {
+    if( component.get() != &piece )
+    {
+      new_components.push_back( move( component ) );
+    }
+  }
+
+  components = move( new_components );
 }

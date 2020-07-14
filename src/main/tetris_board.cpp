@@ -1,8 +1,29 @@
 #include "tetris_board.h"
 #include "game_component.h"
+#include "render_component.h"
 
 using std::vector;
 using std::unique_ptr;
+
+void TetrisBoard::update()
+{
+  
+}
+
+void TetrisBoard::update( InputEvent& event )
+{
+  
+}
+
+bool TetrisBoard::accepting_input()
+{
+  return false;
+}
+
+vector<unique_ptr<RenderComponent>>& TetrisBoard::get_render_components()
+{
+  return components;
+}
 
 int TetrisBoard::get_rows()
 {
@@ -47,8 +68,14 @@ void TetrisBoard::add_piece( TetrisPiece& piece )
     int occupied_x = point -> get_x() + piece_current_column;
     int occupied_y = point -> get_y() + piece_current_row;
 
-    occupied_spaces.at( occupied_y )
+    occupied_spaces
+      .at( occupied_y )
       .at( occupied_x ) = true;
+  }
+
+  for( auto& component : piece.get_render_components() )
+  {
+    components.push_back( move( component ) );
   }
 }
 
