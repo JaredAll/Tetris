@@ -7,7 +7,7 @@ class FallingState : public TetrisPieceState
 {
 public:
   
-  FallingState( TetrisPiece& piece );
+  FallingState( TetrisPiece& piece, TetrisBoard& board );
 
   std::unique_ptr<TetrisPieceState> update() override;
 

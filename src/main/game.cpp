@@ -81,8 +81,7 @@ void Game::update_piece( GameComponent& component )
       transfer_piece_to_board( piece );
       add_piece();
     }
-
-    if( !board.has_landed( piece ) && !piece.is_falling() )
+    else if( !board.has_landed( piece ) && !piece.is_falling() )
     {
       while( !board.has_landed( piece ) )
       {

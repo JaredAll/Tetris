@@ -55,7 +55,11 @@ public:
 
   void set_max_column( int max_column );
 
+  void set_state( std::unique_ptr<TetrisPieceState> state );
+
   void rotate();
+
+  std::vector<std::unique_ptr<Point>> get_rotated_block_locations();
 
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 

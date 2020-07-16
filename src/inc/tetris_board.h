@@ -25,6 +25,10 @@ public:
 
   bool full();
 
+  bool can_shift( TetrisPiece& piece, int direction_unit );
+
+  bool can_rotate( TetrisPiece& piece );
+
   void add_piece( TetrisPiece& piece );
 
   ~TetrisBoard();

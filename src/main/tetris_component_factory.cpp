@@ -2,6 +2,7 @@
 #include "configurations.h"
 #include "tetris_piece.h"
 #include "jay_piece.h"
+#include "waiting_state.h"
 #include "zee_piece.h"
 #include "ess_piece.h"
 #include "ell_piece.h"
@@ -74,6 +75,9 @@ unique_ptr<GameComponent> TetrisComponentFactory::build_component(
   piece -> set_grid_unit_length( grid_unit_length );
   piece -> set_max_row( board.get_rows() );
   piece -> set_max_column( board.get_columns() );
+
+  unique_ptr<WaitingState> initial_state = make_unique<WaitingState>( *piece, board, 0 );
+  piece -> set_state( move( initial_state ) );
 
   return piece;
 }

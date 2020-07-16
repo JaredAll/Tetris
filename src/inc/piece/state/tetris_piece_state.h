@@ -2,14 +2,15 @@
 #define JARED_ALL_TETRIS_TETRIS_PIECE_STATE
 
 #include "tetris_piece.h"
+#include "tetris_board.h"
 
 class TetrisPieceState
 {
   
 public:
 
-  TetrisPieceState( TetrisPiece& param_piece )
-    : piece( param_piece )
+  TetrisPieceState( TetrisPiece& param_piece, TetrisBoard& param_board )
+    : piece( param_piece ), board( param_board )
   {
   }
 
@@ -28,6 +29,13 @@ public:
     return piece;
   }
 
+  TetrisBoard& get_board()
+  {
+    return board;
+  }
+
+  bool valid_input( InputEvent& event );
+
 private:
 
   int determine_direction( InputEvent& event );
@@ -35,7 +43,8 @@ private:
   void shift( int direction_unit );
 
   TetrisPiece& piece;
-  
+
+  TetrisBoard& board;
 };
 
 #endif

@@ -16,7 +16,6 @@ TetrisPiece::TetrisPiece()
   current_column = 5;
   falling = true;
   rotated = false;
-  state = make_unique<WaitingState>( *this, 0 );
 }
 
 TetrisPiece::~TetrisPiece()
@@ -130,6 +129,11 @@ void TetrisPiece::set_max_column( int column )
   max_column = column;
 }
 
+void TetrisPiece::set_state( unique_ptr<TetrisPieceState> param_state )
+{
+  state = move( param_state );
+}
+
 void TetrisPiece::rotate()
 {
   rotated = !rotated;
@@ -149,7 +153,21 @@ void TetrisPiece::rotate()
   }
 }
 
-std::vector<std::unique_ptr<Point>>& TetrisPiece::get_block_locations()
+vector<unique_ptr<Point>> TetrisPiece::get_rotated_block_locations()
+{
+  vector<unique_ptr<Point>> rotated_block_locations;
+  if( rotated )
+  {
+    rotated_block_locations = original_block_locations();
+  }
+  else
+  {
+    rotated_block_locations = rotate_block_locations();
+  }
+  return rotated_block_locations;
+}
+
+vector<unique_ptr<Point>>& TetrisPiece::get_block_locations()
 {
   block_locations = original_block_locations();
   if( rotated )

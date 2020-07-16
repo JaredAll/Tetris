@@ -9,16 +9,15 @@ using std::move;
 unique_ptr<TetrisPieceState> TetrisPieceState::update( InputEvent& event )
 {
   unique_ptr<TetrisPieceState> next_state = determine_next_state();
-  if( ( event.left_up() && piece.get_current_column() > 0 ) ||
-      ( event.right_up() && piece.get_rightmost_column() < piece.get_max_column() ) )
+  if( valid_input( event ) )
   {
     int direction_unit = determine_direction( event );
     shift( direction_unit );    
-    next_state = make_unique<FallingState>( piece );
+    next_state = make_unique<FallingState>( piece, board );
   }
   else if( event.down_up() )
   {
-    next_state = make_unique<FallingState>( piece );
+    next_state = make_unique<FallingState>( piece, board );
   }
   else if( event.enter_up() )
   {
@@ -26,8 +25,10 @@ unique_ptr<TetrisPieceState> TetrisPieceState::update( InputEvent& event )
   }
   else if( event.romeo_up() )
   {
-    piece.rotate();
-    // next_state = make_unique<RotatingState>( piece, 0 );
+    if( board.can_rotate( piece ) )
+    {
+      piece.rotate();
+    }
   }
   
   return next_state;
@@ -62,4 +63,14 @@ void TetrisPieceState::shift( int direction_unit )
 
   piece.set_current_column( piece.get_current_column() + direction_unit );
   piece.set_current_row( piece.get_current_row() + 1 );
+}
+
+bool TetrisPieceState::valid_input( InputEvent& event )
+{
+  return ( event.left_up() &&
+           piece.get_current_column() > 0 &&
+           board.can_shift( piece, determine_direction( event ) ) )
+    || ( event.right_up() &&
+         piece.get_rightmost_column() < piece.get_max_column() &&
+         board.can_shift( piece, determine_direction( event ) ) );
 }

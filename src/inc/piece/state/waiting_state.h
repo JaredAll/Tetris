@@ -7,7 +7,7 @@ class WaitingState : public TetrisPieceState
 {
 public:
   
-  WaitingState( TetrisPiece& piece, int update_count );
+  WaitingState( TetrisPiece& piece, TetrisBoard& board, int update_count );
 
   std::unique_ptr<TetrisPieceState> update() override;
 

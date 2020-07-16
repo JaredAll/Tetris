@@ -58,6 +58,43 @@ bool TetrisBoard::full()
   return full;
 }
 
+bool TetrisBoard::can_shift( TetrisPiece& piece, int direction_unit )
+{
+  vector<unique_ptr<Point>>& block_points = piece.get_block_locations();
+  
+  bool room_right = true;
+  for( auto& point : block_points )
+  {
+    int x_to_check = point -> get_x() + piece.get_current_column() + direction_unit;
+    int y_to_check = point -> get_y() + piece.get_current_row();
+    if( x_to_check > 0 && x_to_check < ( columns - 1 ) )
+    {
+      if( occupied_spaces.at( y_to_check ).at( x_to_check ) )
+      {
+        room_right = false;
+      }
+    }
+  }
+  return room_right;
+}
+
+bool TetrisBoard::can_rotate( TetrisPiece& piece )
+{
+  vector<unique_ptr<Point>> rotated_block_points = piece.get_rotated_block_locations();
+  bool rotatable = true;
+  for( auto& point : rotated_block_points )
+  {
+    int x_to_check = point -> get_x() + piece.get_current_column();
+    int y_to_check = point -> get_y() + piece.get_current_row();
+    if( !( ( x_to_check >= 0 && x_to_check < columns ) &&
+           ( y_to_check >= 0 && y_to_check < rows ) ) )
+    {
+      rotatable = false;
+    }
+  }
+  return rotatable;
+}
+
 void TetrisBoard::add_piece( TetrisPiece& piece )
 {
   int piece_current_row = piece.get_current_row();
