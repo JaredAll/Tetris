@@ -21,3 +21,18 @@ vector<unique_ptr<Point>> BlockPiece::rotate_block_locations()
 {
   return original_block_locations();
 }
+
+vector<unique_ptr<Point>> BlockPiece::original_corners()
+{
+  vector<unique_ptr<Point>> corners;
+  
+  corners.push_back( std::make_unique<Point>( -1, 2 ) );
+  corners.push_back( std::make_unique<Point>( 2, 2 ) );
+
+  return corners;
+}
+
+vector<unique_ptr<Point>> BlockPiece::rotate_corners()
+{
+  return original_corners();
+}

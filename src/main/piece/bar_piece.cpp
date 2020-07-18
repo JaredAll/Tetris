@@ -26,3 +26,23 @@ vector<unique_ptr<Point>> BarPiece::rotate_block_locations()
 
   return locations;
 }
+
+vector<unique_ptr<Point>> BarPiece::original_corners()
+{
+  vector<unique_ptr<Point>> corners;
+  
+  corners.push_back( std::make_unique<Point>( -1, 1 ) );
+  corners.push_back( std::make_unique<Point>( 4, 1 ) );
+
+  return corners;
+}
+
+vector<unique_ptr<Point>> BarPiece::rotate_corners()
+{
+  vector<unique_ptr<Point>> corners;
+      
+  corners.push_back( std::make_unique<Point>( -1, 4 ) );
+  corners.push_back( std::make_unique<Point>( 1, 4 ) );
+
+  return corners;
+}

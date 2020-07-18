@@ -63,6 +63,10 @@ public:
 
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 
+  std::vector<std::unique_ptr<Point>> get_corners_to_check_left();
+
+  std::vector<std::unique_ptr<Point>> get_corners_to_check_right();
+
   void fall();
 
 protected:
@@ -70,6 +74,10 @@ protected:
   virtual std::vector<std::unique_ptr<Point>> original_block_locations() = 0;
 
   virtual std::vector<std::unique_ptr<Point>> rotate_block_locations() = 0;
+
+  virtual std::vector<std::unique_ptr<Point>> original_corners() = 0;
+
+  virtual std::vector<std::unique_ptr<Point>> rotate_corners() = 0;
 
   void add_block_location( std::unique_ptr<Point> point );
 
@@ -83,9 +91,12 @@ private:
   int max_row;
   int max_column;
   std::vector<std::unique_ptr<Point>> block_locations;
+  std::vector<std::unique_ptr<Point>> corners_to_check;
   std::vector<std::unique_ptr<RenderComponent>> render_components;
   std::unique_ptr<TetrisPieceState> state;
-  
+
+  void update_corners_to_check();
+
 };
 
 #endif

@@ -62,20 +62,26 @@ bool TetrisBoard::can_shift( TetrisPiece& piece, int direction_unit )
 {
   vector<unique_ptr<Point>>& block_points = piece.get_block_locations();
   
-  bool room_right = true;
+  bool can_shift = true;
   for( auto& point : block_points )
   {
     int x_to_check = point -> get_x() + piece.get_current_column() + direction_unit;
     int y_to_check = point -> get_y() + piece.get_current_row();
-    if( x_to_check > 0 && x_to_check < ( columns - 1 ) )
+    if( x_to_check > 0 && x_to_check < ( columns - 1 ) && y_to_check < ( rows - 1 ))
     {
       if( occupied_spaces.at( y_to_check ).at( x_to_check ) )
       {
-        room_right = false;
+        can_shift = false;
       }
     }
   }
-  return room_right;
+
+  if( can_shift )
+  {
+    can_shift = check_corners( piece, direction_unit );
+  }
+
+  return can_shift;
 }
 
 bool TetrisBoard::can_rotate( TetrisPiece& piece )
@@ -154,4 +160,32 @@ bool TetrisBoard::impact( TetrisPiece& piece )
   }
   
   return collided;
+}
+
+bool TetrisBoard::check_corners( TetrisPiece& piece, int direction_unit )
+{
+  vector<unique_ptr<Point>> corners;
+  if( direction_unit == 1 )
+  {
+    corners = piece.get_corners_to_check_right();
+  }
+  else
+  {
+    corners = piece.get_corners_to_check_left();
+  }
+
+  bool can_shift = true;
+  for( auto& corner : corners )
+  {
+    int y_to_check = corner -> get_y() + piece.get_current_row();
+    int x_to_check = corner -> get_x() + piece.get_current_column();
+    if( y_to_check < ( rows ) && x_to_check > 0 && x_to_check < ( columns ) )
+    {
+      if( occupied_spaces.at( y_to_check ).at( x_to_check ) )
+      {
+        can_shift = false;
+      }
+    }
+  }
+  return can_shift;
 }

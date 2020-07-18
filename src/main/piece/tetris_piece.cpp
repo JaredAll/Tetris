@@ -177,6 +177,57 @@ vector<unique_ptr<Point>>& TetrisPiece::get_block_locations()
   return block_locations;
 }
 
+vector<unique_ptr<Point>> TetrisPiece::get_corners_to_check_left()
+{
+  update_corners_to_check();
+  vector<unique_ptr<Point>> left_corners_to_check;
+  for( auto& corner : corners_to_check )
+  {
+    bool left_corner_to_check = false;
+    for( auto& block : block_locations )
+    {
+      if( corner -> get_x() < block -> get_x() )
+      {
+        left_corner_to_check = true;
+      }
+    }
+
+    if( left_corner_to_check )
+    {
+      left_corners_to_check.push_back(
+        make_unique<Point>( corner -> get_x(), corner -> get_y() )
+        );
+    }
+  }
+  return left_corners_to_check;
+}
+
+vector<unique_ptr<Point>> TetrisPiece::get_corners_to_check_right()
+{
+  update_corners_to_check();
+  vector<unique_ptr<Point>> right_corners_to_check;
+  for( auto& corner : corners_to_check )
+  {
+    bool right_corner_to_check = false;
+    for( auto& block : block_locations )
+    {
+      if( corner -> get_x() > block -> get_x() )
+      {
+        right_corner_to_check = true;
+      }
+    }
+
+    if( right_corner_to_check )
+    {
+      right_corners_to_check.push_back(
+        make_unique<Point>( corner -> get_x(), corner -> get_y() )
+        );
+    }
+  }
+  return right_corners_to_check;
+}
+
+
 void TetrisPiece::fall()
 {
   for( auto& render_component : render_components )
@@ -190,4 +241,13 @@ void TetrisPiece::fall()
 void TetrisPiece::add_block_location( std::unique_ptr<Point> point )
 {
   block_locations.push_back( move( point ) );
+}
+
+void TetrisPiece::update_corners_to_check()
+{
+  corners_to_check = original_corners();
+  if( rotated )
+  {
+    corners_to_check = rotate_corners();
+  }
 }

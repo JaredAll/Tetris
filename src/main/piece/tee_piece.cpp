@@ -26,3 +26,24 @@ vector<unique_ptr<Point>> TeePiece::rotate_block_locations()
 
   return locations;
 }
+
+vector<unique_ptr<Point>> TeePiece::original_corners()
+{
+  vector<unique_ptr<Point>> corners;
+  
+  corners.push_back( std::make_unique<Point>( -1, 2 ) );
+  corners.push_back( std::make_unique<Point>( 3, 2 ) );
+
+  return corners;
+}
+
+vector<unique_ptr<Point>> TeePiece::rotate_corners()
+{
+  vector<unique_ptr<Point>> corners;
+      
+  corners.push_back( std::make_unique<Point>( -1, 3 ) );
+  corners.push_back( std::make_unique<Point>( 1, 3 ) );
+  corners.push_back( std::make_unique<Point>( 2, 2 ) );
+
+  return corners;
+}

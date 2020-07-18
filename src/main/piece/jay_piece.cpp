@@ -26,3 +26,24 @@ vector<unique_ptr<Point>> JayPiece::rotate_block_locations()
 
   return locations;
 }
+
+vector<unique_ptr<Point>> JayPiece::original_corners()
+{
+  vector<unique_ptr<Point>> corners;
+  
+  corners.push_back( std::make_unique<Point>( -1, 2 ) );
+  corners.push_back( std::make_unique<Point>( 3, 2 ) );
+
+  return corners;
+}
+
+vector<unique_ptr<Point>> JayPiece::rotate_corners()
+{
+  vector<unique_ptr<Point>> corners;
+      
+  corners.push_back( std::make_unique<Point>( -1, 3 ) );
+  corners.push_back( std::make_unique<Point>( 1, 3 ) );
+  corners.push_back( std::make_unique<Point>( 2, 1 ) );
+
+  return corners;
+}

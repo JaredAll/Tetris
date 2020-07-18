@@ -38,6 +38,8 @@ public:
 private:
 
   bool impact( TetrisPiece& piece );
+
+  bool check_corners( TetrisPiece& piece, int direction_unit );
   
   std::vector<std::vector<bool>> occupied_spaces;
   std::vector<std::unique_ptr<RenderComponent>> components;
