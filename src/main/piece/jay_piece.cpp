@@ -3,6 +3,12 @@
 using std::vector;
 using std::unique_ptr;
 
+JayPiece::JayPiece() : TetrisPiece()
+{
+  set_block_locations( original_block_locations() );
+  set_corners_to_check( original_corners() );
+}
+
 vector<unique_ptr<Point>> JayPiece::original_block_locations()
 {
   vector<unique_ptr<Point>> locations;

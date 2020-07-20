@@ -6,6 +6,10 @@
 
 class ZeePiece : public TetrisPiece
 {
+public:
+
+  ZeePiece();
+
 protected:
 
   std::vector<std::unique_ptr<Point>> original_block_locations() override;

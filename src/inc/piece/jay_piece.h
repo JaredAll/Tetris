@@ -6,6 +6,9 @@
 
 class JayPiece : public TetrisPiece
 {
+
+  JayPiece();
+
 protected:
 
   std::vector<std::unique_ptr<Point>> original_block_locations() override;

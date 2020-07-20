@@ -71,6 +71,10 @@ public:
 
 protected:
 
+  void set_block_locations( std::vector<std::unique_ptr<Point>> block_locations );
+
+  void set_corners_to_check( std::vector<std::unique_ptr<Point>> corners );
+
   virtual std::vector<std::unique_ptr<Point>> original_block_locations() = 0;
 
   virtual std::vector<std::unique_ptr<Point>> rotate_block_locations() = 0;
@@ -95,8 +99,8 @@ private:
   std::vector<std::unique_ptr<RenderComponent>> render_components;
   std::unique_ptr<TetrisPieceState> state;
 
-  void update_corners_to_check();
-
+  template<typename Predicate>
+  std::vector<std::unique_ptr<Point>> get_corners_to_check( Predicate corner_qualifies );
 };
 
 #endif

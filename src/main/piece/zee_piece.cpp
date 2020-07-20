@@ -3,6 +3,12 @@
 using std::vector;
 using std::unique_ptr;
 
+ZeePiece::ZeePiece() : TetrisPiece()
+{
+  set_block_locations( original_block_locations() );
+  set_corners_to_check( original_corners() );
+}
+
 vector<unique_ptr<Point>> ZeePiece::original_block_locations()
 {
   vector<unique_ptr<Point>> locations;

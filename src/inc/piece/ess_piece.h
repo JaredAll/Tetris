@@ -6,6 +6,10 @@
 
 class EssPiece : public TetrisPiece
 {
+public:
+
+  EssPiece();
+
 protected:
 
   std::vector<std::unique_ptr<Point>> original_block_locations() override;

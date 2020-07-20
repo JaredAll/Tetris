@@ -153,7 +153,8 @@ bool TetrisBoard::impact( TetrisPiece& piece )
 
     if( point_next_row < rows )
     {
-      collided = occupied_spaces.at( point_next_row )
+      collided = occupied_spaces
+        .at( point_next_row )
         .at( point_column );
     }
     ++point_index;
