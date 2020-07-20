@@ -6,7 +6,6 @@
 
 class BarPiece : public TetrisPiece
 {
-
 public:
   
   BarPiece();

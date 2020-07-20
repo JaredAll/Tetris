@@ -6,7 +6,8 @@
 
 class JayPiece : public TetrisPiece
 {
-
+public:
+  
   JayPiece();
 
 protected:
