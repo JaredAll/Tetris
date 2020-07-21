@@ -217,7 +217,7 @@ void TetrisPiece::add_block_location( std::unique_ptr<Point> point )
 template<typename Predicate>
 vector<unique_ptr<Point>> TetrisPiece::get_corners_to_check( Predicate corner_qualifies )
 {
-  vector<unique_ptr<Point>> corners_to_check;
+  vector<unique_ptr<Point>> qualified_corners;
   for( auto& corner : corners_to_check )
   {
     bool corner_to_check = false;
@@ -231,10 +231,10 @@ vector<unique_ptr<Point>> TetrisPiece::get_corners_to_check( Predicate corner_qu
 
     if( corner_to_check )
     {
-      corners_to_check.push_back(
+      qualified_corners.push_back(
         make_unique<Point>( corner -> get_x(), corner -> get_y() )
         );
     }
   }
-  return corners_to_check;
+  return qualified_corners;
 }
