@@ -36,6 +36,7 @@ private:
   int window_width;
   std::vector<PieceType> types;
   bool should_update;
+  int score;
 };
 
 #endif
