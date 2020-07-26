@@ -15,6 +15,7 @@ using std::move;
 Game::Game( int height, unique_ptr<TetrisBoard> param_board )
   : board( *param_board )
 {
+  score = 0;
   should_update = true;
 
   types = {
@@ -63,7 +64,12 @@ void Game::update_components()
   {
     update_piece( *component );
   }
-  
+
+  if( board.new_score() )
+  {
+    score += board.get_score();
+  }
+
   if( board.full() )
   {
     engine -> quit();

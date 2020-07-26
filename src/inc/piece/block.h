@@ -45,6 +45,8 @@ public:
 
   void set_column( int column );
 
+  void fall();
+
 private:
   
   std::unique_ptr<Sprite> sprite;
