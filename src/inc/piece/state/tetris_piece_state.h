@@ -40,8 +40,6 @@ private:
 
   int determine_direction( InputEvent& event );
 
-  void shift( int direction_unit );
-
   TetrisPiece& piece;
 
   TetrisBoard& board;

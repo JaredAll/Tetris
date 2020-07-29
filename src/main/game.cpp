@@ -81,7 +81,7 @@ void Game::update_piece( GameComponent& component )
   try
   {
     TetrisPiece& piece = dynamic_cast<TetrisPiece&>( component );
-    if( board.has_landed( piece ) && piece.is_falling() )
+    if( board.has_landed( piece ) )
     {
       piece.set_falling( false );
       transfer_piece_to_board( piece );

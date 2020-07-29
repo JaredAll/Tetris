@@ -38,6 +38,8 @@ public:
 
   bool new_score();
 
+  bool can_fall_direction( TetrisPiece& piece, int direction_unit );
+
   ~TetrisBoard();
 
   TetrisBoard();
@@ -47,8 +49,6 @@ private:
   bool impact( TetrisPiece& piece );
 
   bool has_landed( Block& block );
-
-  bool check_corners( TetrisPiece& piece, int direction_unit );
 
   std::vector<int> determine_full_rows();
 
