@@ -3,7 +3,7 @@ LIBS = -L/usr/local/lib -lSDL2 -lSDL2_image -lSDL2_ttf -lpthread
 SDL_INCLUDE = -I/usr/include/SDL2
 OEIL_INCLUDE = -I/home/jared/trompeloeil/include
 INC_INCLUDE = -I../src/inc -I../src/inc/engine -I../src/inc/piece -I../src/inc/piece/config \
--I../src/inc/engine/input -I../src/inc/piece/state -I../test/inc
+-I../src/inc/engine/input -I../src/inc/piece/state -I../test/inc -I../test/inc/mocks
 CXX_FLAGS = -Werror -pedantic-errors -O0 -Wno-c++98-compat-pedantic -Wno-padded -std=c++14 -g $(SDL_INCLUDE) $(INC_INCLUDE) $(OEIL_INCLUDE)
 LINKER_FLAGS = $(LIBS)
 OBJ_FILES = engine.o game.o game_renderer.o easy_sdl.o sprite.o tetris_component_factory.o \
