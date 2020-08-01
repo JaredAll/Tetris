@@ -269,12 +269,7 @@ void TetrisBoard::eliminate_full_rows( vector<int> full_rows )
 }
 
 void TetrisBoard::update_blocks( std::vector<int> full_rows )
-{
-  if( !full_rows.empty() )
-  {
-    sort_blocks_by_row();
-  }
-  
+{  
   for( auto& component : components )
   {
     try
@@ -294,34 +289,4 @@ void TetrisBoard::update_blocks( std::vector<int> full_rows )
     {
     }
   }
-}
-
-void TetrisBoard::sort_blocks_by_row()
-{
-  vector<int> component_positions;
-  for( int row = rows - 1; row >= 0; row-- )
-  {
-    for( int position = 0; position < components.size(); position++ )
-    {
-      try
-      {
-        Block& block = dynamic_cast<Block&>( *components.at( position ) );
-        if( block.get_row() == row )
-        {
-          component_positions.push_back( position );
-        }
-      }
-      catch( std::bad_cast )
-      {
-      }
-    }
-  }
-  
-  vector<unique_ptr<RenderComponent>> sorted_components;
-  for( int position : component_positions )
-  {
-    sorted_components.push_back( move( components.at( position ) ) );
-  }
-
-  components = move( sorted_components );
 }
