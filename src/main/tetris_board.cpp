@@ -92,8 +92,10 @@ bool TetrisBoard::can_rotate( TetrisPiece& piece )
   {
     int x_to_check = point -> get_x() + piece.get_current_column();
     int y_to_check = point -> get_y() + piece.get_current_row();
-    if( !( ( x_to_check >= 0 && x_to_check < columns ) &&
-           ( y_to_check >= 0 && y_to_check < rows ) ) )
+    if(
+      !( ( x_to_check >= 0 && x_to_check < columns ) && ( y_to_check >= 0 && y_to_check < rows ) )
+      || ( occupied_spaces.at( y_to_check ).at( x_to_check ) )
+      )
     {
       rotatable = false;
     }
