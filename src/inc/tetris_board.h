@@ -48,8 +48,6 @@ private:
 
   bool has_landed( Block& block );
 
-  bool check_corners( TetrisPiece& piece, int direction_unit );
-
   std::vector<int> determine_full_rows();
 
   void eliminate_full_rows( std::vector<int> full_rows );

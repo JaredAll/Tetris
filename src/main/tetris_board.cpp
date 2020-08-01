@@ -83,11 +83,6 @@ bool TetrisBoard::can_shift( TetrisPiece& piece, int direction_unit )
     }
   }
 
-  if( can_shift )
-  {
-    can_shift = check_corners( piece, direction_unit );
-  }
-
   return can_shift;
 }
 
@@ -220,34 +215,6 @@ bool TetrisBoard::has_landed( Block& block )
   return landed;
 }
 
-bool TetrisBoard::check_corners( TetrisPiece& piece, int direction_unit )
-{
-  vector<unique_ptr<Point>> corners;
-  if( direction_unit == 1 )
-  {
-    corners = piece.get_corners_to_check_right();
-  }
-  else
-  {
-    corners = piece.get_corners_to_check_left();
-  }
-
-  bool can_shift = true;
-  for( auto& corner : corners )
-  {
-    int y_to_check = corner -> get_y() + piece.get_current_row();
-    int x_to_check = corner -> get_x() + piece.get_current_column();
-    if( y_to_check < ( rows ) && x_to_check > 0 && x_to_check < ( columns ) )
-    {
-      if( occupied_spaces.at( y_to_check ).at( x_to_check ) )
-      {
-        can_shift = false;
-      }
-    }
-  }
-  return can_shift;
-}
-
 vector<int> TetrisBoard::determine_full_rows()
 {
   vector<int> full_rows;
@@ -303,7 +270,7 @@ void TetrisBoard::update_blocks( std::vector<int> full_rows )
 {
   if( !full_rows.empty() )
   {
-    sort_blocks_by_row();  
+    sort_blocks_by_row();
   }
   
   for( auto& component : components )
@@ -315,11 +282,8 @@ void TetrisBoard::update_blocks( std::vector<int> full_rows )
       {
         if( block.get_row() < row )
         {
-          while( !has_landed( block ) )
-          {
-            occupied_spaces.at( block.get_row() ).at( block.get_column() ) = false;
-            block.fall();  
-          }
+          occupied_spaces.at( block.get_row() ).at( block.get_column() ) = false;
+          block.fall();  
         }
       }
       occupied_spaces.at( block.get_row() ).at( block.get_column() ) = true;

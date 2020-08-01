@@ -8,7 +8,7 @@ LINKER_FLAGS = $(LIBS)
 OBJ_FILES = engine.o game.o game_renderer.o easy_sdl.o sprite.o tetris_component_factory.o \
 tetris_piece.o point.o jay_piece.o zee_piece.o ess_piece.o ell_piece.o bar_piece.o \
 block_piece.o tee_piece.o block.o tetris_board.o input_event.o input_handler.o waiting_state.o \
-falling_state.o tetris_piece_state.o
+falling_state.o tetris_piece_state.o shifting_state.o
 VPATH = ../src/main/engine:../src/main:../src/main/piece:../src/main/engine/input\
 :../src/main/piece/state
 
