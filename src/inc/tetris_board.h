@@ -38,8 +38,6 @@ public:
 
   bool new_score();
 
-  bool can_fall_direction( TetrisPiece& piece, int direction_unit );
-
   ~TetrisBoard();
 
   TetrisBoard();

@@ -159,34 +159,6 @@ bool TetrisBoard::new_score()
   return score_updated;
 }
 
-bool TetrisBoard::can_fall_direction( TetrisPiece& piece, int direction_unit )
-{
-  vector<unique_ptr<Point>> corners;
-  if( direction_unit == 1 )
-  {
-    corners = piece.get_corners_to_check_right();
-  }
-  else
-  {
-    corners = piece.get_corners_to_check_left();
-  }
-
-  bool can_shift = true;
-  for( auto& corner : corners )
-  {
-    int y_to_check = corner -> get_y() + piece.get_current_row();
-    int x_to_check = corner -> get_x() + piece.get_current_column();
-    if( y_to_check < ( rows ) && x_to_check > 0 && x_to_check < ( columns ) )
-    {
-      if( occupied_spaces.at( y_to_check ).at( x_to_check ) )
-      {
-        can_shift = false;
-      }
-    }
-  }
-  return can_shift;
-}
-
 TetrisBoard::~TetrisBoard()
 {  
 }

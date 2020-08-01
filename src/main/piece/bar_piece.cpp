@@ -6,7 +6,6 @@ using std::unique_ptr;
 BarPiece::BarPiece() : TetrisPiece()
 {
   set_block_locations( original_block_locations() );
-  set_corners_to_check( original_corners() );
 }
 
 vector<unique_ptr<Point>> BarPiece::original_block_locations()
@@ -31,24 +30,4 @@ vector<unique_ptr<Point>> BarPiece::rotate_block_locations()
   locations.push_back( std::make_unique<Point>( 0, 3 ) );
 
   return locations;
-}
-
-vector<unique_ptr<Point>> BarPiece::original_corners()
-{
-  vector<unique_ptr<Point>> corners;
-  
-  corners.push_back( std::make_unique<Point>( -1, 1 ) );
-  corners.push_back( std::make_unique<Point>( 4, 1 ) );
-
-  return corners;
-}
-
-vector<unique_ptr<Point>> BarPiece::rotate_corners()
-{
-  vector<unique_ptr<Point>> corners;
-      
-  corners.push_back( std::make_unique<Point>( -1, 4 ) );
-  corners.push_back( std::make_unique<Point>( 1, 4 ) );
-
-  return corners;
 }

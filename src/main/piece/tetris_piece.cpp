@@ -138,11 +138,9 @@ void TetrisPiece::rotate()
 {
   rotated = !rotated;
   block_locations = original_block_locations();
-  corners_to_check = original_corners();
   if( rotated )
   {
     block_locations = rotate_block_locations();
-    corners_to_check = rotate_corners();
   }
 
   for( int i = 0; i < block_locations.size(); i++ )
@@ -174,21 +172,6 @@ vector<unique_ptr<Point>>& TetrisPiece::get_block_locations()
   return block_locations;
 }
 
-vector<unique_ptr<Point>> TetrisPiece::get_corners_to_check_left()
-{
-  return get_corners_to_check(
-    []( Point& corner, Point& block ) { return corner.get_x() < block.get_x(); }
-    );
-}
-
-vector<unique_ptr<Point>> TetrisPiece::get_corners_to_check_right()
-{
-  return get_corners_to_check(
-    []( Point& corner, Point& block ) { return corner.get_x() > block.get_x(); }
-    );
-}
-
-
 void TetrisPiece::fall()
 {
   for( auto& render_component : render_components )
@@ -204,37 +187,7 @@ void TetrisPiece::set_block_locations( std::vector<std::unique_ptr<Point>> param
   block_locations = move( param_block_locations );
 } 
 
-void TetrisPiece::set_corners_to_check( std::vector<std::unique_ptr<Point>> corners )
-{
-  corners_to_check = move( corners );
-} 
-
 void TetrisPiece::add_block_location( std::unique_ptr<Point> point )
 {
   block_locations.push_back( move( point ) );
-}
-
-template<typename Predicate>
-vector<unique_ptr<Point>> TetrisPiece::get_corners_to_check( Predicate corner_qualifies )
-{
-  vector<unique_ptr<Point>> qualified_corners;
-  for( auto& corner : corners_to_check )
-  {
-    bool corner_to_check = false;
-    for( auto& block : block_locations )
-    {
-      if( corner_qualifies( *corner, *block ) )
-      {
-        corner_to_check = true;
-      }
-    }
-
-    if( corner_to_check )
-    {
-      qualified_corners.push_back(
-        make_unique<Point>( corner -> get_x(), corner -> get_y() )
-        );
-    }
-  }
-  return qualified_corners;
 }
