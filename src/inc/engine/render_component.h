@@ -35,7 +35,7 @@ public:
 
   virtual void calculate_destination() = 0;
 
-  virtual ~RenderComponent(){};
+  virtual ~RenderComponent() = default;
 
 };
 
