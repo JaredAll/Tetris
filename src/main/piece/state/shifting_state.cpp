@@ -15,25 +15,8 @@ ShiftingState::ShiftingState( TetrisPiece& piece, TetrisBoard& board, int param_
 
 unique_ptr<TetrisPieceState> ShiftingState::update()
 {
-  TetrisPiece& piece = get_piece();
-  TetrisBoard& board = get_board();
-
-  int grid_unit_length = piece.get_grid_unit_length();
-
-  for( auto& render_component : piece.get_render_components() )
-  {
-    int old_y = render_component -> get_y();
-    render_component -> set_y( old_y );
-
-    int old_x = render_component -> get_x();
-    render_component -> set_x( old_x + direction_unit * grid_unit_length );
-  }
-
-  piece.set_current_column( piece.get_current_column() + direction_unit );
-  piece.set_current_row( piece.get_current_row() );
-
   shifted = true;
-
+  get_piece().shift( direction_unit );
   return determine_next_state();
 }
 

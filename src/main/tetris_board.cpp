@@ -83,11 +83,6 @@ bool TetrisBoard::can_shift( TetrisPiece& piece, int direction_unit )
     }
   }
 
-  // if( can_shift )
-  // {
-  //   can_shift = check_corners( piece, direction_unit );
-  // }
-
   return can_shift;
 }
 

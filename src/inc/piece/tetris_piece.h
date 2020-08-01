@@ -65,6 +65,8 @@ public:
 
   void fall();
 
+  void shift( int direction_unit );
+
 protected:
 
   void set_block_locations( std::vector<std::unique_ptr<Point>> block_locations );

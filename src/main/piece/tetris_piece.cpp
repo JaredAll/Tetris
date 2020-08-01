@@ -182,6 +182,20 @@ void TetrisPiece::fall()
   current_row += 1;
 }
 
+void TetrisPiece::shift( int direction_unit )
+{
+  for( auto& render_component : render_components )
+  {
+    int old_y = render_component -> get_y();
+    render_component -> set_y( old_y );
+
+    int old_x = render_component -> get_x();
+    render_component -> set_x( old_x + direction_unit * grid_unit_length );
+  }
+
+  current_column += direction_unit;
+}
+
 void TetrisPiece::set_block_locations( std::vector<std::unique_ptr<Point>> param_block_locations )
 {
   block_locations = move( param_block_locations );
