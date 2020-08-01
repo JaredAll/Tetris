@@ -1,6 +1,7 @@
 #ifndef JARED_ALL_TETRIS_TETRIS_BOARD
 #define JARED_ALL_TETRIS_TETRIS_BOARD
 
+#include "block.h"
 #include "game_component.h"
 #include "tetris_piece.h"
 #include <memory>
@@ -31,6 +32,12 @@ public:
 
   void add_piece( TetrisPiece& piece );
 
+  int score();
+
+  int get_score();
+
+  bool new_score();
+
   ~TetrisBoard();
 
   TetrisBoard();
@@ -39,12 +46,22 @@ private:
 
   bool impact( TetrisPiece& piece );
 
-  bool check_corners( TetrisPiece& piece, int direction_unit );
-  
+  bool has_landed( Block& block );
+
+  std::vector<int> determine_full_rows();
+
+  void eliminate_full_rows( std::vector<int> full_rows );
+
+  void update_blocks( std::vector<int> full_rows );
+
+  void sort_blocks_by_row();
+
   std::vector<std::vector<bool>> occupied_spaces;
   std::vector<std::unique_ptr<RenderComponent>> components;
   int rows;
   int columns;
+  int current_score;
+  bool score_updated;
 
 };
 

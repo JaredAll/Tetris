@@ -1,6 +1,7 @@
 #include "tetris_piece_state.h"
-#include <memory>
 #include "falling_state.h"
+#include "shifting_state.h"
+#include <memory>
 
 using std::unique_ptr;
 using std::make_unique;
@@ -12,8 +13,7 @@ unique_ptr<TetrisPieceState> TetrisPieceState::update( InputEvent& event )
   if( valid_input( event ) )
   {
     int direction_unit = determine_direction( event );
-    shift( direction_unit );    
-    next_state = make_unique<FallingState>( piece, board );
+    next_state = make_unique<ShiftingState>( piece, board, direction_unit );
   }
   else if( event.down_up() )
   {
@@ -46,23 +46,6 @@ int TetrisPieceState::determine_direction( InputEvent& event )
     direction_unit = 1;
   }
   return direction_unit;
-}
-
-void TetrisPieceState::shift( int direction_unit )
-{
-  int grid_unit_length = piece.get_grid_unit_length();
-
-  for( auto& render_component : piece.get_render_components() )
-  {
-    int old_y = render_component -> get_y();
-    render_component -> set_y( old_y + grid_unit_length );
-
-    int old_x = render_component -> get_x();
-    render_component -> set_x( old_x + direction_unit * grid_unit_length );
-  }
-
-  piece.set_current_column( piece.get_current_column() + direction_unit );
-  piece.set_current_row( piece.get_current_row() + 1 );
 }
 
 bool TetrisPieceState::valid_input( InputEvent& event )

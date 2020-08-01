@@ -15,6 +15,7 @@ using std::move;
 Game::Game( int height, unique_ptr<TetrisBoard> param_board )
   : board( *param_board )
 {
+  score = 0;
   should_update = true;
 
   types = {
@@ -63,7 +64,12 @@ void Game::update_components()
   {
     update_piece( *component );
   }
-  
+
+  if( board.new_score() )
+  {
+    score += board.get_score();
+  }
+
   if( board.full() )
   {
     engine -> quit();
@@ -75,7 +81,7 @@ void Game::update_piece( GameComponent& component )
   try
   {
     TetrisPiece& piece = dynamic_cast<TetrisPiece&>( component );
-    if( board.has_landed( piece ) && piece.is_falling() )
+    if( board.has_landed( piece ) )
     {
       piece.set_falling( false );
       transfer_piece_to_board( piece );

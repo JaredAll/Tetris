@@ -88,3 +88,9 @@ void Block::set_column( int param_column )
   column = param_column;
 }
 
+void Block::fall()
+{
+  int old_y = sprite -> get_y();
+  sprite -> set_y( old_y + sprite -> get_h() );
+  row++;
+}
