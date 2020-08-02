@@ -37,9 +37,9 @@ TEST_CASE( "test accepting_input()" )
 
   SECTION("accepting_input() false")
   {
-    piece -> set_falling( true );
+    piece -> set_falling( false );
   
-    REQUIRE( piece -> accepting_input() );
+    REQUIRE_FALSE( piece -> accepting_input() );
   }  
 }
 
@@ -88,15 +88,15 @@ TEST_CASE( "determine block locations rotated" )
   REQUIRE_CALL( *mock3, set_y( _ ) );
   piece -> add_render_component( move( mock3 ) );
 
+  piece -> rotate();
+
   SECTION( "test get_bottom_row rotated" )
   {
-    piece -> rotate();
     REQUIRE( piece -> get_bottom_row() == num_bar_blocks - 1 );
   }
 
   SECTION( "test get_rightmost_column rotated" )
   {
-    piece -> rotate();
     REQUIRE( piece -> get_rightmost_column() == piece -> get_current_column() + 1 );
   }
 }
