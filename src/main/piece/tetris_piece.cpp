@@ -186,9 +186,6 @@ void TetrisPiece::shift( int direction_unit )
 {
   for( auto& render_component : render_components )
   {
-    int old_y = render_component -> get_y();
-    render_component -> set_y( old_y );
-
     int old_x = render_component -> get_x();
     render_component -> set_x( old_x + direction_unit * grid_unit_length );
   }
