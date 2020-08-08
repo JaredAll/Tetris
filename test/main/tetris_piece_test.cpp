@@ -6,7 +6,6 @@
 #include "SDL_render.h"
 #include "render_component_mock.h"
 #include "tetris_piece.h"
-#include "trompeloeil.hpp"
 #include <memory>
 #include <vector>
 
