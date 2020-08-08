@@ -70,7 +70,7 @@ void Engine::quit()
 InputEvent& Engine::process_input()
 {
   InputEvent& event = input_handler -> handle_input();
-  if( event.exit() )
+  if( event.escape() )
   {
     quit();
   }

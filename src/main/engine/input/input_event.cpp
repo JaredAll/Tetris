@@ -34,7 +34,7 @@ bool InputEvent::romeo_up() const
     current_frame_input == InputType::none;
 }
 
-bool InputEvent::exit() const
+bool InputEvent::escape() const
 {
-  return current_frame_input == InputType::exit;
+  return current_frame_input == InputType::escape;
 }

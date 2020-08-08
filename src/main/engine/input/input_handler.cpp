@@ -48,7 +48,7 @@ void InputHandler::determine_input()
 
       if( escape( e ))
       {
-        current_input_type = InputType::exit;
+        current_input_type = InputType::escape;
       }
     }
 
@@ -59,7 +59,7 @@ void InputHandler::determine_input()
 
     if( e.type == SDL_QUIT )
     {
-      current_input_type = InputType::exit;
+      current_input_type = InputType::escape;
     }
   }
   

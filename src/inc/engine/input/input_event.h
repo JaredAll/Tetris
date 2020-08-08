@@ -19,7 +19,7 @@ public:
 
   bool romeo_up() const;
 
-  bool exit() const;
+  bool escape() const;
 
 private:  
 

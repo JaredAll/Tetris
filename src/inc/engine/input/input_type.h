@@ -8,7 +8,7 @@ enum class InputType
   down,
   enter,
   romeo,  
-  exit,  
+  escape,  
   none
 };
 
