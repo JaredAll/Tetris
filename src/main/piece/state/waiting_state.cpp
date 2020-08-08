@@ -21,7 +21,7 @@ unique_ptr<TetrisPieceState> WaitingState::update()
 unique_ptr<TetrisPieceState> WaitingState::determine_next_state()
 {
   unique_ptr<TetrisPieceState> next_state;
-  if( update_count > update_threshold )
+  if( update_count >= update_threshold )
   {
     next_state = make_unique<FallingState>( get_piece(), get_board() );
   }

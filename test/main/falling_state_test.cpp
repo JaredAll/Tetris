@@ -3,7 +3,6 @@
 #include "falling_state.h"
 #include "tetris_board.h"
 #include "catch2/trompeloeil.hpp"
-#include "trompeloeil.hpp"
 #include "waiting_state.h"
 #include "render_component_mock.h"
 #include <type_traits>
