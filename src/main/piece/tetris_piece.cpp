@@ -214,9 +214,10 @@ vector<unique_ptr<Point>> TetrisPiece::rotate_block_locations()
 
   if( minimum_x < 0 )
   {
+    int right_shift = abs( minimum_x );
     for( auto& point : rotated_block_locations )
     {
-      point -> set_x( point -> get_x() + abs( minimum_x ) );
+      point -> set_x( point -> get_x() + right_shift );
     }
   }
 
