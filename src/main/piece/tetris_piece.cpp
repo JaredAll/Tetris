@@ -15,7 +15,6 @@ TetrisPiece::TetrisPiece()
   current_row = 0;
   current_column = 5;
   falling = true;
-  rotated = false;
 }
 
 TetrisPiece::~TetrisPiece()
@@ -60,7 +59,7 @@ int TetrisPiece::get_grid_unit_length()
 int TetrisPiece::get_bottom_row()
 {
   std::vector<int> bottoms;
-  for( auto& block : block_locations )
+  for( auto& block : current_block_locations )
   {
     bottoms.push_back( block -> get_y() + current_row );
   }
@@ -71,7 +70,7 @@ int TetrisPiece::get_bottom_row()
 int TetrisPiece::get_rightmost_column()
 {
   std::vector<int> columns;
-  for( auto& block : block_locations )
+  for( auto& block : current_block_locations )
   {
     columns.push_back( block -> get_x() + current_column + 1 );
   }
@@ -136,40 +135,28 @@ void TetrisPiece::set_state( unique_ptr<TetrisPieceState> param_state )
 
 void TetrisPiece::rotate()
 {
-  rotated = !rotated;
-  block_locations = original_block_locations();
-  if( rotated )
-  {
-    block_locations = rotate_block_locations();
-  }
+  current_block_locations = move( next_block_locations );
 
-  for( int i = 0; i < block_locations.size(); i++ )
+  next_block_locations = move( rotate_block_locations() );
+
+  for( int i = 0; i < current_block_locations.size(); i++ )
   {
     render_components.at( i ) -> set_x(
-      ( current_column + block_locations.at( i ) -> get_x() ) * grid_unit_length );
+      ( current_column + current_block_locations.at( i ) -> get_x() ) * grid_unit_length );
 
     render_components.at( i ) -> set_y(
-      ( current_row + block_locations.at( i ) -> get_y() ) * grid_unit_length );
+      ( current_row + current_block_locations.at( i ) -> get_y() ) * grid_unit_length );
   }
 }
 
-vector<unique_ptr<Point>> TetrisPiece::get_rotated_block_locations()
+vector<unique_ptr<Point>>& TetrisPiece::get_rotated_block_locations()
 {
-  vector<unique_ptr<Point>> rotated_block_locations;
-  if( rotated )
-  {
-    rotated_block_locations = original_block_locations();
-  }
-  else
-  {
-    rotated_block_locations = rotate_block_locations();
-  }
-  return rotated_block_locations;
+  return next_block_locations;
 }
 
 vector<unique_ptr<Point>>& TetrisPiece::get_block_locations()
 {
-  return block_locations;
+  return current_block_locations;
 }
 
 void TetrisPiece::fall()
@@ -195,10 +182,43 @@ void TetrisPiece::shift( int direction_unit )
 
 void TetrisPiece::set_block_locations( std::vector<std::unique_ptr<Point>> param_block_locations )
 {
-  block_locations = move( param_block_locations );
+  current_block_locations = move( param_block_locations );
+}
+
+void TetrisPiece::set_next_block_locations( vector<unique_ptr<Point>> param_block_locations )
+{
+  next_block_locations = move( param_block_locations );
 } 
 
 void TetrisPiece::add_block_location( std::unique_ptr<Point> point )
 {
-  block_locations.push_back( move( point ) );
+  current_block_locations.push_back( move( point ) );
+}
+
+vector<unique_ptr<Point>> TetrisPiece::rotate_block_locations()
+{
+  int minimum_x = 0;
+  vector<unique_ptr<Point>> rotated_block_locations;
+  for( auto& point : current_block_locations )
+  {
+    int new_x = -1 * point -> get_y();
+    int new_y = point -> get_x();
+    unique_ptr<Point> new_point = make_unique<Point>( new_x, new_y );
+
+    rotated_block_locations.push_back( move( new_point ) );
+    if( new_x < minimum_x )
+    {
+      minimum_x = new_x;
+    }
+  }
+
+  if( minimum_x < 0 )
+  {
+    for( auto& point : rotated_block_locations )
+    {
+      point -> set_x( point -> get_x() + abs( minimum_x ) );
+    }
+  }
+
+  return move( rotated_block_locations );
 }

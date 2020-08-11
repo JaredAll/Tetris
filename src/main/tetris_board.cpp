@@ -88,7 +88,7 @@ bool TetrisBoard::can_shift( TetrisPiece& piece, int direction_unit )
 
 bool TetrisBoard::can_rotate( TetrisPiece& piece )
 {
-  vector<unique_ptr<Point>> rotated_block_points = piece.get_rotated_block_locations();
+  vector<unique_ptr<Point>>& rotated_block_points = piece.get_rotated_block_locations();
   bool rotatable = true;
   for( auto& point : rotated_block_points )
   {

@@ -120,7 +120,7 @@ TEST_CASE( "test get_rotated_block_locations" )
 
   SECTION( "piece in original configuration" )
   {
-    vector<unique_ptr<Point>> block_locations = piece -> get_rotated_block_locations();
+    vector<unique_ptr<Point>>& block_locations = piece -> get_rotated_block_locations();
     for( int i = 0; i < block_locations.size(); i++ )
     {
       REQUIRE(block_locations.at( i ) -> get_x() == 0 );
@@ -137,10 +137,10 @@ TEST_CASE( "test get_rotated_block_locations" )
 
     piece -> rotate();
 
-    vector<unique_ptr<Point>> block_locations = piece -> get_rotated_block_locations();
+    vector<unique_ptr<Point>>& block_locations = piece -> get_rotated_block_locations();
     for( int i = 0; i < block_locations.size(); i++ )
     {
-      REQUIRE(block_locations.at( i ) -> get_x() == i );
+      REQUIRE(block_locations.at( num_bar_blocks - i - 1 ) -> get_x() == i );
       REQUIRE(block_locations.at( i ) -> get_y() == 0 );
     }
   }
