@@ -59,7 +59,7 @@ public:
 
   void rotate();
 
-  std::vector<std::unique_ptr<Point>> get_rotated_block_locations();
+  std::vector<std::unique_ptr<Point>>& get_rotated_block_locations();
 
   std::vector<std::unique_ptr<Point>>& get_block_locations();
 
@@ -71,22 +71,24 @@ protected:
 
   void set_block_locations( std::vector<std::unique_ptr<Point>> block_locations );
 
+  void set_next_block_locations( std::vector<std::unique_ptr<Point>> block_locations );
+
   virtual std::vector<std::unique_ptr<Point>> original_block_locations() = 0;
 
-  virtual std::vector<std::unique_ptr<Point>> rotate_block_locations() = 0;
-
   void add_block_location( std::unique_ptr<Point> point );
+
+  std::vector<std::unique_ptr<Point>> rotate_block_locations();
 
 private:
 
   int grid_unit_length;
   bool falling;
-  bool rotated;
   int current_row;
   int current_column;
   int max_row;
   int max_column;
-  std::vector<std::unique_ptr<Point>> block_locations;
+  std::vector<std::unique_ptr<Point>> current_block_locations;
+  std::vector<std::unique_ptr<Point>> next_block_locations;
   std::vector<std::unique_ptr<RenderComponent>> render_components;
   std::unique_ptr<TetrisPieceState> state;
 };

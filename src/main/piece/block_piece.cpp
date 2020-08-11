@@ -8,6 +8,7 @@ using std::unique_ptr;
 BlockPiece::BlockPiece() : TetrisPiece()
 {
   set_block_locations( original_block_locations() );
+  set_next_block_locations( rotate_block_locations() );
 }
 
 vector<unique_ptr<Point>> BlockPiece::original_block_locations()
@@ -20,9 +21,4 @@ vector<unique_ptr<Point>> BlockPiece::original_block_locations()
   locations.push_back( std::make_unique<Point>( 1, 1 ) );
 
   return locations;
-}
-
-vector<unique_ptr<Point>> BlockPiece::rotate_block_locations()
-{
-  return original_block_locations();
 }

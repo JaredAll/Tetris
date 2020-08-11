@@ -14,8 +14,6 @@ protected:
 
   std::vector<std::unique_ptr<Point>> original_block_locations() override;
 
-  std::vector<std::unique_ptr<Point>> rotate_block_locations() override;
-
 };
 
 #endif
