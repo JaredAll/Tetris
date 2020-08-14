@@ -40,6 +40,7 @@ vector<unique_ptr<expectation>> set_rotate_expectations( unique_ptr<TetrisPiece>
   expectations.push_back( move( NAMED_REQUIRE_CALL( *mock3, set_y( _ ) ) ) );
   piece -> add_render_component( move( mock3 ) );
 
+
   return expectations;
 }
 

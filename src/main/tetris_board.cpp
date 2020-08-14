@@ -165,6 +165,7 @@ TetrisBoard::TetrisBoard()
   score_updated = false;
   rows = 20;
   columns = 10;
+  current_score = 0;
 
   for( size_t row = 0; row < rows; row++ )
   {

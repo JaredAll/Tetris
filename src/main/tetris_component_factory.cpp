@@ -24,7 +24,7 @@ TetrisComponentFactory::TetrisComponentFactory( int param_height, TetrisBoard& p
   new_piece_y = 0;
 }
 
-unique_ptr<GameComponent> TetrisComponentFactory::build_component(
+unique_ptr<TetrisPiece> TetrisComponentFactory::build_component(
   PieceType piece_type,
   GameRenderer& renderer )
 {
