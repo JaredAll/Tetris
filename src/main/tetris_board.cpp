@@ -74,12 +74,16 @@ bool TetrisBoard::can_shift( TetrisPiece& piece, int direction_unit )
   {
     int x_to_check = point -> get_x() + piece.get_current_column() + direction_unit;
     int y_to_check = point -> get_y() + piece.get_current_row();
-    if( x_to_check > 0 && x_to_check < ( columns - 1 ) && y_to_check < ( rows - 1 ))
+    if( x_to_check > -1 && x_to_check < ( columns ) && y_to_check < ( rows ))
     {
       if( occupied_spaces.at( y_to_check ).at( x_to_check ) )
       {
         can_shift = false;
       }
+    }
+    else
+    {
+      can_shift = false;
     }
   }
 

@@ -1,5 +1,7 @@
 #include "engine.h"
+#include "SDL_events.h"
 #include "SDL_timer.h"
+#include "SDL_video.h"
 #include "cleanup.h"
 #include "input_type.h"
 #include "render_component.h"
@@ -16,6 +18,13 @@ using std::vector;
 Engine::Engine( vector<unique_ptr<GameComponent>>& param_components )
   : components( param_components )
 {}
+
+Engine::~Engine()
+{
+  running = false;
+  SDL_VideoQuit();
+  SDL_Quit();
+}
 
 void Engine::initialize( int height, int width )
 {
@@ -47,6 +56,7 @@ void Engine::initialize( int height, int width )
     should_render = true;
     should_update = true;
     frame_count = 0;
+    running = true;
   }
 }
 
@@ -97,7 +107,7 @@ void Engine::maintain_time()
 {
   Uint32 ms_per_frame = 16;
   Uint32 last_frame = SDL_GetTicks();
-  while( true )
+  while( running )
   {
     Uint32 current_time = SDL_GetTicks();
     if( current_time - last_frame >= ms_per_frame )

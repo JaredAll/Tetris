@@ -36,7 +36,7 @@ TEST_CASE( "test tetris board" )
   }
 }
 
-TEST_CASE( "tetris board integration tests" )
+TEST_CASE( "tetris board test score" )
 {
   unique_ptr<TetrisBoard> board = make_unique<TetrisBoard>();
   int num_rows = 20;
@@ -56,8 +56,8 @@ TEST_CASE( "tetris board integration tests" )
       height,
       *board );
 
-  SECTION( "test update new score" )
-  {
+  SECTION( "test score" )
+  {    
     unique_ptr<TetrisPiece> first_piece = piece_factory -> 
       build_component( PieceType::bar, renderer );
 
@@ -106,5 +106,39 @@ TEST_CASE( "tetris board integration tests" )
 
     REQUIRE( board -> has_landed( *new_bar_piece ) );
   }
-}
 
+  SECTION( "test full" )
+  {
+    unique_ptr<TetrisPiece> full_piece = piece_factory -> 
+      build_component( PieceType::bar, renderer );
+
+    full_piece -> set_current_column( 5 );
+    full_piece -> set_current_row( 0 );
+
+    board -> add_piece( *full_piece );
+
+    REQUIRE( board -> full() );
+  }
+  
+  SECTION( "test can shift true" )
+  {
+    unique_ptr<TetrisPiece> can_shift_right_piece = piece_factory -> 
+      build_component( PieceType::bar, renderer );
+
+    can_shift_right_piece -> set_current_column( 0 );
+    can_shift_right_piece -> set_current_row( 10 );
+
+    REQUIRE( board -> can_shift( *can_shift_right_piece, 1 ) );
+  }
+
+  SECTION( "test can shift false" )
+  {
+    unique_ptr<TetrisPiece> can_shift_right_piece = piece_factory -> 
+      build_component( PieceType::bar, renderer );
+
+    can_shift_right_piece -> set_current_column( 0 );
+    can_shift_right_piece -> set_current_row( 10 );
+
+    REQUIRE_FALSE( board -> can_shift( *can_shift_right_piece, -1 ) );
+  }
+}

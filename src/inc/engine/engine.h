@@ -17,6 +17,8 @@ public:
 
   Engine( std::vector<std::unique_ptr<GameComponent>>& components );
 
+  ~Engine();
+
   void initialize( int height, int width );
 
   void advance();
@@ -43,6 +45,7 @@ private:
   bool should_render;
   bool should_update;
   bool has_updated;
+  bool running;
   int frame_count;
 };
 
