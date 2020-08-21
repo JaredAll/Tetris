@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "catch2/trompeloeil.hpp"
 #include "render_component.h"
+#include "render_component_visitor.h"
 
 class RenderComponentMock : public RenderComponent
 {
@@ -17,4 +18,5 @@ public:
   MAKE_MOCK1( set_x, void( int ), override );
   MAKE_MOCK1( set_y, void( int ), override );
   MAKE_MOCK0( calculate_destination, void(), override );
+  MAKE_MOCK1( accept, void( RenderComponentVisitor& ), override );
 };

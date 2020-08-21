@@ -68,6 +68,11 @@ void Block::calculate_destination()
 {
 }
 
+void Block::accept( RenderComponentVisitor& visitor )
+{
+  visitor.visitBlock( *this );
+}
+
 int Block::get_row()
 {
   return row;

@@ -46,6 +46,8 @@ public:
 
 private:
 
+  friend class TetrisBoardBlockVisitor;
+
   bool impact( TetrisPiece& piece );
 
   bool has_landed( Block& block );

@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <iostream>
 #include <memory>
+#include "render_component_visitor.h"
 
 class RenderComponent
 {
@@ -34,6 +35,8 @@ public:
   virtual void set_y( int y ) = 0;
 
   virtual void calculate_destination() = 0;
+
+  virtual void accept( RenderComponentVisitor& visitor ) = 0;
 
   virtual ~RenderComponent() = default;
 

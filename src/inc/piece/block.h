@@ -37,6 +37,8 @@ public:
   
   void calculate_destination();
 
+  void accept( RenderComponentVisitor& visitor );
+
   int get_row();
 
   void set_row( int row );

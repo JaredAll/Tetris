@@ -1,5 +1,6 @@
 #include "sprite.h"
 #include "SDL_rect.h"
+#include "render_component_visitor.h"
 
 using namespace std;
 
@@ -81,3 +82,6 @@ void Sprite::calculate_destination()
 {
 }
 
+void Sprite::accept( RenderComponentVisitor& visitor )
+{
+}

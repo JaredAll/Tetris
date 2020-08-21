@@ -5,6 +5,7 @@
 #include "SDL_render.h"
 #include "cleanup.h"
 #include "render_component.h"
+#include "render_component_visitor.h"
 #include "sprite_config.h"
 
 class Sprite: public RenderComponent
@@ -38,6 +39,8 @@ public:
   void set_y( int y );
   
   void calculate_destination();
+
+  void accept( RenderComponentVisitor& visitor );
 
 private:
   
