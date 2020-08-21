@@ -31,6 +31,11 @@ void TetrisPiece::update( InputEvent& input_event )
   state = state -> update( input_event );
 }
 
+void TetrisPiece::accept( ComponentVisitor& visitor )
+{
+  visitor.visitTetrisPiece( *this );
+}
+
 bool TetrisPiece::accepting_input()
 {
   return falling;
