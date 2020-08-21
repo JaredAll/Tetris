@@ -14,6 +14,8 @@ public:
 
   void update( InputEvent& event ) override;
 
+  void accept( ComponentVisitor& visitor ) override;
+
   bool accepting_input() override;
 
   std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;

@@ -1,6 +1,7 @@
 #ifndef JARED_ALL_TETRIS_TETRIS_PIECE_H
 #define JARED_ALL_TETRIS_TETRIS_PIECE_H
 
+#include "component_visitor.h"
 #include "game_component.h"
 #include "point.h"
 #include "render_component.h"
@@ -20,6 +21,8 @@ public:
   void update() override;
 
   void update( InputEvent& event ) override;
+
+  void accept( ComponentVisitor& visitor ) override;
 
   bool accepting_input() override;
 

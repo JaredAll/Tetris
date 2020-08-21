@@ -6,6 +6,8 @@
 #include "input_handler.h"
 #include "tetris_board.h"
 
+class ComponentVisitor;
+
 class Engine;
 
 class Game
@@ -18,9 +20,9 @@ public:
 
 private:
 
-  void update_components();
+  friend class TetrisVisitor;
 
-  void update_piece( GameComponent& component );
+  void update_components();
 
   void add_piece();
 
@@ -30,6 +32,7 @@ private:
   std::unique_ptr<Engine> engine;
   std::vector<std::unique_ptr<GameComponent>> components;
   std::unique_ptr<TetrisComponentFactory> component_factory;
+  std::unique_ptr<ComponentVisitor> visitor;
   TetrisBoard& board;
   int current_piece_index;
   int window_height;

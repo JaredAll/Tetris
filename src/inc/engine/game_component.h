@@ -1,6 +1,7 @@
 #ifndef GAME_COMPONENT_H
 #define GAME_COMPONENT_H
 
+#include "component_visitor.h"
 #include "render_component.h"
 #include <vector>
 #include <iostream>
@@ -13,6 +14,8 @@ public:
   virtual void update() = 0;
 
   virtual void update( InputEvent& event ) = 0;
+
+  virtual void accept( ComponentVisitor& visitor ) = 0;
 
   virtual bool accepting_input() = 0;
 

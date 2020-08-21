@@ -2,6 +2,7 @@
 #include "piece_type.h"
 #include "tetris_piece.h"
 #include "tetris_board.h"
+#include "tetris_visitor.h"
 #include <memory>
 #include <stdlib.h>
 #include <time.h>
@@ -41,6 +42,8 @@ Game::Game( int height, unique_ptr<TetrisBoard> param_board )
   component_factory = make_unique<TetrisComponentFactory>(
     window_height,
     board );
+
+  visitor = make_unique<TetrisVisitor>( board, *this );
 }
 
 void Game::play()
@@ -62,43 +65,7 @@ void Game::update_components()
 {
   for( auto& component : components )
   {
-    update_piece( *component );
-  }
-
-  if( board.new_score() )
-  {
-    score += board.get_score();
-  }
-
-  if( board.full() )
-  {
-    engine -> quit();
-  }
-}
-
-void Game::update_piece( GameComponent& component )
-{
-  try
-  {
-    TetrisPiece& piece = dynamic_cast<TetrisPiece&>( component );
-    if( board.has_landed( piece ) )
-    {
-      piece.set_falling( false );
-      transfer_piece_to_board( piece );
-      add_piece();
-    }
-    else if( !board.has_landed( piece ) && !piece.is_falling() )
-    {
-      while( !board.has_landed( piece ) )
-      {
-        piece.fall();
-      }
-      transfer_piece_to_board( piece );
-      add_piece();
-    }
-  }
-  catch( bad_cast )
-  {
+    component -> accept( *visitor );
   }
 }
 

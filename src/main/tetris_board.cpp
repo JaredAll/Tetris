@@ -19,7 +19,11 @@ void TetrisBoard::update()
 
 void TetrisBoard::update( InputEvent& event )
 {
-  
+}
+
+void TetrisBoard::accept( ComponentVisitor& visitor )
+{
+  visitor.visitTetrisBoard( *this );
 }
 
 bool TetrisBoard::accepting_input()
