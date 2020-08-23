@@ -10,7 +10,7 @@
 class RenderComponent
 {
 public:
-  
+
   virtual std::shared_ptr<SDL_Texture> getTexture() const = 0; 
 
   virtual std::shared_ptr<SDL_Rect> getDestination() const = 0;
@@ -34,6 +34,12 @@ public:
   virtual void set_y( int y ) = 0;
 
   virtual void calculate_destination() = 0;
+
+  template<typename Impl>
+  Impl& as_implementation()
+  {
+    return dynamic_cast<Impl&>( *this );
+  }
 
   virtual ~RenderComponent() = default;
 
