@@ -131,16 +131,10 @@ void TetrisBoard::add_piece( TetrisPiece& piece )
       .at( occupied_y )
       .at( occupied_x ) = true;
 
-    try
-    {
-      Block& block = dynamic_cast<Block&>( *render_components.at( i ) );
-      block.set_column( occupied_x );
-      block.set_row( occupied_y );
-      components.push_back( move( render_components.at( i ) ) );
-    }
-    catch( std::bad_cast )
-    {
-    }
+    Block& block = render_components.at( i ) -> as_implementation<Block>();
+    block.set_column( occupied_x );
+    block.set_row( occupied_y );
+    components.push_back( move( render_components.at( i ) ) );
   }
 }
 
@@ -253,25 +247,19 @@ void TetrisBoard::eliminate_full_rows( vector<int> full_rows )
   vector<unique_ptr<RenderComponent>> new_components;
   for( auto& component : components )
   {
-    try
-    {
-      Block& block = dynamic_cast<Block&>( *component );
-      vector<int>::iterator iterator = std::find( 
-        full_rows.begin(), 
-        full_rows.end(), 
-        block.get_row() );
+    Block& block = component -> as_implementation<Block>();
+    vector<int>::iterator iterator = std::find( 
+      full_rows.begin(), 
+      full_rows.end(), 
+      block.get_row() );
 
-      if( iterator == full_rows.end() )
-      {
-        new_components.push_back( move( component ) );
-      }
-      else
-      {
-        occupied_spaces.at( block.get_row() ).at( block.get_column() ) = false;
-      }
-    }
-    catch( std::bad_cast )
+    if( iterator == full_rows.end() )
     {
+      new_components.push_back( move( component ) );
+    }
+    else
+    {
+      occupied_spaces.at( block.get_row() ).at( block.get_column() ) = false;
     }
   }
   components = move( new_components );
@@ -281,21 +269,15 @@ void TetrisBoard::update_blocks( std::vector<int> full_rows )
 {  
   for( auto& component : components )
   {
-    try
+    Block& block = component -> as_implementation<Block>();
+    for( int row : full_rows )
     {
-      Block& block = dynamic_cast<Block&>( *component );
-      for( int row : full_rows )
+      if( block.get_row() < row )
       {
-        if( block.get_row() < row )
-        {
-          occupied_spaces.at( block.get_row() ).at( block.get_column() ) = false;
-          block.fall();  
-        }
+        occupied_spaces.at( block.get_row() ).at( block.get_column() ) = false;
+        block.fall();  
       }
-      occupied_spaces.at( block.get_row() ).at( block.get_column() ) = true;
     }
-    catch( std::bad_cast )
-    {
-    }
+    occupied_spaces.at( block.get_row() ).at( block.get_column() ) = true;
   }
 }
