@@ -1,3 +1,6 @@
+#ifndef RENDER_COMPONENT_MOCK_H
+#define RENDER_COMPONENT_MOCK_H
+
 #include "catch.hpp"
 #include "catch2/trompeloeil.hpp"
 #include "render_component.h"
@@ -18,3 +21,5 @@ public:
   MAKE_MOCK1( set_y, void( int ), override );
   MAKE_MOCK0( calculate_destination, void(), override );
 };
+
+#endif

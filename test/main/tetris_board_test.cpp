@@ -1,15 +1,18 @@
 #include "catch.hpp"
 #include "catch2/trompeloeil.hpp"
+#include "component_visitor.h"
 #include "piece_type.h"
 #include "tetris_board.h"
 #include "engine.h"
 #include "tetris_component_factory.h"
+#include "component_visitor_mock.h"
 
 using std::unique_ptr;
 using std::make_unique;
 using std::vector;
+using trompeloeil::_;
 
-TEST_CASE( "test tetris board" )
+TEST_CASE( "test tetris board construction" )
 {
   unique_ptr<TetrisBoard> board = make_unique<TetrisBoard>();
   int num_rows = 20;
@@ -34,9 +37,17 @@ TEST_CASE( "test tetris board" )
   {
     REQUIRE_FALSE( board -> accepting_input() );
   }
+
+  SECTION( "test tetris board accept visitor" )
+  {
+    unique_ptr<ComponentVisitorMock> visitor = make_unique<ComponentVisitorMock>();
+    REQUIRE_CALL( *visitor, visitTetrisBoard( _ ) );
+
+    board -> accept( *visitor );
+  }
 }
 
-TEST_CASE( "tetris board test score" )
+TEST_CASE( "test tetris board" )
 {
   unique_ptr<TetrisBoard> board = make_unique<TetrisBoard>();
   int num_rows = 20;
@@ -140,5 +151,27 @@ TEST_CASE( "tetris board test score" )
     can_shift_right_piece -> set_current_row( 10 );
 
     REQUIRE_FALSE( board -> can_shift( *can_shift_right_piece, -1 ) );
+  }
+
+  SECTION( "test can rotate true" )
+  {
+    unique_ptr<TetrisPiece> can_rotate_piece = piece_factory -> 
+      build_component( PieceType::bar, renderer );
+
+    can_rotate_piece -> set_current_column( 0 );
+    can_rotate_piece -> set_current_row( 10 );
+
+    REQUIRE( board -> can_rotate( *can_rotate_piece ) );
+  }
+
+  SECTION( "test can rotate false" )
+  {
+    unique_ptr<TetrisPiece> cannot_rotate_piece = piece_factory -> 
+      build_component( PieceType::zee, renderer );
+
+    cannot_rotate_piece -> set_current_column( 9 );
+    cannot_rotate_piece -> set_current_row( 10 );
+
+    REQUIRE_FALSE( board -> can_rotate( *cannot_rotate_piece ) );
   }
 }

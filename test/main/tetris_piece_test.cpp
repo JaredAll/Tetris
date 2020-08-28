@@ -2,12 +2,14 @@
 #include "catch.hpp"
 #include "catch2/trompeloeil.hpp"
 #include "bar_piece.h"
+#include "component_visitor_mock.h"
 #include "render_component.h"
 #include "SDL_render.h"
 #include "render_component_mock.h"
 #include "tetris_piece.h"
 #include <memory>
 #include <vector>
+#include "tetris_board.h"
 
 using std::unique_ptr;
 using std::make_unique;
@@ -73,6 +75,16 @@ TEST_CASE( "test accepting_input()" )
   
     REQUIRE_FALSE( piece -> accepting_input() );
   }  
+}
+
+TEST_CASE( "test accept visitor" )
+{
+  unique_ptr<TetrisPiece> piece = make_unique<BarPiece>();
+  unique_ptr<ComponentVisitorMock> visitor = make_unique<ComponentVisitorMock>();
+  
+  REQUIRE_CALL( *visitor, visitTetrisPiece( _ ) );
+
+  piece -> accept( *visitor );
 }
 
 TEST_CASE( "determine block locations" )
