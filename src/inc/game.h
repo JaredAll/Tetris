@@ -30,7 +30,7 @@ private:
 
   std::unique_ptr<InputHandler> input_handler;
   std::unique_ptr<Engine> engine;
-  std::vector<std::unique_ptr<GameComponent>> components;
+  std::vector<std::unique_ptr<TetrisComponent>> components;
   std::unique_ptr<TetrisComponentFactory> component_factory;
   std::unique_ptr<ComponentVisitor> visitor;
   TetrisBoard& board;

@@ -45,35 +45,6 @@ shared_ptr<SDL_Texture> GameRenderer::render_letter_texture( TTF_Font* font,
   return letter_texture;
 }
 
-void GameRenderer::render( vector<unique_ptr<GameComponent>>& components )
-{
-  SDL_RenderClear( renderer.get() );
-
-  for( auto& component : components )
-  {
-    for( auto& render_component : component -> get_render_components() )
-    {
-      render( *render_component );
-    }
-  }
-
-  SDL_RenderPresent( renderer.get() );
-}
-
-void GameRenderer::render( GameComponent& game_component )
-{
-  SDL_RenderClear( renderer.get() );
-
-  vector<unique_ptr<RenderComponent>>& renderings = game_component.get_render_components();
-
-  for( size_t i = 0; i < renderings.size(); i++ )
-  {
-    render( *renderings.at( i ) );
-  }
-
-  SDL_RenderPresent( renderer.get() );
-}
-
 void GameRenderer::render( const RenderComponent& renderComponent )
 {
   renderTexture( renderComponent.getTexture().get(),

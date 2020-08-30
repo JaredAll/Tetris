@@ -15,10 +15,6 @@ using std::make_unique;
 using std::thread;
 using std::vector;
 
-Engine::Engine( vector<unique_ptr<GameComponent>>& param_components )
-  : components( param_components )
-{}
-
 Engine::~Engine()
 {
   running = false;
@@ -58,18 +54,6 @@ void Engine::initialize( int height, int width )
     frame_count = 0;
     running = true;
   }
-}
-
-void Engine::advance()
-{
-  if( should_render )
-  {
-    render_components();
-  }
-
-  InputEvent& event = process_input();
-
-  update_components( event );
 }
 
 void Engine::quit()
@@ -116,30 +100,4 @@ void Engine::maintain_time()
       last_frame = current_time;
     }
   }
-}
-
-void Engine::render_components()
-{
-  renderer -> render( components );
-  
-  frame_count++;
-  should_render = false;
-  should_update = true;
-}
-
-void Engine::update_components( InputEvent& input_event )
-{
-  for( auto& component : components )
-  {
-    if( should_update )
-    {
-      component -> update();
-    }
-    if( component -> accepting_input() )
-    {
-      component -> update( input_event );
-    }
-    has_updated = true;
-  }
-  should_update = false;
 }

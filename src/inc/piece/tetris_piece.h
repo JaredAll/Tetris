@@ -2,14 +2,14 @@
 #define JARED_ALL_TETRIS_TETRIS_PIECE_H
 
 #include "component_visitor.h"
-#include "game_component.h"
+#include "tetris_component.h"
 #include "point.h"
 #include "render_component.h"
 #include <memory>
 
 class TetrisPieceState;
 
-class TetrisPiece : public GameComponent
+class TetrisPiece : public TetrisComponent
 {
 
 public:
