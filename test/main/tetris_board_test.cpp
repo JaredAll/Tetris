@@ -56,8 +56,7 @@ TEST_CASE( "test tetris board" )
   int height = 500;
   int width = height / ( board -> get_rows() / board -> get_columns() );
 
-  vector<unique_ptr<GameComponent>> empty_vector;
-  unique_ptr<Engine> engine = make_unique<Engine>( empty_vector );
+  unique_ptr<Engine> engine = make_unique<Engine>();
   engine -> initialize( height, width );
 
   GameRenderer& renderer = engine -> get_renderer();

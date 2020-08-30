@@ -2,11 +2,11 @@
 #define JARED_ALL_TETRIS_TETRIS_BOARD
 
 #include "block.h"
-#include "game_component.h"
+#include "tetris_component.h"
 #include "tetris_piece.h"
 #include <memory>
 
-class TetrisBoard : public GameComponent
+class TetrisBoard : public TetrisComponent
 {
 public:
 

@@ -32,7 +32,7 @@ Game::Game( int height, unique_ptr<TetrisBoard> param_board )
   srand( time( nullptr ) );
   current_piece_index = rand() % types.size();
 
-  engine = make_unique<Engine>( components );
+  engine = make_unique<Engine>();
 
   components.push_back( move( param_board ) );
 
@@ -53,7 +53,7 @@ void Game::play()
 
   while( true )
   {
-    engine -> advance();
+    engine -> advance( components );
     if( engine -> peek_has_updated() )
     {
       update_components();  
@@ -83,7 +83,7 @@ void Game::transfer_piece_to_board( TetrisPiece& piece )
 {
   board.add_piece( piece );
   
-  vector<unique_ptr<GameComponent>> new_components;
+  vector<unique_ptr<TetrisComponent>> new_components;
   for( auto& component : components )
   {
     if( component.get() != &piece )

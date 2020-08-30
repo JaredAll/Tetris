@@ -10,7 +10,7 @@ using std::vector;
 using std::unique_ptr;
 
 TetrisPiece::TetrisPiece()
-  : GameComponent()
+  : TetrisComponent()
 {
   current_row = 0;
   current_column = 5;

@@ -15,8 +15,6 @@ public:
 
   virtual void update( InputEvent& event ) = 0;
 
-  virtual void accept( ComponentVisitor& visitor ) = 0;
-
   virtual bool accepting_input() = 0;
 
   virtual std::vector<std::unique_ptr<RenderComponent>>& get_render_components() = 0;
