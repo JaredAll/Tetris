@@ -20,8 +20,8 @@ void logSDLError( std::ostream &os, const std::string &msg );
 * @return the loaded texture, or nullptr if something went wrong.
 */
 void renderTexture(SDL_Texture *tex, SDL_Renderer *ren,
-                   int x, int y, SDL_Rect *clip = nullptr,
-                   SDL_Rect *dst = nullptr );
+                   int x, int y, SDL_Rect *clip,
+                   SDL_Rect *dst );
 
 /**
 * Draw an SDL_Texture to an SDL_Renderer at position x, y, preserving
@@ -43,7 +43,7 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren);
 *		default of nullptr draws the entire texture
 */
 void renderTexture( SDL_Texture *tex, SDL_Renderer *ren,
-                    SDL_Rect *dst, SDL_Rect *clip = nullptr );
+                    SDL_Rect *dst, SDL_Rect *clip );
 
 /**
 * Draw an SDL_Texture to an SDL_Renderer at some destination rect
