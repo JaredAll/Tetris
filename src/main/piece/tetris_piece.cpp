@@ -41,12 +41,12 @@ bool TetrisPiece::accepting_input()
   return falling;
 }
 
-void TetrisPiece::add_render_component( std::unique_ptr<RenderComponent> render_component )
+void TetrisPiece::add_render_component( std::unique_ptr<Block> render_component )
 {
   render_components.push_back( move( render_component ) );
 }
 
-std::vector<std::unique_ptr<RenderComponent>>& TetrisPiece::get_render_components()
+std::vector<std::unique_ptr<Block>>& TetrisPiece::get_render_components()
 {
   return render_components;
 }

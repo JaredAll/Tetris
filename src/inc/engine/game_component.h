@@ -17,8 +17,6 @@ public:
 
   virtual bool accepting_input() = 0;
 
-  virtual std::vector<std::unique_ptr<RenderComponent>>& get_render_components() = 0;
-
   virtual ~GameComponent() = default;
 
 protected:

@@ -18,7 +18,7 @@ public:
 
   bool accepting_input() override;
 
-  std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
+  std::vector<std::unique_ptr<Block>>& get_render_components() override;
 
   int get_rows();
 
@@ -59,7 +59,7 @@ private:
   void sort_blocks_by_row();
 
   std::vector<std::vector<bool>> occupied_spaces;
-  std::vector<std::unique_ptr<RenderComponent>> components;
+  std::vector<std::unique_ptr<Block>> components;
   int rows;
   int columns;
   int current_score;
