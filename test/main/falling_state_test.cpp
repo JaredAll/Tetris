@@ -4,7 +4,6 @@
 #include "tetris_board.h"
 #include "catch2/trompeloeil.hpp"
 #include "waiting_state.h"
-#include "render_component_mock.h"
 #include <type_traits>
 
 using std::unique_ptr;
@@ -27,12 +26,6 @@ TEST_CASE( "test falling state" )
   {
     piece -> set_falling( true );
     piece -> set_grid_unit_length( 1 );
-    
-    unique_ptr<RenderComponentMock> component_mock = make_unique<RenderComponentMock>();
-    REQUIRE_CALL( *component_mock, get_y() ).RETURN( 0 );
-    REQUIRE_CALL( *component_mock, set_y( _ ) );
-
-    piece -> add_render_component( move( component_mock ) );
 
     unique_ptr<TetrisPieceState> next_state = falling_state -> update();
 
