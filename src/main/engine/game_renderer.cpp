@@ -44,11 +44,3 @@ shared_ptr<SDL_Texture> GameRenderer::render_letter_texture( TTF_Font* font,
   
   return letter_texture;
 }
-
-void GameRenderer::render( const RenderComponent& renderComponent )
-{
-  renderTexture( renderComponent.getTexture().get(),
-                 renderer.get(),
-                 renderComponent.getDestination().get(),
-                 renderComponent.getClip().get() );  
-}

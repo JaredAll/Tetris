@@ -1,6 +1,7 @@
 #ifndef JARED_ALL_TETRIS_TETRIS_PIECE_H
 #define JARED_ALL_TETRIS_TETRIS_PIECE_H
 
+#include "block.h"
 #include "component_visitor.h"
 #include "tetris_component.h"
 #include "point.h"
@@ -26,9 +27,9 @@ public:
 
   bool accepting_input() override;
 
-  std::vector<std::unique_ptr<RenderComponent>>& get_render_components() override;
+  std::vector<std::unique_ptr<Block>>& get_render_components() override;
 
-  void add_render_component( std::unique_ptr<RenderComponent> render_component );
+  void add_render_component( std::unique_ptr<Block> render_component );
 
   void set_grid_unit_length( int grid_unit_length );
 
@@ -92,7 +93,7 @@ private:
   int max_column;
   std::vector<std::unique_ptr<Point>> current_block_locations;
   std::vector<std::unique_ptr<Point>> next_block_locations;
-  std::vector<std::unique_ptr<RenderComponent>> render_components;
+  std::vector<std::unique_ptr<Block>> render_components;
   std::unique_ptr<TetrisPieceState> state;
 };
 

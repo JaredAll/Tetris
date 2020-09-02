@@ -5,7 +5,6 @@
 #include "tetris_board.h"
 #include "catch2/trompeloeil.hpp"
 #include "waiting_state.h"
-#include "render_component_mock.h"
 
 using std::unique_ptr;
 using std::make_unique;
@@ -32,12 +31,6 @@ TEST_CASE( "test shifting state" )
     piece -> set_grid_unit_length( 1 );
     piece -> set_falling( true );
 
-    unique_ptr<RenderComponentMock> component_mock = make_unique<RenderComponentMock>();
-    REQUIRE_CALL( *component_mock, get_x() ).RETURN( 0 );
-    REQUIRE_CALL( *component_mock, set_x( _ ) );
-
-    piece -> add_render_component( move( component_mock ) );
-
     unique_ptr<TetrisPieceState> next_state = shifting_state -> update();
 
     REQUIRE( dynamic_cast<FallingState*>( next_state.get() ) != nullptr );
@@ -49,12 +42,6 @@ TEST_CASE( "test shifting state" )
     piece -> set_grid_unit_length( 1 );
     piece -> set_current_row( board -> get_rows() + 1 );
     piece -> set_falling( true );
-
-    unique_ptr<RenderComponentMock> component_mock = make_unique<RenderComponentMock>();
-    REQUIRE_CALL( *component_mock, get_x() ).RETURN( 0 );
-    REQUIRE_CALL( *component_mock, set_x( _ ) );
-
-    piece -> add_render_component( move( component_mock ) );
 
     unique_ptr<TetrisPieceState> next_state = shifting_state -> update();
 

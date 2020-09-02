@@ -5,11 +5,11 @@
 #include "component_visitor_mock.h"
 #include "render_component.h"
 #include "SDL_render.h"
-#include "render_component_mock.h"
 #include "tetris_piece.h"
 #include <memory>
 #include <vector>
 #include "tetris_board.h"
+#include "engine.h"
 
 using std::unique_ptr;
 using std::make_unique;
@@ -17,34 +17,6 @@ using std::move;
 using std::vector;
 using trompeloeil::_;
 using trompeloeil::expectation;
-
-vector<unique_ptr<expectation>> set_rotate_expectations( unique_ptr<TetrisPiece>& piece )
-{
-  vector<unique_ptr<expectation>> expectations;
-
-  unique_ptr<RenderComponentMock> mock0 = make_unique<RenderComponentMock>();
-  expectations.push_back( move( NAMED_REQUIRE_CALL( *mock0, set_x( _ ) ) ) );
-  expectations.push_back( move( NAMED_REQUIRE_CALL( *mock0, set_y( _ ) ) ) );
-  piece -> add_render_component( move( mock0 ) );
-
-  unique_ptr<RenderComponentMock> mock1 = make_unique<RenderComponentMock>();
-  expectations.push_back( move( NAMED_REQUIRE_CALL( *mock1, set_x( _ ) ) ) );
-  expectations.push_back( move( NAMED_REQUIRE_CALL( *mock1, set_y( _ ) ) ) );
-  piece -> add_render_component( move( mock1 ) );
-
-  unique_ptr<RenderComponentMock> mock2 = make_unique<RenderComponentMock>();
-  expectations.push_back( move( NAMED_REQUIRE_CALL( *mock2, set_x( _ ) ) ) );
-  expectations.push_back( move( NAMED_REQUIRE_CALL( *mock2, set_y( _ ) ) ) );
-  piece -> add_render_component( move( mock2 ) );
-
-  unique_ptr<RenderComponentMock> mock3 = make_unique<RenderComponentMock>();
-  expectations.push_back( move( NAMED_REQUIRE_CALL( *mock3, set_x( _ ) ) ) );
-  expectations.push_back( move( NAMED_REQUIRE_CALL( *mock3, set_y( _ ) ) ) );
-  piece -> add_render_component( move( mock3 ) );
-
-
-  return expectations;
-}
 
 TEST_CASE( "test constructor" )
 {
@@ -108,11 +80,27 @@ TEST_CASE( "determine block locations" )
 
 TEST_CASE( "determine block locations rotated" )
 {
-  unique_ptr<TetrisPiece> piece = make_unique<BarPiece>();
+  unique_ptr<TetrisBoard> board = make_unique<TetrisBoard>();
+  int num_rows = 20;
+  int num_columns = 10;
+
+  int height = 500;
+  int width = height / ( board -> get_rows() / board -> get_columns() );
+
+  unique_ptr<Engine> engine = make_unique<Engine>();
+  engine -> initialize( height, width );
+
+  GameRenderer& renderer = engine -> get_renderer();
+
+  unique_ptr<TetrisComponentFactory> piece_factory =
+    make_unique<TetrisComponentFactory>(
+      height,
+      *board );
+
+  unique_ptr<TetrisPiece> piece = piece_factory -> build_component( PieceType::bar, renderer );
+    
   piece -> set_grid_unit_length( 1 );
   int num_bar_blocks = 4;
-
-  vector<unique_ptr<expectation>> expectations = set_rotate_expectations( piece );  
 
   piece -> rotate();
 
@@ -129,7 +117,24 @@ TEST_CASE( "determine block locations rotated" )
 
 TEST_CASE( "test get_rotated_block_locations" )
 {
-  unique_ptr<TetrisPiece> piece = make_unique<BarPiece>();
+  unique_ptr<TetrisBoard> board = make_unique<TetrisBoard>();
+  int num_rows = 20;
+  int num_columns = 10;
+
+  int height = 500;
+  int width = height / ( board -> get_rows() / board -> get_columns() );
+
+  unique_ptr<Engine> engine = make_unique<Engine>();
+  engine -> initialize( height, width );
+
+  GameRenderer& renderer = engine -> get_renderer();
+
+  unique_ptr<TetrisComponentFactory> piece_factory =
+    make_unique<TetrisComponentFactory>(
+      height,
+      *board );
+
+  unique_ptr<TetrisPiece> piece = piece_factory -> build_component( PieceType::bar, renderer );
 
   SECTION( "piece in original configuration" )
   {
@@ -146,8 +151,6 @@ TEST_CASE( "test get_rotated_block_locations" )
     piece -> set_grid_unit_length( 1 );
     int num_bar_blocks = 4;
 
-    vector<unique_ptr<expectation>> expectations = set_rotate_expectations( piece );
-
     piece -> rotate();
 
     vector<unique_ptr<Point>>& block_locations = piece -> get_rotated_block_locations();
@@ -163,13 +166,8 @@ TEST_CASE( "test fall" )
 {
   int grid_unit_length = 1;
   int current_component_y = 1;
-  unique_ptr<RenderComponentMock> render_component = make_unique<RenderComponentMock>();
-
-  REQUIRE_CALL( *render_component, get_y()).RETURN( 1 );
-  REQUIRE_CALL( *render_component, set_y( current_component_y + grid_unit_length ) );
 
   unique_ptr<TetrisPiece> piece = make_unique<BarPiece>();
-  piece -> add_render_component( move( render_component ) );
   piece -> set_grid_unit_length( grid_unit_length );
 
   int old_row = piece -> get_current_row();
@@ -183,7 +181,6 @@ TEST_CASE( "test shift" )
 {
   int grid_unit_length = 5;
   int current_component_x = 5;
-  unique_ptr<RenderComponentMock> render_component = make_unique<RenderComponentMock>();
 
   unique_ptr<TetrisPiece> piece = make_unique<BarPiece>();
   piece -> set_grid_unit_length( grid_unit_length );
@@ -193,14 +190,6 @@ TEST_CASE( "test shift" )
   {
     int direction_unit = -1;
 
-    REQUIRE_CALL( *render_component, get_x()).RETURN( current_component_x );
-    REQUIRE_CALL(
-      *render_component,
-      set_x( current_component_x + direction_unit * grid_unit_length )
-      );
-
-    piece -> add_render_component( move( render_component ) );    
-    
     piece -> shift( direction_unit );
 
     REQUIRE( piece -> get_current_column() == old_column + direction_unit );
@@ -209,14 +198,6 @@ TEST_CASE( "test shift" )
   SECTION( "test shift right" )
   {
     int direction_unit = 1;
-
-    REQUIRE_CALL( *render_component, get_x()).RETURN( current_component_x );
-    REQUIRE_CALL(
-      *render_component,
-      set_x( current_component_x + direction_unit * grid_unit_length )
-      );
-
-    piece -> add_render_component( move( render_component ) );
 
     piece -> shift( direction_unit );
 

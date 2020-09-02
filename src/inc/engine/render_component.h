@@ -36,13 +36,6 @@ public:
 
   virtual void calculate_destination() = 0;
 
-  template<typename Impl, typename = typename std::enable_if_t<
-                            std::is_base_of<RenderComponent, Impl>::value>>
-  Impl& as_implementation()
-  {
-    return dynamic_cast<Impl&>( *this );
-  }
-
   virtual ~RenderComponent() = default;
 
 };

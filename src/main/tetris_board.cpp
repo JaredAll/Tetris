@@ -31,7 +31,7 @@ bool TetrisBoard::accepting_input()
   return false;
 }
 
-vector<unique_ptr<RenderComponent>>& TetrisBoard::get_render_components()
+vector<unique_ptr<Block>>& TetrisBoard::get_render_components()
 {
   return components;
 }
@@ -119,7 +119,7 @@ void TetrisBoard::add_piece( TetrisPiece& piece )
   int piece_current_column = piece.get_current_column();
 
   vector<unique_ptr<Point>>& block_locations = piece.get_block_locations();
-  vector<unique_ptr<RenderComponent>>& render_components = piece.get_render_components();
+  vector<unique_ptr<Block>>& blocks = piece.get_render_components();
   for( size_t i = 0; i < block_locations.size(); i++ )
   {
     auto& point = block_locations.at( i );
@@ -131,10 +131,10 @@ void TetrisBoard::add_piece( TetrisPiece& piece )
       .at( occupied_y )
       .at( occupied_x ) = true;
 
-    Block& block = render_components.at( i ) -> as_implementation<Block>();
+    Block& block = *blocks.at( i );
     block.set_column( occupied_x );
     block.set_row( occupied_y );
-    components.push_back( move( render_components.at( i ) ) );
+    components.push_back( move( blocks.at( i ) ) );
   }
 }
 
@@ -244,22 +244,21 @@ vector<int> TetrisBoard::determine_full_rows()
 
 void TetrisBoard::eliminate_full_rows( vector<int> full_rows )
 {
-  vector<unique_ptr<RenderComponent>> new_components;
-  for( auto& component : components )
+  vector<unique_ptr<Block>> new_components;
+  for( auto& block : components )
   {
-    Block& block = component -> as_implementation<Block>();
     vector<int>::iterator iterator = std::find( 
       full_rows.begin(), 
       full_rows.end(), 
-      block.get_row() );
+      block -> get_row() );
 
     if( iterator == full_rows.end() )
     {
-      new_components.push_back( move( component ) );
+      new_components.push_back( move( block ) );
     }
     else
     {
-      occupied_spaces.at( block.get_row() ).at( block.get_column() ) = false;
+      occupied_spaces.at( block -> get_row() ).at( block -> get_column() ) = false;
     }
   }
   components = move( new_components );
@@ -267,17 +266,16 @@ void TetrisBoard::eliminate_full_rows( vector<int> full_rows )
 
 void TetrisBoard::update_blocks( std::vector<int> full_rows )
 {  
-  for( auto& component : components )
+  for( auto& block : components )
   {
-    Block& block = component -> as_implementation<Block>();
     for( int row : full_rows )
     {
-      if( block.get_row() < row )
+      if( block -> get_row() < row )
       {
-        occupied_spaces.at( block.get_row() ).at( block.get_column() ) = false;
-        block.fall();  
+        occupied_spaces.at( block -> get_row() ).at( block -> get_column() ) = false;
+        block -> fall();  
       }
     }
-    occupied_spaces.at( block.get_row() ).at( block.get_column() ) = true;
+    occupied_spaces.at( block -> get_row() ).at( block -> get_column() ) = true;
   }
 }
