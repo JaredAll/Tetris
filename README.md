@@ -35,7 +35,9 @@ cause a compilation error. The requirement itself is verified using a
 tag dispatch; a struct is created that either extends
 `std::false_type` or `std::true_type` based upon whether or not the
 required method is present, and the `render` method is SFINAE'd
-accordingly. The use of static polymorphism here solves an issue that
+accordingly. 
+* * *
+The use of static polymorphism here solves an issue that
 appeared in the interaction between the Tetris implementation, the
 Engine implementation, and the GameComponents. At first the
 `get_render_components()` method was a pure virtual function in
