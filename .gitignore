@@ -16,3 +16,4 @@ TAGS
 !/build/cmake/
 /build/cmake/*
 !/build/cmake/CMakeLists.txt
+!/build/cmake/sdl2-cmake-modules/
