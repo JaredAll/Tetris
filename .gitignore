@@ -12,3 +12,7 @@ compile_commands.json
 .clangd/**
 .idea/**
 TAGS
+/build/cmake/
+!/build/cmake/
+/build/cmake/*
+!/build/cmake/CMakeLists.txt
