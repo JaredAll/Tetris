@@ -71,11 +71,11 @@ implementations.
 
 Assuming one is successful in building the project with the newly
 minted CMake integration, the controls for playing Tetris are:  
-r: rotate  
-left arrow key: move piece left  
-right arrow key: move piece right  
-down arrow key: move piece down  
-enter: drop piece to bottom  
+**r**: rotate  
+**left arrow key**: move piece left  
+**right arrow key**: move piece right  
+**down arrow key**: move piece down  
+**enter**: drop piece to bottom  
 As of now, there is no option to save a piece for later. This is a
 simple, barebones implementation of Tetris.
 
