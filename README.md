@@ -72,9 +72,6 @@ more to come later.
 
 # Build
 
-As of right now, this project does not have any CMake. I am going to
-add support for that in the future. To build currently, I use GNU Make
-on Ubuntu 18.04 or later, with all of the necessary SDL2 dependencies
-installed using apt. Simply run `make` in the build directory. There
-is also a trompeloeil dependency, which I need to add to the
-repository, but until then can be cloned from github.
+I have added CMake compatibility for the Tetris executable, but not
+for the tests. Running Tetris requires PThreads, SDL2, SDL2\_Image, and
+SDL2\_TTF. The CMakeLists.txt file is under the /build/cmake/ directory.
