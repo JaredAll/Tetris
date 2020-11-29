@@ -67,11 +67,26 @@ implementations.
 
 # Tetris
 
+## Controls
+
+Assuming one is successful in building the project with the newly
+minted CMake integration, the controls for playing Tetris are:  
+r: rotate  
+left arrow key: move piece left  
+right arrow key: move piece right  
+down arrow key: move piece down  
+enter: drop piece to bottom  
+As of now, there is no option to save a piece for later. This is a
+simple, barebones implementation of Tetris.
+
+## Mathematics
+
 There was some fun mathematics involved in rotating the tetris pieces;
-more to come later.
+more to come later. 
 
 # Build
 
 I have added CMake compatibility for the Tetris executable, but not
 for the tests. Running Tetris requires PThreads, SDL2, SDL2\_Image, and
-SDL2\_TTF. The CMakeLists.txt file is under the /build/cmake/ directory.
+SDL2\_TTF. The CMakeLists.txt file is under the /build/cmake/
+directory. 
