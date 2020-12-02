@@ -2,6 +2,7 @@
 **.*#
 **.#*
 **.o*
+README.html
 /build/Tetris
 /build/tests
 /inc/**.*~

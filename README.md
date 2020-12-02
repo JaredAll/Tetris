@@ -35,8 +35,8 @@ cause a compilation error. The requirement itself is verified using a
 tag dispatch; a struct is created that either extends
 `std::false_type` or `std::true_type` based upon whether or not the
 required method is present, and the `render` method is SFINAE'd
-accordingly. 
-* * *
+accordingly.  
+
 The use of static polymorphism here solves an issue that
 appeared in the interaction between the Tetris implementation, the
 Engine implementation, and the GameComponents. At first the
@@ -81,12 +81,22 @@ simple, barebones implementation of Tetris.
 
 ## Mathematics
 
-There was some fun mathematics involved in rotating the tetris pieces;
-more to come later. 
+### Rotation
+
+If we consider each individual block of each piece a vector
+with coordinates relative to that piece's position, we can rotate each
+block by a given amount, and after some shifting, achieve piece
+rotation. For the *(x,y)* position of each block, its rotated position
+is *(xcos(theta)-ysin(theta), xsin(theta)+ycos(theta))*. Tetris pieces
+are rotated 90 degrees, so for each rotation, the new block position
+becomes *(-y, x)*. However, this rotation may shift the piece into a
+different overall position, and so a shift is required to complete the
+rotation. This rotation will work for any tetris piece, and can be
+repeated any number of times. 
 
 # Build
 
-I have added CMake compatibility for the Tetris executable, but not
-for the tests. Running Tetris requires PThreads, SDL2, SDL2\_Image, and
+I have added CMake compatibility for the Tetris and tests
+executables. Building requires PThreads, SDL2, SDL2\_Image, and
 SDL2\_TTF. The CMakeLists.txt file is under the /build/cmake/
-directory. 
+directory.
