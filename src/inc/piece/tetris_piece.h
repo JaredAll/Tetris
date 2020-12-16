@@ -27,7 +27,7 @@ public:
 
   bool accepting_input() override;
 
-  std::vector<std::unique_ptr<Block>>& get_render_components() override;
+  std::vector<std::unique_ptr<Block>>& get_render_components();
 
   void add_render_component( std::unique_ptr<Block> render_component );
 

@@ -48,6 +48,13 @@ Game::Game( int height, unique_ptr<TetrisBoard> param_board )
 
 void Game::play()
 {
+  unique_ptr<Panel> panel = component_factory -> build_panel(
+    "TETRIS",
+    engine -> initialize_font( "~/Games/Tetris/resources/OpenSans-Bold.ttf", 14 ),
+    engine -> get_renderer() );
+
+  components.push_back( move( panel ) );
+
   engine -> initialize( window_height, window_width );
   add_piece();
 

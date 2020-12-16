@@ -16,6 +16,8 @@ public:
 
   bool accepting_input() override;
 
+  std::vector<std::unique_ptr<Glyph>>& get_glyphs();
+
 private:
 
   std::vector<std::unique_ptr<Glyph>> glyphs;

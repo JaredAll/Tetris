@@ -8,6 +8,8 @@ class Glyph : public RenderComponent
 {
 public:
 
+  Glyph( int x, int y, int h, int w, std::shared_ptr<SDL_Texture> texture );
+
   std::shared_ptr<SDL_Texture> getTexture() const override;
   
   std::shared_ptr<SDL_Rect> getDestination() const override;

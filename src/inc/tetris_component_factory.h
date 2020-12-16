@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include "game_renderer.h"
+#include "panel.h"
 #include "sprite.h"
 #include <unistd.h>
 #include <memory>
@@ -26,6 +27,10 @@ public:
   TetrisComponentFactory( int height, TetrisBoard& board );
 
   std::unique_ptr<TetrisPiece> build_component( PieceType piece_type, GameRenderer& renderer );
+
+  std::unique_ptr<Panel> build_panel( std::string text,
+                                      std::shared_ptr<TTF_Font> font,
+                                      GameRenderer& renderer );
 
 private:
 

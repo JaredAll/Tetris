@@ -19,6 +19,8 @@ public:
 
   void initialize( int height, int width );
 
+  std::shared_ptr<TTF_Font> initialize_font( std::string path, int point_size );
+
   template< typename T, typename = typename std::enable_if_t<
                           std::is_base_of<GameComponent, T>::value>>
   void advance( std::vector<std::unique_ptr<T>>& components )

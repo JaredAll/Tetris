@@ -1,4 +1,5 @@
 #include "tetris_component_factory.h"
+#include "SDL_pixels.h"
 #include "configurations.h"
 #include "tetris_piece.h"
 #include "jay_piece.h"
@@ -15,6 +16,7 @@ using std::unique_ptr;
 using std::make_unique;
 using std::vector;
 using std::shared_ptr;
+using std::string;
 
 TetrisComponentFactory::TetrisComponentFactory( int param_height, TetrisBoard& param_board )
   : board( param_board )
@@ -80,6 +82,29 @@ unique_ptr<TetrisPiece> TetrisComponentFactory::build_component(
   piece -> set_state( move( initial_state ) );
 
   return piece;
+}
+
+unique_ptr<Panel> TetrisComponentFactory::build_panel( string text,
+                                                       shared_ptr<TTF_Font> font,
+                                                       GameRenderer& renderer )
+{
+  vector<unique_ptr<Glyph>> text_glyphs;
+
+  SDL_Color white { 255, 255, 255 };
+  int letter_h_w = 5;
+
+  for( int i = 0; i < text.length(); i++ )
+  {
+    char letter_singleton[ 2 ] = { text.at( i ), '\0' };
+    shared_ptr<SDL_Texture> glyph_texture =
+      renderer.render_letter_texture( font.get(), letter_singleton, white );
+
+    text_glyphs.push_back( make_unique<Glyph>( 0, 0, letter_h_w, letter_h_w, glyph_texture ) );
+  }
+
+  unique_ptr<TextBox> text_box = make_unique<TextBox>( move( text_glyphs ) );
+
+  return make_unique<Panel>( text_box );
 }
 
 unique_ptr<Block> TetrisComponentFactory::initialize_block( Point& point,

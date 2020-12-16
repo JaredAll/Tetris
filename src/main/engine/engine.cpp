@@ -1,6 +1,7 @@
 #include "engine.h"
 #include "SDL_events.h"
 #include "SDL_timer.h"
+#include "SDL_ttf.h"
 #include "SDL_video.h"
 #include "cleanup.h"
 #include "input_type.h"
@@ -29,6 +30,11 @@ void Engine::initialize( int height, int width )
     std::cout << "SDL_Init failed" << std::endl;
   }
 
+  if( TTF_Init() == -1 )
+  {
+    std::cout << "TTF_Init failed" << std::endl;
+  }
+
   unique_ptr<SDL_Window, SDL_Window_Destroyer> win {
     SDL_CreateWindow("Tetris",
                      SDL_WINDOWPOS_CENTERED,
@@ -36,7 +42,7 @@ void Engine::initialize( int height, int width )
                      width,
                      height,
                      SDL_WINDOW_SHOWN)
-      };
+  };
 
   if (!win)
   {
@@ -54,6 +60,16 @@ void Engine::initialize( int height, int width )
     frame_count = 0;
     running = true;
   }
+}
+
+std::shared_ptr<TTF_Font> initialize_font( std::string path, int point_size )
+{
+  std::shared_ptr<TTF_Font> font {
+    TTF_OpenFont( path.c_str(), point_size ),
+    TTF_Font_Destroyer()
+  };
+  
+  return font;
 }
 
 void Engine::quit()

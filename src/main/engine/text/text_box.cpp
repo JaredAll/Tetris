@@ -17,3 +17,8 @@ bool TextBox::accepting_input()
 {
   return true;
 }
+
+std::vector<std::unique_ptr<Glyph>>& TextBox::get_glyphs()
+{
+  return glyphs;
+}
