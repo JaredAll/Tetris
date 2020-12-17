@@ -35,12 +35,12 @@ shared_ptr<SDL_Texture> GameRenderer::render_letter_texture( TTF_Font* font,
                                                              SDL_Color color )
 {
   shared_ptr<SDL_Surface> letter_surface { TTF_RenderText_Solid( font, letter_singleton, color ),
-                                           SDL_Surface_Destroyer() };
-  
+    SDL_Surface_Destroyer() };
+
   shared_ptr<SDL_Texture> letter_texture {
     SDL_CreateTextureFromSurface( renderer.get(), letter_surface.get() ),
     SDL_Texture_Destroyer()
   };
-  
+
   return letter_texture;
 }

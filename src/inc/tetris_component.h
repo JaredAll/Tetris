@@ -10,9 +10,7 @@ class TetrisComponent : public GameComponent
 public:
   
   virtual void accept( ComponentVisitor& visitor ) = 0;
-
-  virtual std::vector<std::unique_ptr<RenderComponent>>& get_render_components() = 0;
-
+  
 };
 
 #endif

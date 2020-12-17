@@ -18,6 +18,11 @@ bool TextBox::accepting_input()
   return true;
 }
 
+void TextBox::accept_renderer( GameRenderer& renderer )
+{
+  renderer.render_all( glyphs );
+}
+
 std::vector<std::unique_ptr<Glyph>>& TextBox::get_glyphs()
 {
   return glyphs;

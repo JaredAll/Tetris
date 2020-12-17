@@ -7,6 +7,8 @@
 #include <iostream>
 #include "input_event.h"
 
+class GameRenderer;
+
 class GameComponent
 {
 public:
@@ -16,6 +18,8 @@ public:
   virtual void update( InputEvent& event ) = 0;
 
   virtual bool accepting_input() = 0;
+
+  virtual void accept_renderer( GameRenderer& renderer ) = 0;
 
   virtual ~GameComponent() = default;
 

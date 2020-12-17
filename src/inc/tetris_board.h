@@ -18,6 +18,8 @@ public:
 
   bool accepting_input() override;
 
+  void accept_renderer( GameRenderer& renderer ) override;
+
   std::vector<std::unique_ptr<Block>>& get_render_components();
 
   int get_rows();

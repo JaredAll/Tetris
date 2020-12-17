@@ -62,13 +62,18 @@ void Engine::initialize( int height, int width )
   }
 }
 
-std::shared_ptr<TTF_Font> initialize_font( std::string path, int point_size )
+std::shared_ptr<TTF_Font> Engine::initialize_font( std::string path, int point_size )
 {
   std::shared_ptr<TTF_Font> font {
     TTF_OpenFont( path.c_str(), point_size ),
     TTF_Font_Destroyer()
   };
-  
+
+  if( font == nullptr )
+  {
+    std::cout << "Error initializing font: " << TTF_GetError() << std::endl;
+  }
+
   return font;
 }
 

@@ -20,6 +20,11 @@ bool Panel::accepting_input()
   return true;
 }
 
+void Panel::accept_renderer( GameRenderer& renderer )
+{
+  text_box -> accept_renderer( renderer );
+}
+
 std::vector<std::unique_ptr<Glyph>>& Panel::get_render_components()
 {
   return text_box -> get_glyphs();

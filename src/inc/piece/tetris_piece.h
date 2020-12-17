@@ -6,6 +6,7 @@
 #include "tetris_component.h"
 #include "point.h"
 #include "render_component.h"
+#include "game_renderer.h"
 #include <memory>
 
 class TetrisPieceState;
@@ -26,6 +27,8 @@ public:
   void accept( ComponentVisitor& visitor ) override;
 
   bool accepting_input() override;
+
+  void accept_renderer( GameRenderer& renderer ) override;
 
   std::vector<std::unique_ptr<Block>>& get_render_components();
 

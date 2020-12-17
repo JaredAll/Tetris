@@ -5,10 +5,12 @@
 #include "game_component.h"
 #include "text_box.h"
 #include "tetris_component.h"
+#include "game_renderer.h"
 
 class Panel : public TetrisComponent
 {
-
+public:
+  
   Panel( std::unique_ptr<TextBox> text_box );
 
   void update() override;
@@ -16,6 +18,8 @@ class Panel : public TetrisComponent
   void update( InputEvent& event ) override;
 
   bool accepting_input() override;
+
+  void accept_renderer( GameRenderer& renderer ) override;
 
   std::vector<std::unique_ptr<Glyph>>& get_render_components();
 

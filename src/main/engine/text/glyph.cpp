@@ -1,5 +1,7 @@
 #include "glyph.h"
 
+using std::make_shared;
+
 Glyph::Glyph( int param_x,
               int param_y,
               int param_h,
@@ -7,6 +9,11 @@ Glyph::Glyph( int param_x,
               std::shared_ptr<SDL_Texture> param_texture )
   : x( param_x ), y( param_y ), h( param_h ), w( param_w ), texture( param_texture )
 {
+  destination = make_shared<SDL_Rect>();
+  destination -> x = param_x;
+  destination -> y = param_y;
+  destination -> h = param_h;
+  destination -> w = param_w;
 }
 
 std::shared_ptr<SDL_Texture> Glyph::getTexture() const 

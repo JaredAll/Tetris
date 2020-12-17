@@ -33,23 +33,16 @@ public:
   std::shared_ptr<SDL_Texture> render_letter_texture( TTF_Font* font,
                                                       char letter_singleton[],
                                                       SDL_Color color);
-  template< typename T >
+  
+  template< typename T, typename = typename std::enable_if_t<
+                          std::is_base_of<GameComponent, T>::value>>
   void render( std::vector<std::unique_ptr<T>>& components )
-  {
-    render_implementation( components, IsRenderableT<T>{} );
-  }
-
-private:
-
-  template< typename T >
-  void render_implementation( std::vector<std::unique_ptr<T>>& components,
-                              std::true_type )
   {
     SDL_RenderClear( renderer.get() );
 
-    for( auto& component : components )
+    for( int i = 0; i < components.size(); i++ )
     {
-      render_all( (*component).get_render_components() );
+      components.at( i ) -> accept_renderer( *this );
     }
 
     SDL_RenderPresent( renderer.get() );
@@ -64,6 +57,8 @@ private:
       render_component( *render_components.at( i ) );
     }
   }
+
+private:
 
   template< typename T >
   void render_component( const T& renderComponent )

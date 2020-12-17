@@ -41,6 +41,11 @@ bool TetrisPiece::accepting_input()
   return falling;
 }
 
+void TetrisPiece::accept_renderer( GameRenderer& renderer )
+{
+  renderer.render_all( render_components );
+}
+
 void TetrisPiece::add_render_component( std::unique_ptr<Block> render_component )
 {
   render_components.push_back( move( render_component ) );

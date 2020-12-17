@@ -91,20 +91,21 @@ unique_ptr<Panel> TetrisComponentFactory::build_panel( string text,
   vector<unique_ptr<Glyph>> text_glyphs;
 
   SDL_Color white { 255, 255, 255 };
-  int letter_h_w = 5;
+  int letter_h_w = 60;
 
   for( int i = 0; i < text.length(); i++ )
   {
     char letter_singleton[ 2 ] = { text.at( i ), '\0' };
+
     shared_ptr<SDL_Texture> glyph_texture =
       renderer.render_letter_texture( font.get(), letter_singleton, white );
 
-    text_glyphs.push_back( make_unique<Glyph>( 0, 0, letter_h_w, letter_h_w, glyph_texture ) );
+    text_glyphs.push_back( make_unique<Glyph>( 25 * i, 0, letter_h_w, 30, glyph_texture ) );
   }
 
   unique_ptr<TextBox> text_box = make_unique<TextBox>( move( text_glyphs ) );
 
-  return make_unique<Panel>( text_box );
+  return make_unique<Panel>( move( text_box ) );
 }
 
 unique_ptr<Block> TetrisComponentFactory::initialize_block( Point& point,

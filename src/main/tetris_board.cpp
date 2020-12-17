@@ -31,6 +31,11 @@ bool TetrisBoard::accepting_input()
   return false;
 }
 
+void TetrisBoard::accept_renderer( GameRenderer& renderer )
+{
+  renderer.render_all( components );
+}
+
 vector<unique_ptr<Block>>& TetrisBoard::get_render_components()
 {
   return components;
