@@ -32,4 +32,5 @@ std::vector<std::unique_ptr<Glyph>>& Panel::get_render_components()
 
 void Panel::accept( ComponentVisitor& visitor )
 {
+  visitor.visitPanel( *this );
 }

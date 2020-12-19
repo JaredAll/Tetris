@@ -28,12 +28,17 @@ void TetrisVisitor::visitTetrisBoard( TetrisBoard& board )
 {
   if( board.new_score() )
   {
-    game.score += board.get_score();
-    std::cout << game.score << std::endl;
+    game.state.score += board.get_score();
+    std::cout << game.state.score << std::endl;
   }
 
   if( board.full() )
   {
     game.engine -> quit();
   }
+}
+
+void TetrisVisitor::visitPanel( Panel& panel )
+{
+  
 }

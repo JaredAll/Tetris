@@ -16,9 +16,6 @@ using std::move;
 Game::Game( int height, unique_ptr<TetrisBoard> param_board )
   : board( *param_board )
 {
-  score = 0;
-  should_update = true;
-
   types = {
     PieceType::bar,
     PieceType::block,
@@ -30,17 +27,24 @@ Game::Game( int height, unique_ptr<TetrisBoard> param_board )
   };
 
   srand( time( nullptr ) );
-  current_piece_index = rand() % types.size();
+
+  int current_piece_type = rand() % types.size();
+
+  state = {
+    current_piece_type,
+      height,
+      height / ( board.get_rows() / board.get_columns() ),
+      true,
+      0,
+      true
+      };
 
   engine = make_unique<Engine>();
 
   components.push_back( move( param_board ) );
 
-  window_height = height;
-  window_width = height / ( board.get_rows() / board.get_columns() );
-
   component_factory = make_unique<TetrisComponentFactory>(
-    window_height,
+    state.window_height,
     board );
 
   visitor = make_unique<TetrisVisitor>( board, *this );
@@ -48,7 +52,9 @@ Game::Game( int height, unique_ptr<TetrisBoard> param_board )
 
 void Game::play()
 {
-  engine -> initialize( window_height, window_width );
+  engine -> initialize(
+    state.window_height,
+    state.window_width );
 
   std::shared_ptr<TTF_Font> font = engine -> initialize_font( "/home/jared/Games/Tetris/resources/OpenSans-Bold.ttf", 112 );
 
@@ -83,10 +89,10 @@ void Game::add_piece()
 {
   components.push_back(
     move(
-      component_factory -> build_component( types.at( current_piece_index ),
+      component_factory -> build_component( types.at( state.current_piece_index ),
                                             engine -> get_renderer() ) )
     );
-  current_piece_index = rand() % types.size();
+  state.current_piece_index = rand() % types.size();
 }
 
 void Game::transfer_piece_to_board( TetrisPiece& piece )

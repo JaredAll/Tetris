@@ -5,6 +5,7 @@
 #include "engine.h"
 #include "input_handler.h"
 #include "tetris_board.h"
+#include "game_state.h"
 
 class ComponentVisitor;
 
@@ -34,12 +35,8 @@ private:
   std::unique_ptr<TetrisComponentFactory> component_factory;
   std::unique_ptr<ComponentVisitor> visitor;
   TetrisBoard& board;
-  int current_piece_index;
-  int window_height;
-  int window_width;
   std::vector<PieceType> types;
-  bool should_update;
-  int score;
+  GameState state;
 };
 
 #endif

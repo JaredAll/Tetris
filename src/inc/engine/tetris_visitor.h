@@ -16,6 +16,8 @@ public:
 
   void visitTetrisBoard( TetrisBoard& piece ) override;
 
+  void visitPanel( Panel& piece ) override;
+
 private:
 
   TetrisBoard& board;
