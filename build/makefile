@@ -11,7 +11,7 @@ OBJ_FILES = engine.o game.o game_renderer.o easy_sdl.o sprite.o tetris_component
 tetris_piece.o point.o jay_piece.o zee_piece.o ess_piece.o ell_piece.o bar_piece.o \
 block_piece.o tee_piece.o block.o tetris_board.o input_event.o input_handler.o waiting_state.o \
 falling_state.o tetris_piece_state.o shifting_state.o tetris_visitor.o glyph.o text_box.o \
-panel.o
+panel.o glyph_alphabet.o
 TEST_OBJ_FILES = test_driver.o tetris_piece_test.o concrete_piece_test.o input_event_test.o \
 falling_state_test.o shifting_state_test.o waiting_state_test.o tetris_board_test.o \
 tetris_component_factory_test.o

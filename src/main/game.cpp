@@ -56,12 +56,11 @@ void Game::play()
     state.window_height,
     state.window_width );
 
-  std::shared_ptr<TTF_Font> font = engine -> initialize_font( "/home/jared/Games/Tetris/resources/OpenSans-Bold.ttf", 112 );
+  engine -> initialize_alphabet( "/home/jared/Games/Tetris/resources/OpenSans-Bold.ttf", 112 );
 
   unique_ptr<Panel> panel = component_factory -> build_panel(
     "Tetris",
-    font,
-    engine -> get_renderer() );
+    engine -> get_alphabet() );
 
   components.push_back( move( panel ) );
 

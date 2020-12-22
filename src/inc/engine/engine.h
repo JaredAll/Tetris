@@ -19,7 +19,7 @@ public:
 
   void initialize( int height, int width );
 
-  std::shared_ptr<TTF_Font> initialize_font( std::string path, int point_size );
+  void initialize_alphabet( std::string path, int point_size );
 
   template< typename T, typename = typename std::enable_if_t<
                           std::is_base_of<GameComponent, T>::value>>
@@ -40,6 +40,8 @@ public:
   bool peek_has_updated();
 
   GameRenderer& get_renderer();
+
+  GlyphAlphabet& get_alphabet();
 
 private:
 
@@ -78,6 +80,7 @@ private:
 
   std::unique_ptr<InputHandler> input_handler;
   std::unique_ptr<GameRenderer> renderer;
+  std::unique_ptr<GlyphAlphabet> alphabet;
   bool should_render;
   bool should_update;
   bool has_updated;

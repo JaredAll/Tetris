@@ -1,6 +1,7 @@
 #include "tetris_component_factory.h"
 #include "SDL_pixels.h"
 #include "configurations.h"
+#include "glyph_alphabet.h"
 #include "tetris_piece.h"
 #include "jay_piece.h"
 #include "waiting_state.h"
@@ -85,26 +86,9 @@ unique_ptr<TetrisPiece> TetrisComponentFactory::build_component(
 }
 
 unique_ptr<Panel> TetrisComponentFactory::build_panel( string text,
-                                                       shared_ptr<TTF_Font> font,
-                                                       GameRenderer& renderer )
+                                                       GlyphAlphabet& alphabet )
 {
-  vector<unique_ptr<Glyph>> text_glyphs;
-
-  SDL_Color white { 255, 255, 255 };
-  int letter_h_w = 60;
-
-  for( int i = 0; i < text.length(); i++ )
-  {
-    char letter_singleton[ 2 ] = { text.at( i ), '\0' };
-
-    shared_ptr<SDL_Texture> glyph_texture =
-      renderer.render_letter_texture( font.get(), letter_singleton, white );
-
-    text_glyphs.push_back( make_unique<Glyph>( 25 * i, 0, letter_h_w, 30, glyph_texture ) );
-  }
-
-  unique_ptr<TextBox> text_box = make_unique<TextBox>( move( text_glyphs ) );
-
+  unique_ptr<TextBox> text_box = make_unique<TextBox>( alphabet, text );
   return make_unique<Panel>( move( text_box ) );
 }
 

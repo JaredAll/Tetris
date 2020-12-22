@@ -29,8 +29,7 @@ public:
   std::unique_ptr<TetrisPiece> build_component( PieceType piece_type, GameRenderer& renderer );
 
   std::unique_ptr<Panel> build_panel( std::string text,
-                                      std::shared_ptr<TTF_Font> font,
-                                      GameRenderer& renderer );
+                                      GlyphAlphabet& alphabet );
 
 private:
 

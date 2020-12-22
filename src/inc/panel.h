@@ -25,6 +25,8 @@ public:
 
   void accept( ComponentVisitor& visitor ) override;
 
+  TextBox& get_text_box();
+
 private:
   
   std::unique_ptr<TextBox> text_box;

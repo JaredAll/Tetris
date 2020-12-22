@@ -9,11 +9,7 @@ Glyph::Glyph( int param_x,
               std::shared_ptr<SDL_Texture> param_texture )
   : x( param_x ), y( param_y ), h( param_h ), w( param_w ), texture( param_texture )
 {
-  destination = make_shared<SDL_Rect>();
-  destination -> x = param_x;
-  destination -> y = param_y;
-  destination -> h = param_h;
-  destination -> w = param_w;
+  calculate_destination();
 }
 
 std::shared_ptr<SDL_Texture> Glyph::getTexture() const 
@@ -64,14 +60,21 @@ int Glyph::get_w()
 void Glyph::set_x( int param_x )
 {
   x = param_x;
+  calculate_destination();
 }
   
 void Glyph::set_y( int param_y )
 {
   y = param_y;
+  calculate_destination();
 }
   
 void Glyph::calculate_destination()
 {
+  destination = make_shared<SDL_Rect>();
+  destination -> x = x;
+  destination -> y = y;
+  destination -> h = h;
+  destination -> w = w;
 }
 

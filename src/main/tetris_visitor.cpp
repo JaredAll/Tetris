@@ -29,7 +29,6 @@ void TetrisVisitor::visitTetrisBoard( TetrisBoard& board )
   if( board.new_score() )
   {
     game.state.score += board.get_score();
-    std::cout << game.state.score << std::endl;
   }
 
   if( board.full() )
@@ -40,5 +39,5 @@ void TetrisVisitor::visitTetrisBoard( TetrisBoard& board )
 
 void TetrisVisitor::visitPanel( Panel& panel )
 {
-  
+  panel.get_text_box().set_text( std::to_string( game.state.score ) );
 }

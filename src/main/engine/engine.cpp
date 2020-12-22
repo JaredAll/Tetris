@@ -4,6 +4,7 @@
 #include "SDL_ttf.h"
 #include "SDL_video.h"
 #include "cleanup.h"
+#include "glyph_alphabet.h"
 #include "input_type.h"
 #include "render_component.h"
 #include <iostream>
@@ -62,7 +63,7 @@ void Engine::initialize( int height, int width )
   }
 }
 
-std::shared_ptr<TTF_Font> Engine::initialize_font( std::string path, int point_size )
+void Engine::initialize_alphabet( std::string path, int point_size )
 {
   std::shared_ptr<TTF_Font> font {
     TTF_OpenFont( path.c_str(), point_size ),
@@ -74,7 +75,23 @@ std::shared_ptr<TTF_Font> Engine::initialize_font( std::string path, int point_s
     std::cout << "Error initializing font: " << TTF_GetError() << std::endl;
   }
 
-  return font;
+  std::string alphabet_chars = "0123456789TETRIStetris";
+  SDL_Color white { 255, 255, 255 };
+
+  std::map<char, std::shared_ptr<SDL_Texture>> texture_map;
+  for( const char& character : alphabet_chars )
+  {
+    char letter_singleton[ 2 ] = { character, '\0' };
+
+    texture_map.insert(
+      std::make_pair(
+        character,
+        renderer -> render_letter_texture( font.get(),
+                                           letter_singleton,
+                                           white )));
+  }
+
+  alphabet = make_unique<GlyphAlphabet>( texture_map );
 }
 
 void Engine::quit()
@@ -95,6 +112,11 @@ InputEvent& Engine::process_input()
 GameRenderer& Engine::get_renderer()
 {
   return *renderer;
+}
+
+GlyphAlphabet& Engine::get_alphabet()
+{
+  return *alphabet;
 }
 
 bool Engine::peek_has_updated()

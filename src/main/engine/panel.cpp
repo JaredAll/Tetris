@@ -34,3 +34,8 @@ void Panel::accept( ComponentVisitor& visitor )
 {
   visitor.visitPanel( *this );
 }
+
+TextBox& Panel::get_text_box()
+{
+  return *text_box;
+}
