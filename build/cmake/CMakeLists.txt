@@ -17,8 +17,12 @@ add_executable(
   ../../src/main/engine/easy_sdl.cpp
   ../../src/main/engine/sprite.cpp
   ../../src/main/engine/point.cpp
+  ../../src/main/engine/panel.cpp
   ../../src/main/engine/input/input_event.cpp
   ../../src/main/engine/input/input_handler.cpp
+  ../../src/main/engine/text/glyph.cpp
+  ../../src/main/engine/text/text_box.cpp
+  ../../src/main/engine/text/glyph_alphabet.cpp
   ../../src/main/piece/tetris_piece.cpp
   ../../src/main/piece/jay_piece.cpp
   ../../src/main/piece/zee_piece.cpp
@@ -46,8 +50,12 @@ add_executable(
   ../../src/main/engine/easy_sdl.cpp
   ../../src/main/engine/sprite.cpp
   ../../src/main/engine/point.cpp
+  ../../src/main/engine/panel.cpp
   ../../src/main/engine/input/input_event.cpp
   ../../src/main/engine/input/input_handler.cpp
+  ../../src/main/engine/text/glyph.cpp
+  ../../src/main/engine/text/text_box.cpp
+  ../../src/main/engine/text/glyph_alphabet.cpp
   ../../src/main/piece/tetris_piece.cpp
   ../../src/main/piece/jay_piece.cpp
   ../../src/main/piece/zee_piece.cpp
@@ -77,13 +85,14 @@ include_directories(
   ../../src/inc
   ../../src/inc/engine
   ../../src/inc/engine/input
+  ../../src/inc/engine/text
   ../../src/inc/piece
   ../../src/inc/piece/state
 
   ../../test/trompeloeil/include
   ../../test/inc
   ../../test/inc/mocks
-)
+  )
 
 list(
   APPEND

@@ -11,6 +11,7 @@ class ComponentVisitorMock : public ComponentVisitor
 public:
   MAKE_MOCK1( visitTetrisPiece, void( TetrisPiece& ), override );
   MAKE_MOCK1( visitTetrisBoard, void( TetrisBoard& ), override );
+  MAKE_MOCK1( visitPanel, void( Panel& ), override );
 };
 
 #endif
