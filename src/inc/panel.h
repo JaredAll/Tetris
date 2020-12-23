@@ -11,6 +11,8 @@ class Panel : public TetrisComponent
 {
 public:
   
+  Panel( std::unique_ptr<TextBox> text_box, int x, int y );
+
   Panel( std::unique_ptr<TextBox> text_box );
 
   void update() override;
@@ -30,6 +32,8 @@ public:
 private:
   
   std::unique_ptr<TextBox> text_box;
+  int x;
+  int y;
   
 };
 

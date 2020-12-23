@@ -89,7 +89,7 @@ unique_ptr<Panel> TetrisComponentFactory::build_panel( string text,
                                                        GlyphAlphabet& alphabet )
 {
   unique_ptr<TextBox> text_box = make_unique<TextBox>( alphabet, text );
-  return make_unique<Panel>( move( text_box ) );
+  return make_unique<Panel>( move( text_box ), 300, 0 );
 }
 
 unique_ptr<Block> TetrisComponentFactory::initialize_block( Point& point,

@@ -54,7 +54,7 @@ void Game::play()
 {
   engine -> initialize(
     state.window_height,
-    state.window_width );
+    2 * state.window_width );
 
   engine -> initialize_alphabet( "/home/jared/Games/Tetris/resources/OpenSans-Bold.ttf", 112 );
 
